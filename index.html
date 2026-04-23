@@ -118,6 +118,16 @@
 <!-- ═══ GOOGLE SITE VERIFICATION ═══ -->
 <meta name="google-site-verification" content="CfzaKXigs9ze6N7dRUcD6GYglYD28__0eatJIGwnGQg">
 
+<!-- ═══ GOOGLE ANALYTICS GA4 ═══ -->
+<!-- REPLACE G-XXXXXXXXXX with your real GA4 Measurement ID from analytics.google.com -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+
 <!-- ═══ GOOGLE ADSENSE ═══ -->
 <!-- Google AdSense - Publisher ID: ca-pub-7171994516640690 -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7171994516640690" crossorigin="anonymous"></script>
@@ -274,6 +284,9 @@ footer{position:relative;z-index:5;background:rgba(0,0,0,.55);border-top:1.5px s
   <button class="nb" data-g="wordle">🔡 Word Guess</button>
   <button class="nb" data-g="catch">🍎 Catch!</button>
   <button class="nb" data-g="numgrid">🔢 Number Grid</button>
+  <button class="nb" data-g="typing">⌨️ Typing</button>
+  <button class="nb" data-g="chess">♟️ Chess</button>
+  <button class="nb" data-g="contact">📬 Contact</button>
 </div>
 <main><!-- MATH -->
 <div id="g-math" class="gp on"><div class="card">
@@ -660,6 +673,8 @@ footer{position:relative;z-index:5;background:rgba(0,0,0,.55);border-top:1.5px s
     <button class="ngt" onclick="ngFilter('geography')" id="ngGeo">🌍 Geography</button>
     <button class="ngt" onclick="ngFilter('space')" id="ngSpace">🚀 Space</button>
     <button class="ngt" onclick="ngFilter('ocean')" id="ngOcean">🌊 Ocean</button>
+    <button class="ngt" onclick="ngFilter('dinosaurs')" id="ngDinos">🦕 Dinosaurs</button>
+    <button class="ngt" onclick="ngFilter('history')" id="ngHist">🏛️ History</button>
   </div>
   <div style="position:relative">
     <button onclick="ngScroll(-1)" style="position:absolute;left:-14px;top:50%;transform:translateY(-50%);z-index:10;width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#ff6b47,#ffb627);border:none;color:#fff;font-size:1.3rem;cursor:pointer;box-shadow:0 3px 12px rgba(0,0,0,.4)">&#8249;</button>
@@ -697,6 +712,90 @@ footer{position:relative;z-index:5;background:rgba(0,0,0,.55);border-top:1.5px s
 .ngc:hover{transform:translateY(-6px) scale(1.03)}
 </style>
 
+<!-- TYPING GAME -->
+<div id="g-typing" class="gp"><div class="card">
+<div class="gt" id="tTyping">⌨️ Typing Speed</div>
+<div style="display:flex;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:7px">
+  <div class="sb"><div class="sn" id="typWpm">0</div><div class="sl">WPM</div></div>
+  <div class="sb"><div class="sn" id="typAcc">100</div><div class="sl">% ACC</div></div>
+  <div class="sb"><div class="sn" id="typTm">30</div><div class="sl">SECS</div></div>
+</div>
+<div id="typText" style="background:rgba(0,0,0,.3);border-radius:14px;padding:16px;font-size:1rem;line-height:1.8;letter-spacing:.5px;margin-bottom:12px;min-height:80px;color:rgba(255,255,255,.5);font-weight:700"></div>
+<input id="typIn" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+  style="display:block;width:100%;background:rgba(255,255,255,.08);border:2px solid rgba(255,107,71,.4);border-radius:50px;padding:11px 20px;font-family:'Nunito',sans-serif;font-size:1rem;color:#fff;outline:none;margin-bottom:10px"
+  placeholder="Start typing here...">
+<div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap">
+  <button class="btn bg2" style="padding:6px 13px;font-size:.78rem" onclick="setTypDiff('easy')" id="typDE">🌱 Easy</button>
+  <button class="btn bb" style="padding:6px 13px;font-size:.78rem" onclick="setTypDiff('medium')" id="typDM">⚡ Medium</button>
+  <button class="btn bp" style="padding:6px 13px;font-size:.78rem" onclick="setTypDiff('hard')" id="typDH">🔥 Hard</button>
+  <button class="btn bpu" id="typNew">🔄 New Text</button>
+</div>
+<div style="text-align:center;font-family:'Fredoka One',cursive;color:#ffb627;margin-top:8px;min-height:1.3rem" id="typMsg"></div>
+</div></div>
+
+<!-- CHESS GAME -->
+<div id="g-chess" class="gp"><div class="card">
+<div class="gt" id="tChess">♟️ Chess</div>
+<div style="display:flex;justify-content:space-between;margin-bottom:8px;flex-wrap:wrap;gap:6px">
+  <span style="font-family:'Fredoka One',cursive;font-size:1rem;color:#fff" id="chessTurn">White to move</span>
+  <div style="display:flex;gap:6px">
+    <button class="btn bg2" style="padding:5px 12px;font-size:.72rem" onclick="newChess('easy')" id="chDE">😊 Easy</button>
+    <button class="btn bp" style="padding:5px 12px;font-size:.72rem" onclick="newChess('hard')" id="chDH">😈 Hard</button>
+    <button class="btn bpu" style="padding:5px 12px;font-size:.72rem" onclick="newChess('human')">👥 2 Players</button>
+  </div>
+</div>
+<div id="chessBoard" style="display:grid;grid-template-columns:repeat(8,1fr);gap:0;max-width:360px;margin:0 auto;border:3px solid rgba(255,182,39,.4);border-radius:8px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.5)"></div>
+<div style="display:flex;justify-content:space-between;margin-top:8px;font-size:.8rem;font-weight:700;max-width:360px;margin-left:auto;margin-right:auto">
+  <span style="color:rgba(255,255,255,.5)" id="chessMsg">Click a piece to start!</span>
+  <button class="btn br" style="padding:4px 12px;font-size:.7rem" onclick="undoChess()">↩️ Undo</button>
+</div>
+</div></div>
+
+<!-- CONTACT PAGE -->
+<div id="g-contact" class="gp"><div class="card">
+<div class="gt" id="tContact">📬 Contact Us</div>
+<div style="max-width:500px;margin:0 auto">
+  <div style="text-align:center;margin-bottom:20px">
+    <div style="font-size:3.5rem;margin-bottom:8px">👋</div>
+    <div style="font-family:'Fredoka One',cursive;font-size:1.1rem;color:#ffb627;margin-bottom:6px" id="lContactTitle">We love hearing from you!</div>
+    <div style="color:rgba(255,255,255,.55);font-size:.85rem;font-weight:700" id="lContactSub">Questions, suggestions, or feedback? Send us a message!</div>
+  </div>
+  <div style="background:rgba(255,255,255,.05);border-radius:16px;padding:20px;border:1.5px solid rgba(255,255,255,.1)">
+    <div style="margin-bottom:14px">
+      <label style="font-family:'Fredoka One',cursive;font-size:.82rem;color:#ffb627;display:block;margin-bottom:5px" id="lCName">Your Name</label>
+      <input id="ctName" type="text" placeholder="Enter your name..."
+        style="width:100%;background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.15);border-radius:50px;padding:10px 16px;font-family:'Nunito',sans-serif;font-size:.9rem;color:#fff;outline:none;box-sizing:border-box">
+    </div>
+    <div style="margin-bottom:14px">
+      <label style="font-family:'Fredoka One',cursive;font-size:.82rem;color:#ffb627;display:block;margin-bottom:5px" id="lCEmail">Your Email</label>
+      <input id="ctEmail" type="email" placeholder="your@email.com"
+        style="width:100%;background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.15);border-radius:50px;padding:10px 16px;font-family:'Nunito',sans-serif;font-size:.9rem;color:#fff;outline:none;box-sizing:border-box">
+    </div>
+    <div style="margin-bottom:14px">
+      <label style="font-family:'Fredoka One',cursive;font-size:.82rem;color:#ffb627;display:block;margin-bottom:5px" id="lCMsg">Message</label>
+      <textarea id="ctMsg" placeholder="Write your message here..." rows="4"
+        style="width:100%;background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.15);border-radius:16px;padding:12px 16px;font-family:'Nunito',sans-serif;font-size:.9rem;color:#fff;outline:none;resize:vertical;box-sizing:border-box"></textarea>
+    </div>
+    <div style="margin-bottom:16px">
+      <label style="font-family:'Fredoka One',cursive;font-size:.82rem;color:#ffb627;display:block;margin-bottom:8px" id="lCTopic">Topic</label>
+      <div style="display:flex;flex-wrap:wrap;gap:7px">
+        <button class="ngt on" onclick="ctSetTopic(this,'bug')" id="ctT1">🐛 Bug Report</button>
+        <button class="ngt" onclick="ctSetTopic(this,'suggest')" id="ctT2">💡 Suggestion</button>
+        <button class="ngt" onclick="ctSetTopic(this,'game')" id="ctT3">🎮 New Game Idea</button>
+        <button class="ngt" onclick="ctSetTopic(this,'other')" id="ctT4">💬 Other</button>
+      </div>
+    </div>
+    <button onclick="ctSubmit()" style="width:100%;font-family:'Fredoka One',cursive;font-size:1rem;padding:13px;border:none;border-radius:50px;background:linear-gradient(135deg,#ff6b47,#ffb627);color:#fff;cursor:pointer;box-shadow:0 4px 0 rgba(0,0,0,.3)" id="lCSend">📨 Send Message</button>
+    <div id="ctFb" style="text-align:center;font-family:'Fredoka One',cursive;font-size:.95rem;margin-top:12px;min-height:1.5rem"></div>
+  </div>
+  <div style="margin-top:20px;text-align:center">
+    <div style="font-family:'Fredoka One',cursive;font-size:.82rem;color:rgba(255,255,255,.4);margin-bottom:10px" id="lCOr">Or find us on:</div>
+    <div style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap">
+      <a href="https://learnkids.online" style="text-decoration:none;background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.15);border-radius:50px;padding:7px 16px;font-family:'Fredoka One',cursive;font-size:.8rem;color:#fff">🌐 learnkids.online</a>
+    </div>
+  </div>
+</div>
+</div></div>
 </main>
 <footer>
 <div class="fgrid">
@@ -2168,7 +2267,19 @@ NG.en = [
   {c:"ocean",e:"\ud83d\udc22",bg:"linear-gradient(135deg,#1b5e20,#2e7d32)",cc:"#a5d6a7",t:"Sea Turtles",f:"Sea turtles have swum the oceans for over 100 million years! They can hold their breath for up to 7 hours when sleeping. The leatherback can weigh up to 900 kg.",x:"Female sea turtles return to the exact beach where they were born to lay their eggs. They navigate thousands of kilometers using Earth magnetic field as a GPS.",fun:"Fun Fact: The sex of sea turtle hatchlings is determined by the temperature of the sand!"},
   {c:"ocean",e:"\ud83e\uddad",bg:"linear-gradient(135deg,#0277bd,#01579b)",cc:"#81d4fa",t:"Sea Lions",f:"Sea lions are extremely intelligent and the US Navy trains them to locate underwater mines! They can dive to 300 meters deep and sleep floating with just their nose above water.",x:"Sea lions navigate using a form of echolocation similar to dolphins. They can run faster than humans for short distances despite having flippers instead of feet.",fun:"Fun Fact: Sea lions can run faster than humans on land for short distances!"},
   {c:"ocean",e:"\ud83e\udda6",bg:"linear-gradient(135deg,#4e342e,#3e2723)",cc:"#bcaaa4",t:"Sea Otters",f:"Sea otters are vital to kelp forest health - they eat sea urchins that would otherwise destroy kelp forests. They have the densest fur of any animal - one million hairs per square centimeter!",x:"Sea otters hold hands while sleeping on the ocean surface to avoid drifting apart. Groups of resting otters are called rafts.",fun:"Fun Fact: Sea otters use rocks as tools to crack shellfish and keep their favorite rocks in a pocket of skin!"}
-];
+,
+  {c:"dinosaurs",e:"\ud83e\udd95",bg:"linear-gradient(135deg,#2e7d32,#1b5e20)",cc:"#a5d6a7",t:"T-Rex",f:"T-Rex was one of the largest predators ever! It grew 12 meters long and weighed 8 tonnes. Its bite could crush bone completely with enormous force.",x:"Despite its size T-Rex could run at 20 km per hour. Its arms were tiny at only 1 meter long. Scientists still debate what those small arms were actually used for.",fun:"Fun Fact: T-Rex had the strongest bite force of any land animal ever - 57,000 Newtons of crushing power!"},
+  {c:"dinosaurs",e:"\ud83e\udd96",bg:"linear-gradient(135deg,#1b5e20,#004d40)",cc:"#80deea",t:"Triceratops",f:"Triceratops was one of the last dinosaurs before the mass extinction 66 million years ago. Its three horns could grow 1 meter long and its skull was among the largest of any land animal.",x:"Scientists believe Triceratops used its horns to fight off T-Rex attacks and battle rival Triceratops for territory. Its large neck frill may also have been used to attract mates.",fun:"Fun Fact: Triceratops horns were made of keratin - the exact same material as your fingernails and hair!"},
+  {c:"dinosaurs",e:"\ud83e\udeb6",bg:"linear-gradient(135deg,#4a148c,#1a237e)",cc:"#ce93d8",t:"Velociraptor",f:"Velociraptors were actually the size of a turkey - much smaller than in movies! They had feathers and were closely related to modern birds. They were fast and intelligent hunters.",x:"The famous sickle claw was used to pin prey not slash it. Scientists proved this from fossil wear patterns. Birds are actually living dinosaurs directly descended from raptors like Velociraptor.",fun:"Fun Fact: Velociraptor is more closely related to a modern chicken than it is to T-Rex!"},
+  {c:"dinosaurs",e:"\ud83c\udf3f",bg:"linear-gradient(135deg,#33691e,#1b5e20)",cc:"#dce775",t:"Brachiosaurus",f:"Brachiosaurus was as tall as a 4-story building at 13 meters! Its long neck let it eat from the very tops of tall trees. It weighed between 30 and 60 tonnes making it heavier than 8 elephants.",x:"Unlike most dinosaurs its front legs were longer than its back legs giving it a giraffe-like posture. It needed to eat around 400 kilograms of plants every single day just to survive.",fun:"Fun Fact: Brachiosaurus needed 400 kg of food every day - like eating 800 large pizzas!"},
+  {c:"dinosaurs",e:"\ud83c\udf0a",bg:"linear-gradient(135deg,#0d47a1,#1a237e)",cc:"#90caf9",t:"Mosasaurus",f:"Mosasaurus was a 17 meter giant sea reptile and the apex predator of ancient oceans! It ate sharks, fish and other mosasaurs. It breathed air like modern whales and dolphins.",x:"Mosasaurus had a flexible snake-like jaw to swallow prey whole. Fossils found on every continent including Antarctica. It ruled the seas until the great extinction 66 million years ago.",fun:"Fun Fact: Mosasaurus was named after the Meuse River in Netherlands where its first fossil was found in 1764!"},
+  {c:"dinosaurs",e:"\ud83e\udd85",bg:"linear-gradient(135deg,#e65100,#bf360c)",cc:"#ffcc80",t:"Pterodactyl",f:"Pterodactyls were flying reptiles not dinosaurs! The largest had an 11 meter wingspan as wide as a small airplane. They had hollow bones like birds to reduce weight for flight.",x:"Pterodactyls were the first vertebrates to evolve powered flight before birds and bats. Some had crests on their heads used for display or to help steer in flight like a rudder on a ship.",fun:"Fun Fact: Pterodactyls were the first flying vertebrates on Earth appearing 228 million years ago!"},
+  {c:"history",e:"\ud83c\udfdb\ufe0f",bg:"linear-gradient(135deg,#4e342e,#3e2723)",cc:"#ffcc80",t:"Ancient Egypt",f:"Ancient Egypt lasted over 3,000 years and gave us pyramids, hieroglyphics, and incredible art! The Great Pyramid used 2 million stone blocks and was the world tallest structure for 3,800 years.",x:"Ancient Egyptians invented toothpaste, breath mints, and the first calendar. Cleopatra lived closer in time to the Moon landing than to the building of the Great Pyramid!",fun:"Fun Fact: Ancient Egyptians had over 2,000 gods and goddesses including a cat goddess, chaos god, and hippo goddess!"},
+  {c:"history",e:"\ud83c\udffa",bg:"linear-gradient(135deg,#1565c0,#0d47a1)",cc:"#90caf9",t:"Ancient Greece",f:"Ancient Greece gave the world democracy, philosophy, the Olympics, theater, and the foundations of modern science! Thinkers like Plato and Aristotle still influence how humans think today.",x:"Ancient Greeks calculated the circumference of Earth correctly 2,200 years ago using shadow measurements and geometry. They were within 2 percent of the modern value without any technology at all!",fun:"Fun Fact: Ancient Greeks invented the first vending machine - it dispensed holy water when a coin was inserted!"},
+  {c:"history",e:"\ud83c\udf19",bg:"linear-gradient(135deg,#1a237e,#311b92)",cc:"#9fa8da",t:"Vikings",f:"Vikings from Scandinavia reached North America nearly 500 years before Columbus! Between 800 and 1100 AD they explored Europe, Asia, and the Americas. They were skilled traders not just warriors.",x:"Viking women had more rights than women in most medieval societies. Vikings established trade routes from Scandinavia to Constantinople and Baghdad exchanging furs and amber for silk and spices.",fun:"Fun Fact: Vikings established the first European settlement in North America at Newfoundland Canada around 1000 AD!"},
+  {c:"history",e:"\ud83c\udfef",bg:"linear-gradient(135deg,#b71c1c,#880e4f)",cc:"#ef9a9a",t:"Ancient China",f:"Ancient China invented paper, printing, gunpowder and the compass - four inventions that changed the entire world! Chinese civilization spans over 5,000 years of continuous history.",x:"The Great Wall stretches over 21,000 km and took 2,000 years to complete. Ancient China also invented ice cream 3,000 years ago, paper money, playing cards, kites, and the first earthquake detector!",fun:"Fun Fact: Ancient China invented paper money over 1,000 years before Europe - they called it flying money!"},
+  {c:"history",e:"\ud83d\uddff",bg:"linear-gradient(135deg,#37474f,#263238)",cc:"#b0bec5",t:"Easter Island",f:"Easter Island has 900 mysterious giant stone Moai statues carved between 1400 and 1650 AD. The largest weighs 86 tonnes and stands 10 meters tall. The statues have full bodies buried underground!",x:"Scientists proved the Rapa Nui people walked the statues upright by rocking them side to side - exactly as ancient oral tradition described. This was confirmed by modern experiments in 2012.",fun:"Fun Fact: The Easter Island heads have full bodies buried underground - most of each statue is hidden below the surface!"},
+  {c:"history",e:"\ud83c\udfad",bg:"linear-gradient(135deg,#880e4f,#4a148c)",cc:"#f48fb1",t:"Renaissance",f:"The Renaissance was a cultural rebirth in Europe from the 14th to 17th centuries. Leonardo da Vinci designed flying machines and tanks hundreds of years before they were invented!",x:"Leonardo filled over 13,000 pages of notebooks with ideas. The Mona Lisa took 4 years to paint. Michelangelo painted the Sistine Chapel ceiling while lying on his back for 4 years straight!",fun:"Fun Fact: Leonardo da Vinci could write with one hand and draw with the other simultaneously - he was naturally ambidextrous!"}];
 
 NG.fi = [
   {c:"animals",e:"\ud83e\udd81",bg:"linear-gradient(135deg,#c8520a,#8B4513)",cc:"#ff8c00",t:"Afrikkalainen leijona",f:"Leijonat ovat ainoita kissoja jotka el\u00e4v\u00e4t laumoissa. Laumassa voi olla jopa 30 leijonaa! Naaraat tekev\u00e4t suurimman osan mets\u00e4styksest\u00e4, kun taas koiraat suojelevat reviiria.",x:"Leijonan karjunta kuuluu jopa 8 kilometrin p\u00e4\u00e4h\u00e4n! Ne karjuvat kommunikoidakseen lauman kanssa ja varoittaakseen kilpailijoita pysym\u00e4\u00e4n poissa reviirilt\u00e4.",fun:"Hauska fakta: Leijonat nukkuvat jopa 20 tuntia p\u00e4iv\u00e4ss\u00e4!"},
@@ -2221,7 +2332,19 @@ NG.fi = [
   {c:"ocean",e:"\ud83d\udc20",bg:"linear-gradient(135deg,#e65100,#bf360c)",cc:"#ffcc80",t:"Klovnikala",f:"Klovnikalalat el\u00e4v\u00e4t merivahvajalokien polttavien lonkeroiden joukossa t\u00e4ydellisessa kumppanuudessa. Limainen p\u00e4\u00e4llyste suojaa klovnikalaa polttavilta soluilta.",x:"Kaikki klovnikalalat syntyv\u00e4t koiraina! Suurin kala ryhm\u00e4ss\u00e4 muuttuu naaraaksi. Jos naaras kuolee hallitseva koiras muuttuu pysyv\u00e4sti naaraaksi.",fun:"Hauska fakta: Oikeat klovnikalalat eiv\u00e4t yleens\u00e4 koskaan poistu anemoneiltaan - toisin kuin Nemo elokuvassa!"},
   {c:"ocean",e:"\ud83d\udc22",bg:"linear-gradient(135deg,#1b5e20,#2e7d32)",cc:"#a5d6a7",t:"Merikilpikonnat",f:"Merikilpikonnat ovat uineet valtameriss\u00e4 yli 100 miljoonaa vuotta! Ne voivat pid\u00e4tt\u00e4\u00e4 hengityst\u00e4 jopa 7 tuntia nukkuessaan. Nahkiaiskilpikonna voi painaa 900 kg.",x:"Naaras merikilpikonnat palaavat t\u00e4sm\u00e4lleen samalle rannalle syntym\u00e4paikastaan munimaan. Ne navigoivat tuhansien kilometrien p\u00e4\u00e4h\u00e4n k\u00e4ytt\u00e4en Maan magneettikentt\u00e4\u00e4 GPS:n\u00e4.",fun:"Hauska fakta: Merikilpikonnien poikasten sukupuoli m\u00e4\u00e4r\u00e4ytyy hiekan l\u00e4mp\u00f6tilasta jossa ne kehittyv\u00e4t!"},
   {c:"ocean",e:"\ud83e\uddad",bg:"linear-gradient(135deg,#0277bd,#01579b)",cc:"#81d4fa",t:"Merileijona",f:"Merileijonat ovat \u00e4lykk\u00e4it\u00e4 ja USA:n merivoimat kouluttaa niit\u00e4 paikallistamaan vedenalaisia miinoja! Ne voivat sukeltaa 300 metrin syvyyteen.",x:"Merileijonat navigoivat kehittyneell\u00e4 kaiutuksella samantapaisella kuin delfiinit. Ne voivat juosta lyhyill\u00e4 matkoilla nopeammin kuin ihmiset maalla evist\u00e4\u00e4n huolimatta.",fun:"Hauska fakta: Merileijonat voivat juosta nopeammin kuin ihmiset lyhyill\u00e4 matkoilla!"},
-  {c:"ocean",e:"\ud83e\udda6",bg:"linear-gradient(135deg,#4e342e,#3e2723)",cc:"#bcaaa4",t:"Merissaukko",f:"Merissaukot ovat t\u00e4rkeit\u00e4 lev\u00e4mets\u00e4ekosysteemeille - ne sy\u00f6v\u00e4t merisiilej\u00e4 jotka muuten tuhoaisivat lev\u00e4mets\u00e4t. Niill\u00e4 on tiheimm\u00e4t turkki kaikista el\u00e4imist\u00e4 - miljoona karvaa per cm\u00b2!",x:"Merissaukot pit\u00e4v\u00e4t toisiaan k\u00e4dest\u00e4 nukkuessaan kelluen pinnalla ettei virtaus vie niit\u00e4 erilleen. Lev\u00e4htyvi\u00e4 saukkoja kutsutaan lautaksi.",fun:"Hauska fakta: Merissaukot k\u00e4ytt\u00e4v\u00e4t kivi\u00e4 ty\u00f6kaluina murskatakseen simpukoita ja pit\u00e4v\u00e4t lempikivi\u00e4\u00e4n ihon taskussa!"}
+  {c:"ocean",e:"\ud83e\udda6",bg:"linear-gradient(135deg,#4e342e,#3e2723)",cc:"#bcaaa4",t:"Merissaukko",f:"Merissaukot ovat t\u00e4rkeit\u00e4 lev\u00e4mets\u00e4ekosysteemeille - ne sy\u00f6v\u00e4t merisiilej\u00e4 jotka muuten tuhoaisivat lev\u00e4mets\u00e4t. Niill\u00e4 on tiheimm\u00e4t turkki kaikista el\u00e4imist\u00e4 - miljoona karvaa per cm\u00b2!",x:"Merissaukot pit\u00e4v\u00e4t toisiaan k\u00e4dest\u00e4 nukkuessaan kelluen pinnalla ettei virtaus vie niit\u00e4 erilleen. Lev\u00e4htyvi\u00e4 saukkoja kutsutaan lautaksi.",fun:"Hauska fakta: Merissaukot k\u00e4ytt\u00e4v\u00e4t kivi\u00e4 ty\u00f6kaluina murskatakseen simpukoita ja pit\u00e4v\u00e4t lempikivi\u00e4\u00e4n ihon taskussa!"},
+  {c:"dinosaurs",e:"\ud83e\udd95",bg:"linear-gradient(135deg,#2e7d32,#1b5e20)",cc:"#a5d6a7",t:"T-Rex",f:"T-Rex oli yksi suurimmista saalistajista ikin\u00e4! Se kasvoi 12 metri\u00e4 pitk\u00e4ksi ja painoi 8 tonnia. Sen purenta oli niin voimakas ett\u00e4 se pystyi murskaavaan luita t\u00e4ysin.",x:"Koostaan huolimatta T-Rex pystyi juoksemaan 20 km tunnissa. Sen k\u00e4sivarret olivat vain metrin mittaisia. Tiedemiehill\u00e4 on yh\u00e4 teorioita mihin noita pieni\u00e4 k\u00e4sivarsia k\u00e4ytettiin.",fun:"Hauska fakta: T-Rexill\u00e4 oli kaikkien aikojen voimakkain purentavoima maaelaimilla - 57 000 Newtonia!"},
+  {c:"dinosaurs",e:"\ud83e\udd96",bg:"linear-gradient(135deg,#1b5e20,#004d40)",cc:"#80deea",t:"Triceratops",f:"Triceratops oli yksi viimeisist\u00e4 dinosaureista ennen sukupuuttoa 66 miljoonaa vuotta sitten. Sen kolme sarvea kasvoivat metrin mittaisiksi ja kallo oli yksi suurimmista kaikista maaelaimista.",x:"Tiedemiehet uskovat Triceratopsin k\u00e4ytt\u00e4neen sarviaan T-Rexin torjumiseen ja muiden Triceratopsien kanssa taistelemiseen reviireist\u00e4. Niskakaulus saattoi auttaa my\u00f6s kumppanin houkuttelussa.",fun:"Hauska fakta: Triceratopsin sarvet olivat keratiinia - samaa ainetta kuin kyntemme ja hiuksemme!"},
+  {c:"dinosaurs",e:"\ud83e\udeb6",bg:"linear-gradient(135deg,#4a148c,#1a237e)",cc:"#ce93d8",t:"Velociraptor",f:"Velociraptors olivat oikeasti kalkkunan kokoisia - paljon pienempi\u00e4 kuin elokuvissa! Niill\u00e4 oli h\u00f6yhenet ja ne olivat l\u00e4heist\u00e4 sukua nykyisille linnuille. Ne olivat nopeita ja \u00e4lykk\u00e4it\u00e4 mets\u00e4st\u00e4ji\u00e4.",x:"Sirppimainen kynsi k\u00e4ytettiin saaliin kiinnipit\u00e4miseen ei viilt\u00e4miseen. Linnut ovat oikeasti el\u00e4vi\u00e4 dinosauruksia jotka polveutuvat suoraan raptoreista kuten Velociraptorista.",fun:"Hauska fakta: Velociraptor on l\u00e4heisemp\u00e4\u00e4 sukua nykyiselle kanalle kuin T-Rexille!"},
+  {c:"dinosaurs",e:"\ud83c\udf3f",bg:"linear-gradient(135deg,#33691e,#1b5e20)",cc:"#dce775",t:"Brachiosaurus",f:"Brachiosaurus oli 4-kerroksisen rakennuksen korkuinen ylt\u00e4en 13 metriin! Sen pitk\u00e4 kaula salli puiden latvusten sy\u00f6misen. Se painoi 30-60 tonnia ollen raskaampi kuin 8 norsua.",x:"Toisin kuin useimmilla dinosaureilla sen etujalkansa olivat pidemm\u00e4t kuin takajalkansa antaen kirahvimaisen asennon. Se tarvitsi noin 400 kilogrammaa kasveja joka p\u00e4iv\u00e4 selviyty\u00e4kseen.",fun:"Hauska fakta: Brachiosaurus tarvitsi 400 kg ruokaa p\u00e4iv\u00e4ss\u00e4 - se on kuin s\u00f6isi 800 isoa pizzaa!"},
+  {c:"dinosaurs",e:"\ud83c\udf0a",bg:"linear-gradient(135deg,#0d47a1,#1a237e)",cc:"#90caf9",t:"Mosasaurus",f:"Mosasaurus oli 17 metri\u00e4 pitk\u00e4 meriel\u00e4in ja muinaisten merien huipunsaalistaja! Se s\u00f6i haileja kaloja ja muita mosasauruksia. Se hengitti ilmaa kuten nykyiset valaat ja delfiinit.",x:"Mosasauruksella oli k\u00e4\u00e4rmem\u00e4inen leuka saaliin nielemiseksi kokonaan. Fossiileja l\u00f6ydetty joka mantereelta. Se hallitsi meri\u00e4 sukupuuttoon asti 66 miljoonaa vuotta sitten.",fun:"Hauska fakta: Mosasaurus nimettiin Maasjoen mukaan Alankomaissa jossa ensimm\u00e4inen fossiili l\u00f6ydettiin 1764!"},
+  {c:"dinosaurs",e:"\ud83e\udd85",bg:"linear-gradient(135deg,#e65100,#bf360c)",cc:"#ffcc80",t:"Pterodaktyyli",f:"Pterodaktyyleja olivat lent\u00e4vi\u00e4 matelijoita ei dinosauruksia! Suurimmalla lajilla oli 11 metri\u00e4 leve\u00e4 siipien k\u00e4rkiv\u00e4li kuten pienell\u00e4 lentokoneella. Niill\u00e4 oli onttoja luita lentopainon v\u00e4hent\u00e4miseksi.",x:"Pterodaktyyleja olivat ensimm\u00e4isi\u00e4 selk\u00e4rankaisia jotka kehittiv\u00e4t lent\u00e4misen - ennen lintuja ja lepakoita. Joillakin lajeilla oli harjat p\u00e4\u00e4ss\u00e4 n\u00e4ytt\u00e4ytymiseen tai lent\u00e4misen ohjaukseen.",fun:"Hauska fakta: Pterodaktyyleja olivat maapallon ensimm\u00e4iset lent\u00e4v\u00e4t selk\u00e4rankaiset - 228 miljoonaa vuotta sitten!"},
+  {c:"history",e:"\ud83c\udfdb\ufe0f",bg:"linear-gradient(135deg,#4e342e,#3e2723)",cc:"#ffcc80",t:"Muinainen Egypti",f:"Muinainen Egypti kesti yli 3 000 vuotta ja antoi meille pyramidit hieroglyyfit ja uskomattoman taiteen! Suuri pyramidi k\u00e4ytti 2 miljoonaa kiviblokkia ja oli maailman korkein rakenne 3 800 vuotta.",x:"Muinaiset egyptil\u00e4iset keksiv\u00e4t hammastahnan hengenvirkist\u00e4j\u00e4t ja ensimm\u00e4isen kalenterin. Kleopatra eli ajallisesti l\u00e4hemp\u00e4n\u00e4 kuulaskeutumista kuin suuren pyramidin rakentamista!",fun:"Hauska fakta: Muinaisilla egyptil\u00e4isill\u00e4 oli yli 2 000 jumalaa mukaan lukien kissajumalatar kaaoksen jumala ja virtahepojumalatar!"},
+  {c:"history",e:"\ud83c\udffa",bg:"linear-gradient(135deg,#1565c0,#0d47a1)",cc:"#90caf9",t:"Muinainen Kreikka",f:"Muinainen Kreikka antoi maailmalle demokratian filosofian olympiakisat ja nykyaikaisen tieteen perustan! Ajattelijat kuten Platon ja Aristoteles vaikuttavat yh\u00e4 ihmisten ajatteluun t\u00e4n\u00e4\u00e4n.",x:"Muinaiset kreikkalaiset laskivat Maan keh\u00e4n oikein 2 200 vuotta sitten varjomittauksilla ja geometrialla ilman mit\u00e4\u00e4n teknologiaa. Tarkkuus oli 2 prosentin sis\u00e4ll\u00e4 nykyarvosta!",fun:"Hauska fakta: Muinaiset kreikkalaiset keksiv\u00e4t ensimm\u00e4isen myyntiauton - se jakoi pyh\u00e4\u00e4 vett\u00e4 kolikon pudottamalla!"},
+  {c:"history",e:"\ud83c\udf19",bg:"linear-gradient(135deg,#1a237e,#311b92)",cc:"#9fa8da",t:"Viikingit",f:"Skandinaviasta kotoisin olevat viikingit saapuivat Pohjois-Amerikkaan 500 vuotta ennen Kolumbusta! Vuosina 800-1100 he tutkivat Eurooppaa Aasiaa ja Amerikkaa. He olivat taitavia kauppiaita.",x:"Viikinkisnaisilla oli enemm\u00e4n oikeuksia kuin useimmissa muissa keskiaikaisissa yhteiskunnissa. Viikingit perustivat kauppareittej\u00e4 Skandinaviasta Konstantinopoliin vaihtaen turkiksia silkkiin.",fun:"Hauska fakta: Viikingit perustivat ensimm\u00e4isen eurooppalaisen siirtokunnan Pohjois-Amerikassa Newfoundlandissa noin vuonna 1000 jKr!"},
+  {c:"history",e:"\ud83c\udfef",bg:"linear-gradient(135deg,#b71c1c,#880e4f)",cc:"#ef9a9a",t:"Muinainen Kiina",f:"Muinainen Kiina keksi paperin kirjapainotaidon ruudin ja kompassin - nelj\u00e4 keksint\u00f6\u00e4 jotka muuttivat maailman! Kiinalainen sivilisaatio kattaa yli 5 000 vuotta jatkuvaa historiaa.",x:"Kiinan Suuri Muuri ulottuu yli 21 000 km ja sen rakentamiseen kului 2 000 vuotta. Muinainen Kiina keksi my\u00f6s j\u00e4\u00e4tel\u00f6n 3 000 vuotta sitten paperirahan pelikortit leijat ja maanj\u00e4ristyksen ilmaisimen!",fun:"Hauska fakta: Muinainen Kiina keksi paperirahan yli 1 000 vuotta ennen Eurooppaa - he kutsuivat sit\u00e4 lent\u00e4v\u00e4ksi rahaksi!"},
+  {c:"history",e:"\ud83d\uddff",bg:"linear-gradient(135deg,#37474f,#263238)",cc:"#b0bec5",t:"P\u00e4\u00e4si\u00e4issaari",f:"P\u00e4\u00e4si\u00e4issaarella on 900 mystist\u00e4 j\u00e4ttil\u00e4ispatsasta Moai veistetty vuosina 1400-1650. Suurin painaa 86 tonnia ja on 10 metri\u00e4 korkea. Patsailla on t\u00e4ysi\u00e4 kehoja maahan haudattuina!",x:"Tiedemiehet todistivat Rapa Nui kansan k\u00e4vellytt\u00e4neen patsaat keinuttamalla - aivan kuten muinainen suullinen perinne kuvasi. T\u00e4m\u00e4 vahvistettiin moderneilla kokeilla vuonna 2012.",fun:"Hauska fakta: P\u00e4\u00e4si\u00e4issaaren patsaiden p\u00e4iden alla on t\u00e4ysi\u00e4 kehoja haudattuina - suurin osa patsaasta on maan alla!"},
+  {c:"history",e:"\ud83c\udfad",bg:"linear-gradient(135deg,#880e4f,#4a148c)",cc:"#f48fb1",t:"Renessanssi",f:"Renessanssi oli kulttuurinen uudestisyntyminen Euroopassa 1300-1600-luvuilla. Leonardo da Vinci suunnitteli lentokoneita ja tankkeja satoja vuosia ennen kuin ne keksittiin!",x:"Leonardo t\u00e4ytti yli 13 000 sivua muistikirjoja ideoillaan. Mona Lisan maalaaminen kesti 4 vuotta. Michelangelo maalasi Sikstuksen kappelin katon makaamalla sel\u00e4ll\u00e4\u00e4n 4 vuotta putkeen!",fun:"Hauska fakta: Leonardo da Vinci kirjoitti yhdell\u00e4 k\u00e4dell\u00e4 ja piirsi toisella samanaikaisesti - h\u00e4n oli luonnostaan kaksik\u00e4tinen!"}
 ];
 
 
@@ -2239,7 +2362,9 @@ function ngCatName(c){
     nature:{en:'Nature',fi:'Luonto'},
     geography:{en:'Geography',fi:'Maantiede'},
     space:{en:'Space',fi:'Avaruus'},
-    ocean:{en:'Ocean',fi:'Valtameri'}
+    ocean:{en:'Ocean',fi:'Valtameri'},
+    dinosaurs:{en:'Dinosaurs',fi:'Dinosaurukset'},
+    history:{en:'History',fi:'Historia'}
   };
   return m[c]?(m[c][LG]||m[c].en):c;
 }
@@ -2283,7 +2408,7 @@ function ngRender(){
 function ngFilter(cat){
   ngCurCat=cat;
   document.querySelectorAll('.ngt').forEach(function(b){b.classList.remove('on');});
-  var map={all:'ngAll',animals:'ngAnimals',nature:'ngNature',geography:'ngGeo',space:'ngSpace',ocean:'ngOcean'};
+  var map={all:'ngAll',animals:'ngAnimals',nature:'ngNature',geography:'ngGeo',space:'ngSpace',ocean:'ngOcean',dinosaurs:'ngDinos',history:'ngHist'};
   var el=document.getElementById(map[cat]);
   if(el)el.classList.add('on');
   ngRender();
@@ -2325,8 +2450,8 @@ setLang=function(l){
   if(title)title.textContent=l==='fi'?'Tutustu Hämmästyttävään Maailmaamme!':'Learn About Our Amazing World!';
   var sub=document.getElementById('ngSub');
   if(sub)sub.textContent=l==='fi'?'Napauta korttia löytääksesi siistejä faktoja!':'Tap any card to discover cool facts!';
-  var icons={ngAll:'🌟 ',ngAnimals:'🦁 ',ngNature:'🌿 ',ngGeo:'🌍 ',ngSpace:'🚀 ',ngOcean:'🌊 '};
-  var labels={ngAll:{en:'All',fi:'Kaikki'},ngAnimals:{en:'Animals',fi:'Eläimet'},ngNature:{en:'Nature',fi:'Luonto'},ngGeo:{en:'Geography',fi:'Maantiede'},ngSpace:{en:'Space',fi:'Avaruus'},ngOcean:{en:'Ocean',fi:'Valtameri'}};
+  var icons={ngAll:'🌟 ',ngAnimals:'🦁 ',ngNature:'🌿 ',ngGeo:'🌍 ',ngSpace:'🚀 ',ngOcean:'🌊 ',ngDinos:'🦕 ',ngHist:'🏛️ '};
+  var labels={ngAll:{en:'All',fi:'Kaikki'},ngAnimals:{en:'Animals',fi:'Eläimet'},ngNature:{en:'Nature',fi:'Luonto'},ngGeo:{en:'Geography',fi:'Maantiede'},ngSpace:{en:'Space',fi:'Avaruus'},ngOcean:{en:'Ocean',fi:'Valtameri'},ngDinos:{en:'Dinosaurs',fi:'Dinosaurukset'},ngHist:{en:'History',fi:'Historia'}};
   Object.keys(labels).forEach(function(id){
     var e=document.getElementById(id);
     if(e)e.textContent=icons[id]+(labels[id][l]||labels[id].en);
@@ -2335,6 +2460,305 @@ setLang=function(l){
 };
 
 ngRender();
+
+// ═══ TYPING SPEED GAME ═══
+var TYP_EASY=['The cat sat on the mat and looked at the bird','The dog ran fast in the big green park','A red fox jumps over the lazy brown dog','Kids love to play games and learn new things','The sun shines bright on a warm summer day','Fish swim in the deep blue ocean every day','Birds fly high up in the clear blue sky','The quick fox jumps over the sleeping dog'];
+var TYP_MED=['Learning to type fast is a very useful skill','Practice makes perfect when you type every day','The rainbow appeared after the heavy rain storm','Butterflies have beautiful wings with many colors','Elephants are the largest land animals on Earth','The Amazon rainforest produces oxygen for our planet','Technology has changed the way children learn today','Scientists discovered a new species of fish last year'];
+var TYP_HARD=['Extraordinary achievements require exceptional dedication and perseverance','The sophisticated algorithm processed thousands of calculations simultaneously','Photosynthesis converts sunlight into chemical energy for plants','Biodiversity is essential for maintaining healthy ecosystems worldwide','The magnificent aurora borealis illuminates the Arctic night sky','Cryptography protects sensitive information through mathematical algorithms','The archaeological excavation revealed ancient civilizations beneath the surface'];
+var typDiff='easy',typActive=false,typTI=null,typStart=0,typCorr=0,typTotal=0,typTimeLeft=30,typCurText='';
+
+function setTypDiff(d){
+  typDiff=d;
+  ['easy','medium','hard'].forEach(function(x){
+    var b=document.getElementById('typD'+x[0].toUpperCase());
+    if(b)b.style.opacity=x===d?'1':'0.5';
+  });
+  newTypText();
+}
+
+function newTypText(){
+  typActive=false;clearInterval(typTI);
+  var pool=typDiff==='hard'?TYP_HARD:typDiff==='medium'?TYP_MED:TYP_EASY;
+  typCurText=pool[R(0,pool.length-1)];
+  typCorr=0;typTotal=0;typTimeLeft=30;
+  setText('typWpm','0');setText('typAcc','100');setText('typTm','30');setText('typMsg','');
+  var el=document.getElementById('typText');
+  if(el){
+    el.innerHTML='';
+    typCurText.split('').forEach(function(ch){
+      var s=document.createElement('span');s.textContent=ch;s.style.color='rgba(255,255,255,.45)';
+      el.appendChild(s);
+    });
+  }
+  var inp=document.getElementById('typIn');
+  if(inp){inp.value='';inp.focus();}
+}
+
+document.getElementById('typIn').addEventListener('input',function(){
+  var val=this.value;
+  if(!typActive&&val.length>0){
+    typActive=true;typStart=Date.now();
+    typTI=setInterval(function(){
+      typTimeLeft--;setText('typTm',typTimeLeft);
+      if(typTimeLeft<=0){
+        clearInterval(typTI);typActive=false;
+        var mins=(Date.now()-typStart)/60000;
+        var wpm=Math.round((typCorr/5)/mins);
+        var acc=typTotal>0?Math.round(typCorr/typTotal*100):100;
+        setText('typMsg',(LG==='fi'?'Valmis! ':'Done! ')+wpm+' WPM | '+acc+'% '+( wpm>60?'🔥 Amazing!':wpm>40?'⭐ Great!':'💪 Keep practising!'));
+        addS(Math.floor(wpm/10));incP();sWin();
+      }
+    },1000);
+  }
+  if(!typActive)return;
+  var spans=document.getElementById('typText').children;
+  var correct=0;
+  for(var i=0;i<val.length&&i<typCurText.length;i++){
+    if(val[i]===typCurText[i]){spans[i].style.color='#7ed957';correct++;}
+    else spans[i].style.color='#ff6b47';
+  }
+  for(var i=val.length;i<typCurText.length;i++)spans[i].style.color='rgba(255,255,255,.45)';
+  typTotal=val.length;typCorr=correct;
+  var mins=(Date.now()-typStart)/60000||0.001;
+  var wpm=mins>0?Math.round((correct/5)/mins):0;
+  var acc=typTotal>0?Math.round(correct/typTotal*100):100;
+  setText('typWpm',wpm);setText('typAcc',acc);
+  if(val===typCurText){
+    clearInterval(typTI);typActive=false;
+    var finalMins=(Date.now()-typStart)/60000;
+    var finalWpm=Math.round((correct/5)/finalMins);
+    setText('typMsg','🎉 Perfect! '+finalWpm+' WPM! '+cheer());
+    confettiBurst();addS(5);incP();sWin();
+    setTimeout(newTypText,2000);
+  }
+});
+document.getElementById('typNew').addEventListener('click',newTypText);
+newTypText();
+
+// ═══ CHESS GAME ═══
+var CH_PIECES={
+  'K':'♔','Q':'♕','R':'♖','B':'♗','N':'♘','P':'♙',
+  'k':'♚','q':'♛','r':'♜','b':'♝','n':'♞','p':'♟'
+};
+var chBoard=[],chTurn='w',chSel=null,chMode='easy',chHistory=[],chHighlight=[];
+
+function chInit(){
+  chBoard=[
+    ['r','n','b','q','k','b','n','r'],
+    ['p','p','p','p','p','p','p','p'],
+    [' ',' ',' ',' ',' ',' ',' ',' '],
+    [' ',' ',' ',' ',' ',' ',' ',' '],
+    [' ',' ',' ',' ',' ',' ',' ',' '],
+    [' ',' ',' ',' ',' ',' ',' ',' '],
+    ['P','P','P','P','P','P','P','P'],
+    ['R','N','B','Q','K','B','N','R']
+  ];
+  chTurn='w';chSel=null;chHistory=[];chHighlight=[];
+}
+
+function newChess(mode){
+  chMode=mode||chMode;chInit();chRender();
+  setText('chessTurn',LG==='fi'?'Valkoinen siirtää':'White to move');
+  setText('chessMsg',LG==='fi'?'Klikkaa nappulaa aloittaaksesi!':'Click a piece to start!');
+}
+
+function chRender(){
+  var board=document.getElementById('chessBoard');
+  if(!board)return;
+  board.innerHTML='';
+  for(var r=0;r<8;r++){
+    for(var c=0;c<8;c++){
+      var sq=document.createElement('div');
+      var isLight=(r+c)%2===0;
+      var isHighlight=chHighlight.some(function(h){return h[0]===r&&h[1]===c;});
+      var isSel=chSel&&chSel[0]===r&&chSel[1]===c;
+      sq.style.cssText='width:100%;aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:clamp(1.2rem,4vw,1.8rem);cursor:pointer;transition:all .15s;position:relative;'+
+        'background:'+(isSel?'rgba(255,182,39,.7)':isHighlight?'rgba(126,217,87,.5)':isLight?'#f0d9b5':'#b58863')+';';
+      var piece=chBoard[r][c];
+      if(piece!==' ') sq.textContent=CH_PIECES[piece]||piece;
+      if(isHighlight){var dot=document.createElement('div');dot.style.cssText='position:absolute;width:30%;height:30%;border-radius:50%;background:rgba(0,0,0,.25);';sq.appendChild(dot);}
+      (function(row,col){sq.addEventListener('click',function(){chClick(row,col);});})(r,c);
+      board.appendChild(sq);
+    }
+  }
+}
+
+function chIsWhite(p){return p>='A'&&p<='Z'&&p!==' ';}
+function chIsBlack(p){return p>='a'&&p<='z'&&p!==' ';}
+function chOwner(p){if(chIsWhite(p))return 'w';if(chIsBlack(p))return 'b';return null;}
+
+function chGetMoves(r,c){
+  var piece=chBoard[r][c];var moves=[];var p=piece.toLowerCase();
+  var dir=chIsWhite(piece)?-1:1;var startRow=chIsWhite(piece)?6:1;
+  if(p==='p'){
+    if(chBoard[r+dir]&&chBoard[r+dir][c]===' '){moves.push([r+dir,c]);
+      if(r===startRow&&chBoard[r+2*dir][c]===' ')moves.push([r+2*dir,c]);}
+    [-1,1].forEach(function(dc){
+      if(chBoard[r+dir]&&chBoard[r+dir][c+dc]&&chOwner(chBoard[r+dir][c+dc])&&chOwner(chBoard[r+dir][c+dc])!==chOwner(piece))
+        moves.push([r+dir,c+dc]);
+    });
+  }else if(p==='n'){
+    [[-2,-1],[-2,1],[-1,-2],[-1,2],[1,-2],[1,2],[2,-1],[2,1]].forEach(function(d){
+      var nr=r+d[0],nc=c+d[1];
+      if(nr>=0&&nr<8&&nc>=0&&nc<8&&chOwner(chBoard[nr][nc])!==chOwner(piece))moves.push([nr,nc]);
+    });
+  }else if(p==='k'){
+    [[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0],[1,1]].forEach(function(d){
+      var nr=r+d[0],nc=c+d[1];
+      if(nr>=0&&nr<8&&nc>=0&&nc<8&&chOwner(chBoard[nr][nc])!==chOwner(piece))moves.push([nr,nc]);
+    });
+  }else{
+    var dirs=[];
+    if(p==='r'||p==='q')dirs=dirs.concat([[-1,0],[1,0],[0,-1],[0,1]]);
+    if(p==='b'||p==='q')dirs=dirs.concat([[-1,-1],[-1,1],[1,-1],[1,1]]);
+    dirs.forEach(function(d){
+      var nr=r+d[0],nc=c+d[1];
+      while(nr>=0&&nr<8&&nc>=0&&nc<8){
+        if(chBoard[nr][nc]===' '){moves.push([nr,nc]);}
+        else{if(chOwner(chBoard[nr][nc])!==chOwner(piece))moves.push([nr,nc]);break;}
+        nr+=d[0];nc+=d[1];
+      }
+    });
+  }
+  return moves;
+}
+
+function chClick(r,c){
+  var piece=chBoard[r][c];
+  if(chSel){
+    var valid=chHighlight.some(function(h){return h[0]===r&&h[1]===c;});
+    if(valid){
+      chHistory.push(JSON.stringify(chBoard));
+      chBoard[r][c]=chBoard[chSel[0]][chSel[1]];
+      chBoard[chSel[0]][chSel[1]]=' ';
+      // Pawn promotion
+      if(chBoard[r][c]==='P'&&r===0)chBoard[r][c]='Q';
+      if(chBoard[r][c]==='p'&&r===7)chBoard[r][c]='q';
+      chSel=null;chHighlight=[];
+      sClk();
+      // Check win
+      var hasWK=false,hasBK=false;
+      for(var i=0;i<8;i++)for(var j=0;j<8;j++){if(chBoard[i][j]==='K')hasWK=true;if(chBoard[i][j]==='k')hasBK=true;}
+      if(!hasWK){setText('chessTurn','');setText('chessMsg','♟️ Black wins! 🎉');chRender();sWin();return;}
+      if(!hasBK){setText('chessTurn','');setText('chessMsg','♔ White wins! 🎉');confettiBurst();chRender();sWin();addS(5);return;}
+      if(chMode==='human'){
+        chTurn=chTurn==='w'?'b':'w';
+        setText('chessTurn',(chTurn==='w'?(LG==='fi'?'Valkoinen siirtää':'White to move'):(LG==='fi'?'Musta siirtää':'Black to move')));
+      }else{
+        setText('chessTurn',LG==='fi'?'CPU miettii...':'CPU thinking...');
+        chRender();
+        setTimeout(chAIMove,500);
+        return;
+      }
+      chRender();return;
+    }
+    chSel=null;chHighlight=[];
+  }
+  if(piece!==' '&&((chTurn==='w'&&chIsWhite(piece))||(chTurn==='b'&&chIsBlack(piece))||(chMode==='human'))){
+    if(chMode==='human'||chOwner(piece)===chTurn){
+      chSel=[r,c];chHighlight=chGetMoves(r,c);
+      setText('chessMsg',CH_PIECES[piece]+' selected');
+    }
+  }
+  chRender();
+}
+
+function chAIMove(){
+  var allMoves=[];
+  for(var r=0;r<8;r++)for(var c=0;c<8;c++){
+    if(chIsBlack(chBoard[r][c])){
+      chGetMoves(r,c).forEach(function(m){allMoves.push({fr:r,fc:c,tr:m[0],tc:m[1]});});
+    }
+  }
+  if(allMoves.length===0){setText('chessMsg','White wins! No moves left!');return;}
+  var move;
+  if(chMode==='hard'){
+    // Pick capture move if available, else random
+    var captures=allMoves.filter(function(m){return chBoard[m.tr][m.tc]!==' ';});
+    move=captures.length>0?captures[R(0,captures.length-1)]:allMoves[R(0,allMoves.length-1)];
+  }else{
+    move=allMoves[R(0,allMoves.length-1)];
+  }
+  chHistory.push(JSON.stringify(chBoard));
+  chBoard[move.tr][move.tc]=chBoard[move.fr][move.fc];
+  chBoard[move.fr][move.fc]=' ';
+  if(chBoard[move.tr][move.tc]==='p'&&move.tr===7)chBoard[move.tr][move.tc]='q';
+  chTurn='w';
+  setText('chessTurn',LG==='fi'?'Valkoinen siirtää':'White to move');
+  setText('chessMsg',LG==='fi'?'Sinun vuorosi!':'Your turn!');
+  chRender();sClk();
+}
+
+function undoChess(){
+  if(chHistory.length===0)return;
+  chBoard=JSON.parse(chHistory.pop());
+  chSel=null;chHighlight=[];chTurn='w';
+  setText('chessTurn',LG==='fi'?'Valkoinen siirtää':'White to move');
+  chRender();
+}
+newChess('easy');
+
+// ═══ CONTACT PAGE ═══
+var ctTopic='bug';
+function ctSetTopic(btn,topic){
+  ctTopic=topic;
+  document.querySelectorAll('#g-contact .ngt').forEach(function(b){b.classList.remove('on');});
+  btn.classList.add('on');
+}
+function ctSubmit(){
+  var name=document.getElementById('ctName').value.trim();
+  var email=document.getElementById('ctEmail').value.trim();
+  var msg=document.getElementById('ctMsg').value.trim();
+  var fb=document.getElementById('ctFb');
+  if(!name){fb.style.color='#ff6b47';fb.textContent=LG==='fi'?'Kirjoita nimesi!':'Please enter your name!';return;}
+  if(!email||!email.includes('@')){fb.style.color='#ff6b47';fb.textContent=LG==='fi'?'Kirjoita oikea sähköposti!':'Please enter a valid email!';return;}
+  if(!msg){fb.style.color='#ff6b47';fb.textContent=LG==='fi'?'Kirjoita viesti!':'Please write a message!';return;}
+  // Open mail client
+  var subject=encodeURIComponent('LearnKids: '+ctTopic+' from '+name);
+  var body=encodeURIComponent('Name: '+name+'\nEmail: '+email+'\nTopic: '+ctTopic+'\n\nMessage:\n'+msg);
+  window.open('mailto:magdayaojennamae712@gmail.com?subject='+subject+'&body='+body);
+  fb.style.color='#7ed957';
+  fb.textContent=LG==='fi'?'🎉 Kiitos viestistäsi!':'🎉 Thank you for your message!';
+  document.getElementById('ctName').value='';
+  document.getElementById('ctEmail').value='';
+  document.getElementById('ctMsg').value='';
+  sWin();toast('📨 '+(LG==='fi'?'Viesti lähetetty!':'Message sent!'));
+}
+
+// Update setLang for new pages
+var _origSetLang3=setLang;
+setLang=function(l){
+  _origSetLang3(l);
+  // Typing
+  var typDE=document.getElementById('typDE');if(typDE)typDE.textContent=l==='fi'?'🌱 Helppo':'🌱 Easy';
+  var typDM=document.getElementById('typDM');if(typDM)typDM.textContent=l==='fi'?'⚡ Keski':'⚡ Medium';
+  var typDH=document.getElementById('typDH');if(typDH)typDH.textContent=l==='fi'?'🔥 Vaikea':'🔥 Hard';
+  var typNew=document.getElementById('typNew');if(typNew)typNew.textContent=l==='fi'?'🔄 Uusi':'🔄 New';
+  // Chess
+  var chDE=document.getElementById('chDE');if(chDE)chDE.textContent=l==='fi'?'😊 Helppo':'😊 Easy';
+  var chDH=document.getElementById('chDH');if(chDH)chDH.textContent=l==='fi'?'😈 Vaikea':'😈 Hard';
+  // Contact
+  var lCT=document.getElementById('lContactTitle');if(lCT)lCT.textContent=l==='fi'?'Otamme mielellämme palautetta!':'We love hearing from you!';
+  var lCS=document.getElementById('lContactSub');if(lCS)lCS.textContent=l==='fi'?'Kysymyksiä tai ehdotuksia? Lähetä viesti!':'Questions, suggestions, or feedback? Send us a message!';
+  var lCN=document.getElementById('lCName');if(lCN)lCN.textContent=l==='fi'?'Nimesi':'Your Name';
+  var lCE=document.getElementById('lCEmail');if(lCE)lCE.textContent=l==='fi'?'Sähköpostisi':'Your Email';
+  var lCM=document.getElementById('lCMsg');if(lCM)lCM.textContent=l==='fi'?'Viesti':'Message';
+  var lCTp=document.getElementById('lCTopic');if(lCTp)lCTp.textContent=l==='fi'?'Aihe':'Topic';
+  var lCSd=document.getElementById('lCSend');if(lCSd)lCSd.textContent=l==='fi'?'📨 Lähetä viesti':'📨 Send Message';
+  var lCOr=document.getElementById('lCOr');if(lCOr)lCOr.textContent=l==='fi'?'Tai löydät meidät:':'Or find us on:';
+  var ct1=document.getElementById('ctT1');if(ct1)ct1.textContent=l==='fi'?'🐛 Bugi':'🐛 Bug Report';
+  var ct2=document.getElementById('ctT2');if(ct2)ct2.textContent=l==='fi'?'💡 Ehdotus':'💡 Suggestion';
+  var ct3=document.getElementById('ctT3');if(ct3)ct3.textContent=l==='fi'?'🎮 Peli-idea':'🎮 New Game Idea';
+  var ct4=document.getElementById('ctT4');if(ct4)ct4.textContent=l==='fi'?'💬 Muu':'💬 Other';
+  // Nav buttons
+  document.querySelectorAll('.nb[data-g="typing"]').forEach(function(b){b.textContent=l==='fi'?'⌨️ Kirjoitus':'⌨️ Typing';});
+  document.querySelectorAll('.nb[data-g="chess"]').forEach(function(b){b.textContent=l==='fi'?'♟️ Shakki':'♟️ Chess';});
+  document.querySelectorAll('.nb[data-g="contact"]').forEach(function(b){b.textContent=l==='fi'?'📬 Ota yhteyttä':'📬 Contact';});
+  // Game titles
+  var tT=document.getElementById('tTyping');if(tT)tT.textContent=l==='fi'?'⌨️ Kirjoitusnopeus':'⌨️ Typing Speed';
+  var tCh=document.getElementById('tChess');if(tCh)tCh.textContent=l==='fi'?'♟️ Shakki':'♟️ Chess';
+  var tCo=document.getElementById('tContact');if(tCo)tCo.textContent=l==='fi'?'📬 Ota yhteyttä':'📬 Contact Us';
+};
 
 setLang('en');
 </script>
