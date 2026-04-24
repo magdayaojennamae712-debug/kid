@@ -119,13 +119,13 @@
 <meta name="google-site-verification" content="CfzaKXigs9ze6N7dRUcD6GYglYD28__0eatJIGwnGQg">
 
 <!-- ═══ GOOGLE ANALYTICS GA4 ═══ -->
-<!-- REPLACE G-XXXXXXXXXX with your real GA4 Measurement ID from analytics.google.com -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<!-- Google Analytics GA4 - G-K7X0JG40CB -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-K7X0JG40CB"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', 'G-XXXXXXXXXX');
+  gtag('config', 'G-K7X0JG40CB');
 </script>
 
 <!-- ═══ GOOGLE ADSENSE ═══ -->
@@ -239,6 +239,21 @@ footer{position:relative;z-index:5;background:rgba(0,0,0,.55);border-top:1.5px s
 
 </head>
 <body>
+
+<!-- ═══ COOKIE CONSENT BANNER (GDPR/EEA) ═══ -->
+<div id="cookieBanner" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:99999999;background:linear-gradient(135deg,#1a0e38,#0d2240);border-top:2px solid rgba(255,182,39,.4);padding:16px 20px;box-shadow:0 -4px 30px rgba(0,0,0,.5)">
+  <div style="max-width:900px;margin:0 auto;display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:space-between">
+    <div style="flex:1;min-width:260px">
+      <div style="font-family:'Fredoka One',cursive;font-size:1rem;color:#ffb627;margin-bottom:4px">🍪 We use cookies</div>
+      <div style="font-size:.78rem;color:rgba(255,255,255,.7);font-weight:600;line-height:1.5" id="cookieText">We use cookies to improve your experience and show relevant ads. You can choose to accept or decline. Your choice will be remembered.</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button onclick="cookieDecline()" style="font-family:'Fredoka One',cursive;font-size:.82rem;padding:9px 18px;border:1.5px solid rgba(255,255,255,.25);border-radius:50px;background:transparent;color:rgba(255,255,255,.7);cursor:pointer" id="cookieBtnDecline">❌ Decline</button>
+      <button onclick="cookieAccept()" style="font-family:'Fredoka One',cursive;font-size:.82rem;padding:9px 20px;border:none;border-radius:50px;background:linear-gradient(135deg,#ff6b47,#ffb627);color:#fff;cursor:pointer;box-shadow:0 3px 12px rgba(255,107,71,.4)" id="cookieBtnAccept">✅ Accept All</button>
+    </div>
+  </div>
+</div>
+
 <div class="bg"></div>
 <div class="stars" id="stars"></div>
 <div class="waves"><div class="wv wv1"></div><div class="wv wv2"></div></div>
@@ -3030,6 +3045,89 @@ setLang=function(l){
 };
 
 sbRender();
+
+// ═══ COOKIE CONSENT (GDPR) ═══
+// Default: deny all until user consents (required for EEA/Finland)
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('consent', 'default', {
+  'analytics_storage': 'denied',
+  'ad_storage': 'denied',
+  'ad_user_data': 'denied',
+  'ad_personalization': 'denied',
+  'wait_for_update': 500
+});
+
+function cookieAccept(){
+  // Grant all consent
+  gtag('consent', 'update', {
+    'analytics_storage': 'granted',
+    'ad_storage': 'granted',
+    'ad_user_data': 'granted',
+    'ad_personalization': 'granted'
+  });
+  localStorage.setItem('cookieConsent','accepted');
+  document.getElementById('cookieBanner').style.display='none';
+  sClk();
+}
+
+function cookieDecline(){
+  // Keep denied
+  gtag('consent', 'update', {
+    'analytics_storage': 'denied',
+    'ad_storage': 'denied',
+    'ad_user_data': 'denied',
+    'ad_personalization': 'denied'
+  });
+  localStorage.setItem('cookieConsent','declined');
+  document.getElementById('cookieBanner').style.display='none';
+  sClk();
+}
+
+function cookieInit(){
+  var consent=localStorage.getItem('cookieConsent');
+  if(!consent){
+    // First visit - show banner after 1 second
+    setTimeout(function(){
+      document.getElementById('cookieBanner').style.display='block';
+    }, 1000);
+  } else if(consent==='accepted'){
+    // Already accepted - grant consent immediately
+    gtag('consent', 'update', {
+      'analytics_storage': 'granted',
+      'ad_storage': 'granted',
+      'ad_user_data': 'granted',
+      'ad_personalization': 'granted'
+    });
+  }
+  // Update banner text based on language
+  updateCookieText();
+}
+
+function updateCookieText(){
+  var t=document.getElementById('cookieText');
+  var ba=document.getElementById('cookieBtnAccept');
+  var bd=document.getElementById('cookieBtnDecline');
+  if(LG==='fi'){
+    if(t)t.textContent='Käytämme evästeitä parantaaksemme käyttökokemustasi ja näyttääksemme sopivia mainoksia. Voit hyväksyä tai hylätä. Valintasi muistetaan.';
+    if(ba)ba.textContent='✅ Hyväksy kaikki';
+    if(bd)bd.textContent='❌ Hylkää';
+  } else {
+    if(t)t.textContent='We use cookies to improve your experience and show relevant ads. You can choose to accept or decline. Your choice will be remembered.';
+    if(ba)ba.textContent='✅ Accept All';
+    if(bd)bd.textContent='❌ Decline';
+  }
+}
+
+// Hook into setLang to update cookie text language
+var _origSetLangCookie=setLang;
+setLang=function(l){
+  _origSetLangCookie(l);
+  updateCookieText();
+};
+
+// Initialize on page load
+cookieInit();
 
 setLang('en');
 </script>
