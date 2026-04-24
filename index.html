@@ -287,6 +287,7 @@ footer{position:relative;z-index:5;background:rgba(0,0,0,.55);border-top:1.5px s
   <button class="nb" data-g="typing">⌨️ Typing</button>
   <button class="nb" data-g="chess">♟️ Chess</button>
   <button class="nb" data-g="contact">📬 Contact</button>
+  <button class="nb" data-g="stories">📚 Stories</button>
 </div>
 <main><!-- MATH -->
 <div id="g-math" class="gp on"><div class="card">
@@ -704,6 +705,7 @@ footer{position:relative;z-index:5;background:rgba(0,0,0,.55);border-top:1.5px s
 </section>
 <style>
 #ngTrack::-webkit-scrollbar{display:none}
+#sbTrack::-webkit-scrollbar{display:none}
 
 .ngt{font-family:'Fredoka One',cursive;font-size:.75rem;padding:6px 14px;border-radius:50px;cursor:pointer;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);color:rgba(255,255,255,.7);transition:all .18s}
 .ngt:hover{background:rgba(255,182,39,.16);border-color:#ffb627;color:#ffb627}
@@ -796,6 +798,59 @@ footer{position:relative;z-index:5;background:rgba(0,0,0,.55);border-top:1.5px s
   </div>
 </div>
 </div></div>
+<!-- ═══ STORY BOOK ═══ -->
+<div id="g-stories" class="gp"><div class="card" style="max-width:860px">
+<div class="gt" id="tStories">📚 Story Book</div>
+<div style="color:rgba(255,255,255,.5);font-size:.82rem;font-weight:700;text-align:center;margin-bottom:14px" id="lStoriesSub">Tap any story to read it! New adventures every time 🌟</div>
+
+<!-- Category Tabs -->
+<div style="display:flex;gap:7px;justify-content:center;flex-wrap:wrap;margin-bottom:16px">
+  <button class="ngt on" onclick="sbFilter('all')" id="sbAll">🌟 All</button>
+  <button class="ngt" onclick="sbFilter('adventure')" id="sbAdv">🗺️ Adventure</button>
+  <button class="ngt" onclick="sbFilter('animals')" id="sbAni">🐾 Animals</button>
+  <button class="ngt" onclick="sbFilter('magic')" id="sbMag">✨ Magic</button>
+  <button class="ngt" onclick="sbFilter('nature')" id="sbNat">🌿 Nature</button>
+  <button class="ngt" onclick="sbFilter('funny')" id="sbFun">😄 Funny</button>
+</div>
+
+<!-- Carousel -->
+<div style="position:relative">
+  <button onclick="sbScroll(-1)" style="position:absolute;left:-14px;top:50%;transform:translateY(-50%);z-index:10;width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#ff6b47,#ffb627);border:none;color:#fff;font-size:1.3rem;cursor:pointer;box-shadow:0 3px 12px rgba(0,0,0,.4)">&#8249;</button>
+  <button onclick="sbScroll(1)" style="position:absolute;right:-14px;top:50%;transform:translateY(-50%);z-index:10;width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#ff6b47,#ffb627);border:none;color:#fff;font-size:1.3rem;cursor:pointer;box-shadow:0 3px 12px rgba(0,0,0,.4)">&#8250;</button>
+  <div id="sbTrack" style="display:flex;gap:14px;overflow-x:auto;scroll-behavior:smooth;padding:8px 4px 16px;scrollbar-width:none;-ms-overflow-style:none"></div>
+</div>
+<div id="sbDots" style="display:flex;justify-content:center;gap:6px;margin-top:8px"></div>
+</div></div>
+
+<!-- Story Reader Modal -->
+<div id="sbModal" onclick="if(event.target===this)sbClose()" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;z-index:2147483647;background:rgba(0,0,0,.92);align-items:flex-start;justify-content:center;padding:20px;box-sizing:border-box;overflow-y:auto">
+  <div style="background:linear-gradient(135deg,#1a0520,#0d1f40);border-radius:22px;max-width:560px;width:100%;margin:auto;border:2px solid rgba(255,182,39,.3);box-shadow:0 20px 60px rgba(0,0,0,.8)">
+    <div id="sbMCover" style="width:100%;height:200px;border-radius:20px 20px 0 0;display:flex;align-items:center;justify-content:center;font-size:5rem;flex-direction:column;gap:8px;position:relative">
+      <div id="sbMEmoji" style="font-size:5rem"></div>
+      <button onclick="sbClose()" style="position:absolute;top:12px;right:14px;background:rgba(0,0,0,.6);border:none;color:#fff;width:32px;height:32px;border-radius:50%;font-size:1rem;cursor:pointer">✕</button>
+      <div id="sbMCatBadge" style="position:absolute;bottom:10px;left:14px;font-family:Fredoka One,cursive;font-size:.7rem;padding:3px 12px;border-radius:50px;background:rgba(0,0,0,.6)"></div>
+    </div>
+    <div style="padding:20px 22px 24px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+        <div id="sbMTitle" style="font-family:Fredoka One,cursive;font-size:1.5rem;color:#ffb627;flex:1"></div>
+        <div id="sbPageCount" style="font-family:Fredoka One,cursive;font-size:.75rem;color:rgba(255,182,39,.7);white-space:nowrap;margin-left:10px;background:rgba(255,182,39,.1);padding:3px 10px;border-radius:50px">Page 1 / 3</div>
+      </div>
+      <div style="font-size:.78rem;color:rgba(255,255,255,.4);font-weight:700;margin-bottom:10px" id="sbMBy"></div>
+      <div id="sbPageDots" style="display:flex;gap:6px;margin-bottom:14px"></div>
+      <div id="sbMText" style="font-size:.9rem;color:rgba(255,255,255,.88);line-height:1.9;font-weight:600"></div>
+      <div id="sbMoral" style="margin-top:16px;background:rgba(255,182,39,.1);border:1px solid rgba(255,182,39,.25);border-radius:13px;padding:13px 16px">
+        <div style="font-family:Fredoka One,cursive;font-size:.78rem;color:#ffb627;margin-bottom:5px" id="sbMoralLabel">🌟 THE MORAL</div>
+        <div id="sbMoralText" style="font-size:.85rem;color:rgba(255,255,255,.75);font-weight:600;line-height:1.6"></div>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:16px">
+        <button onclick="sbPrev()" style="flex:1;font-family:Fredoka One,cursive;font-size:.85rem;padding:10px;border:none;border-radius:50px;background:rgba(255,255,255,.1);color:#fff;cursor:pointer" id="sbBPrev">◀ Previous</button>
+        <button onclick="sbClose()" style="flex:2;font-family:Fredoka One,cursive;font-size:.95rem;padding:10px;border:none;border-radius:50px;background:linear-gradient(135deg,#ff6b47,#ffb627);color:#fff;cursor:pointer" id="sbBClose">📚 Back to Stories</button>
+        <button onclick="sbNext()" style="flex:1;font-family:Fredoka One,cursive;font-size:.85rem;padding:10px;border:none;border-radius:50px;background:rgba(255,255,255,.1);color:#fff;cursor:pointer" id="sbBNext">Next ▶</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 </main>
 <footer>
 <div class="fgrid">
@@ -2759,6 +2814,222 @@ setLang=function(l){
   var tCh=document.getElementById('tChess');if(tCh)tCh.textContent=l==='fi'?'♟️ Shakki':'♟️ Chess';
   var tCo=document.getElementById('tContact');if(tCo)tCo.textContent=l==='fi'?'📬 Ota yhteyttä':'📬 Contact Us';
 };
+
+// ═══ STORY BOOK DATA ═══
+var SB={en:[],fi:[]};
+
+SB.en = [{"id": 1, "c": "adventure", "e": "🏴‍☠️", "bg": "linear-gradient(135deg,#1a237e,#0d47a1)", "cc": "#90caf9", "title": "The Pirate and the Magic Compass", "pages": ["Once upon a time, a young pirate named Leo found a glowing compass on a deserted island beach. Unlike any compass he had seen before, it did not point north — it pointed toward the thing you needed most!", "\"Show me the greatest treasure!\" Leo shouted. The compass spun wildly and pointed... straight back at his little wooden boat where his best friend Sam sat waiting.", "Leo laughed, realizing the compass was right all along. He ran back to Sam and together they sailed toward the setting sun, the best treasure they had already found in each other."], "moral": "The greatest treasure in life is true friendship — no map can lead you there.", "cat": "Adventure"}, {"id": 2, "c": "adventure", "e": "🏔️", "bg": "linear-gradient(135deg,#37474f,#1a237e)", "cc": "#b0bec5", "title": "Mia Climbs the Cloud Mountain", "pages": ["Mia was told that at the top of Cloud Mountain lived a wise old eagle who could answer any question. So she packed her bag and began the long climb, though everyone told her it was impossible.", "Along the way she helped a rabbit with a stuck paw, shared her water with a tired fox, and sang songs to a lonely tree. Each time she gave something, she felt lighter and faster.", "When she finally reached the top, the eagle smiled. \"I know your question,\" it said. \"You want to know how to be happy. You already showed yourself the answer on the way up.\""], "moral": "Happiness is found by giving to others along the journey, not waiting at the destination.", "cat": "Adventure"}, {"id": 3, "c": "adventure", "e": "🌊", "bg": "linear-gradient(135deg,#006064,#0d47a1)", "cc": "#80deea", "title": "The Boy Who Could Talk to Fish", "pages": ["Tom discovered he could understand fish when he fell into the lake one summer morning. The fish were panicking — a storm was coming that would flood the whole village!", "Nobody believed a boy could talk to fish. But Tom ran from house to house warning everyone. Most laughed. But three families listened and moved to higher ground.", "That night the storm came exactly as the fish had said. Those three families were safe. From then on, the whole village learned to listen to even the most unusual voices."], "moral": "Even the smallest voice can carry the most important message. Always listen.", "cat": "Adventure"}, {"id": 4, "c": "animals", "e": "🦁", "bg": "linear-gradient(135deg,#c8520a,#8B4513)", "cc": "#ff8c00", "title": "The Lion Who Was Afraid of Mice", "pages": ["King Leo was the bravest lion in the savanna. He could face elephants and crocodiles without a shiver. But he had one secret — he was terrified of tiny mice!", "One day a little mouse named Pip got stuck in Leo's mane. Leo froze in fear. Pip gently untangled himself and said cheerfully, \"Don't worry! We mice are friendly. I could have bitten you but why would I? You're magnificent!\"", "From that day Leo and Pip became the most unlikely best friends. Leo realized that his fear had been silly — and Pip realized that being small did not mean being unimportant."], "moral": "Bravery means facing your fears. Even kings can learn from the smallest creatures.", "cat": "Animals"}, {"id": 5, "c": "animals", "e": "🐢", "bg": "linear-gradient(135deg,#1b5e20,#2e7d32)", "cc": "#a5d6a7", "title": "Slow Turtle Wins the Race", "pages": ["Speedy the hare laughed at Turtle every single day. \"You are so slow! How do you even get anywhere?\" he mocked loudly at the watering hole so all the animals could hear.", "Turtle smiled calmly. \"I always get where I am going,\" he said. \"Shall we race to the big oak tree at sunrise?\" The whole savanna came to watch, certain the hare would win easily.", "But Speedy napped in the warm sun, sure of victory. Turtle walked steadily — one step, then another, never stopping. When Speedy woke and sprinted, Turtle was already sitting under the oak, smiling peacefully."], "moral": "Slow and steady wins the race. Consistency beats speed every time.", "cat": "Animals"}, {"id": 6, "c": "animals", "e": "🐘", "bg": "linear-gradient(135deg,#607d8b,#37474f)", "cc": "#90a4ae", "title": "The Elephant Who Forgot Nothing", "pages": ["Ellie the elephant remembered everything — where every tree grew, where every waterhole was hidden, and most importantly the name and face of every friend she had ever made.", "One dry season the animals were dying of thirst. Ellie closed her eyes and remembered — two years ago she had found a secret spring deep in the eastern valley. She led the whole herd there safely.", "\"How did you know?\" the young zebras asked in amazement. Ellie smiled. \"Because I paid attention and I never forget a kindness or a discovery. Memory is the greatest gift.\""], "moral": "Pay attention to the world around you. What you learn today may save you tomorrow.", "cat": "Animals"}, {"id": 7, "c": "animals", "e": "🦋", "bg": "linear-gradient(135deg,#7b1fa2,#4a148c)", "cc": "#ce93d8", "title": "The Caterpillar Who Doubted Herself", "pages": ["Clara the caterpillar watched butterflies dance in the meadow and cried. \"I will never be beautiful like them,\" she sighed. \"I am just a slow, fuzzy, ordinary caterpillar.\"", "One autumn day she felt a strange urge to wrap herself up tightly. It was dark and lonely inside her cocoon. She pushed against it frightened and confused, wondering if she had made a mistake.", "Then one morning something magical happened. She pushed through into blinding golden light — and spread brilliant orange and black wings wider than her whole body had once been. She was a monarch butterfly."], "moral": "The most beautiful things grow through struggle. Your hardest moments are changing you.", "cat": "Animals"}, {"id": 8, "c": "magic", "e": "⭐", "bg": "linear-gradient(135deg,#4a148c,#1a237e)", "cc": "#ce93d8", "title": "The Wishing Star Who Ran Out of Wishes", "pages": ["Star had granted wishes for a thousand years — ponies, candy, taller buildings, bigger toys. But one cold night she felt empty. No more wishes left inside her glow.", "A small girl named Lily looked up and said, \"Dear star, I do not need a wish. I just wanted to say thank you for the moon and the night sky and this beautiful world.\" Star had never heard that before.", "Lily's thanks filled Star up with golden light again — more than she had ever held. She realized then that gratitude was far more powerful than any wish ever granted."], "moral": "Gratitude fills the world with more magic than any wish ever could.", "cat": "Magic"}, {"id": 9, "c": "magic", "e": "🔮", "bg": "linear-gradient(135deg,#6a1b9a,#4a148c)", "cc": "#f3e5f5", "title": "The Magic Paintbrush", "pages": ["Zoe found a paintbrush in the attic that could bring anything she painted to life. She painted a golden bird which flew away singing. She painted an apple and ate it fresh. She was amazed!", "Then she painted a friend — because she was lonely. But the painted friend could not laugh at real jokes, could not share real secrets, and could not give real hugs. Zoe felt even more alone.", "She painted the last thing on her list — a letter to her neighbor who she had been too shy to meet. That night the neighbor knocked on her door. They talked for hours. That was real magic."], "moral": "Real magic is having the courage to reach out to real people. No brush can paint true friendship.", "cat": "Magic"}, {"id": 10, "c": "magic", "e": "🌙", "bg": "linear-gradient(135deg,#1a237e,#311b92)", "cc": "#9fa8da", "title": "The Moon's Missing Glow", "pages": ["One night the moon did not shine. The whole world fell into darkness and the animals were frightened. The moon had given her light to a little fish that had swallowed it accidentally.", "The tiny fish swam to the deepest part of the ocean, too scared to come up. All the sea creatures came to help — the whale lifted gently, the dolphins guided, the starfish lit the way.", "When the fish finally leaped from the ocean, the moonlight burst free and flooded the whole sky. The moon glowed brighter than she ever had — grateful to all the little helpers."], "moral": "When we help each other, even the darkest nights can become the brightest.", "cat": "Magic"}, {"id": 11, "c": "nature", "e": "🌱", "bg": "linear-gradient(135deg,#1b5e20,#33691e)", "cc": "#a5d6a7", "title": "The Little Seed's Big Dream", "pages": ["A tiny seed fell from a tall oak tree and landed in hard stony ground. All the other seeds had fallen in soft soil. \"You will never grow here,\" the wind whispered. \"The ground is too tough.\"", "But the seed sent her roots down and down, finding tiny cracks in the rock, seeking every drop of water, reaching toward the deep dark soil below the stones.", "Ten years later a magnificent tree stood where nothing had grown before. Hikers would rest in her shade and wonder at how a tree could grow in such impossible ground. The tree just smiled and grew."], "moral": "The strongest trees grow in the hardest ground. Difficult beginnings make the deepest roots.", "cat": "Nature"}, {"id": 12, "c": "nature", "e": "🌧️", "bg": "linear-gradient(135deg,#1565c0,#0d47a1)", "cc": "#90caf9", "title": "Rain and the Dry Valley", "pages": ["The Valley had not seen rain for two whole years. The river had dried to dust. The flowers had given up. The animals had left. Only one old tortoise remained, waiting patiently.", "One day a small dark cloud appeared on the horizon. All the remaining creatures laughed. \"One cloud cannot save a whole valley!\" But the tortoise said, \"Every flood begins with one drop.\"", "The cloud grew. Then another came. Then a hundred more followed. That evening the rain fell all night and by morning the river ran again. The tortoise had been right all along."], "moral": "Never underestimate one small act of kindness or one small cloud. Every great change starts small.", "cat": "Nature"}, {"id": 13, "c": "nature", "e": "🌺", "bg": "linear-gradient(135deg,#880e4f,#c62828)", "cc": "#f48fb1", "title": "The Flower That Bloomed in Winter", "pages": ["When winter came every flower closed up and waited for spring like they always had. But one little red flower named Rose decided to bloom anyway, despite the frost and the snow.", "The other flowers thought she was crazy. The bees had all gone. Who would see her? But a lonely child walking through the grey garden stopped and gasped in wonder at the single red bloom.", "That child came back every day, and told her friends, and soon the grey garden was full of laughter and warmth again — all because one small flower dared to bloom when nobody expected it."], "moral": "Dare to bloom even when the conditions are not perfect. Your courage can warm the whole world.", "cat": "Nature"}, {"id": 14, "c": "funny", "e": "🐸", "bg": "linear-gradient(135deg,#1b5e20,#004d40)", "cc": "#69f0ae", "title": "The Frog Who Wanted to Be a Singer", "pages": ["Freddy the frog had one dream — to sing at the Great Pond Concert. There was just one problem. When Freddy sang, it sounded like a rusty wheelbarrow being pushed over gravel by a goat.", "Freddy practiced every morning. The fish covered their ears. The birds flew away. The lily pads rippled from the sound waves. But Freddy did not give up.", "On concert night Freddy stepped up, took a huge breath, and croaked his absolute loudest. The crowd was silent for a moment. Then they all burst out laughing — and gave him a standing ovation. Because his terrible singing was the most joyful sound they had ever heard."], "moral": "Do what you love with all your heart — even if you do it badly. Joy is contagious.", "cat": "Funny"}, {"id": 15, "c": "funny", "e": "🐷", "bg": "linear-gradient(135deg,#e91e63,#c2185b)", "cc": "#f48fb1", "title": "The Pig Who Wanted to Fly", "pages": ["Percy the pig had watched birds fly his whole life and decided he too would learn. He tried flapping his little trotters at breakfast. He jumped off haybales at lunch. He wore a feather hat at dinner.", "\"Pigs cannot fly,\" said everyone on the farm — the cow, the horse, the chicken, even the very philosophical duck. But Percy kept practicing.", "One stormy day the barn roof was carried away by wind — right over the fence, right into the mud. Percy looked at it and shrugged. \"Well,\" he said, \"the barn can fly. Close enough.\" And he was extremely proud."], "moral": "Some dreams change shape along the way — that is not failure, that is wisdom.", "cat": "Funny"}, {"id": 16, "c": "funny", "e": "🦉", "bg": "linear-gradient(135deg,#4e342e,#6d4c41)", "cc": "#ffcc80", "title": "The Owl Who Could Not Say Who", "pages": ["Oliver the owl had a problem — every owl is supposed to say WHO but Oliver could only say WHAT. \"WHAT! WHAT!\" he called every night. The forest was very confused.", "\"Who is there?\" asked the fox one dark evening. \"WHAT!\" replied Oliver. \"What is where?\" asked the fox, more confused than before. They went around like this for a very long time.", "Eventually the fox gave up trying and just sat down next to Oliver. They watched the stars together in comfortable silence. Oliver thought — maybe WHAT is the right question after all. What is that star? What is that sound? What a wonderful world."], "moral": "Asking WHAT about the world around you can lead to just as many wonderful discoveries as asking WHO.", "cat": "Funny"}, {"id": 17, "c": "funny", "e": "🐒", "bg": "linear-gradient(135deg,#e65100,#bf360c)", "cc": "#ffcc80", "title": "The Monkey Who Stole the King's Crown", "pages": ["Max the monkey thought the king's golden crown looked like a very comfortable fruit bowl. So one afternoon while the king was napping he quietly borrowed it and filled it with bananas.", "The whole palace was in uproar. Guards searched everywhere. But Max was sitting in a mango tree, wearing the banana-filled crown on his head, looking absolutely regal.", "The king finally found him and could not stop laughing. \"You know,\" said the king, removing a banana, \"this IS an excellent fruit bowl.\" He gave Max a real bowl of gold and Max gave back the crown. Everyone was happy."], "moral": "Laughter can solve problems that seriousness cannot. Never be too important to see the funny side.", "cat": "Funny"}, {"id": 18, "c": "adventure", "e": "🚀", "bg": "linear-gradient(135deg,#1a237e,#311b92)", "cc": "#9fa8da", "title": "The Girl Who Built a Rocket", "pages": ["Nina was seven years old and absolutely certain she could build a rocket from cardboard boxes, tin cans, and determination. Everyone told her it was impossible. She began building anyway.", "After seventeen failed prototypes and one incident involving a very startled cat, Nina's Rocket Number Eighteen finally worked — it flew 40 meters across the backyard and landed in Mrs. Johnson's rose bushes.", "\"Young lady!\" called Mrs. Johnson over the fence, holding the battered rocket. Then she smiled. \"When you build Rocket Nineteen, please aim slightly more to the left. Also — would you like some lemonade? I want to hear everything.\""], "moral": "Failure is just prototype building. Every attempt gets you closer to the stars.", "cat": "Adventure"}];
+
+SB.fi = [{"id": 1, "c": "adventure", "e": "🏴‍☠️", "bg": "linear-gradient(135deg,#1a237e,#0d47a1)", "cc": "#90caf9", "title": "Merirosvo ja Taika-kompassi", "pages": ["Olipa kerran nuori merirosvo nimeltä Leo joka löysi hehkuvan kompassin autiolta saaren rannalta. Toisin kuin mikään kompassi jonka hän oli nähnyt se ei osoittanut pohjoiseen — se osoitti kohti sitä mitä tarvitsit eniten!", "\"Näytä minulle suurin aarre!\" Leo huusi. Kompassi pyöri villisti ja osoitti... suoraan takaisin hänen pienelle puuveneelleen missä paras ystävä Sam istui odottaen.", "Leo nauroi ymmärtäen kompassin olleen oikeassa koko ajan. Hän juoksi takaisin Samin luokse ja yhdessä he purjehtivat kohti laskevaa aurinkoa — parhaan aarteen jonka he olivat jo löytäneet toisissaan."], "moral": "Elämän suurin aarre on todellinen ystävyys — sinne ei johda mikään kartta.", "cat": "Seikkailu"}, {"id": 2, "c": "adventure", "e": "🏔️", "bg": "linear-gradient(135deg,#37474f,#1a237e)", "cc": "#b0bec5", "title": "Mia kiipeää Pilvivuorelle", "pages": ["Mialle oli kerrottu että Pilvivuoren huipulla asui viisas vanha kotka joka pystyi vastaamaan mihin tahansa kysymykseen. Niinpä hän pakkasi laukunsa ja aloitti pitkän kiipeilyn vaikka kaikki sanoivat sen olevan mahdotonta.", "Matkalla hän auttoi jänistä jolla oli tassu jumissa jakoi vetensä väsyneen ketun kanssa ja lauloi lauluja yksinäiselle puulle. Joka kerta kun hän antoi jotain hän tunsi itsensä kevyemmäksi ja nopeammaksi.", "Kun hän viimein saavutti huipun kotka hymyili. \"Tiedän kysymyksesi\" se sanoi. \"Haluat tietää kuinka olla onnellinen. Vastasit itse kysymykseen jo matkalla ylöspäin.\""], "moral": "Onnellisuus löytyy antamalla muille matkan varrella — ei odottamalla määränpäässä.", "cat": "Seikkailu"}, {"id": 3, "c": "adventure", "e": "🌊", "bg": "linear-gradient(135deg,#006064,#0d47a1)", "cc": "#80deea", "title": "Poika joka puhui kaloille", "pages": ["Tom huomasi pystyvänsä ymmärtämään kaloja kun hän putosi järveen kesäaamuna. Kalat olivat paniikissa — tuleva myrsky tulvisi koko kylään!", "Kukaan ei uskonut pojan pystyvän puhumaan kaloille. Mutta Tom juoksi talosta taloon varoittaen kaikkia. Useimmat nauroivat. Mutta kolme perhettä kuunteli ja siirtyi korkeammalle maalle.", "Sinä yönä myrsky tuli täsmälleen kuten kalat olivat sanoneet. Nämä kolme perhettä olivat turvassa. Siitä lähtien koko kylä oppi kuuntelemaan jopa kaikkein epätavallisimpia ääniä."], "moral": "Jopa pienin ääni voi kantaa tärkeintä viestiä. Kuuntele aina.", "cat": "Seikkailu"}, {"id": 4, "c": "animals", "e": "🦁", "bg": "linear-gradient(135deg,#c8520a,#8B4513)", "cc": "#ff8c00", "title": "Leijona joka pelkäsi hiiriä", "pages": ["Kuningas Leo oli rohkein leijona savannilla. Hän pystyi kohtaamaan norsuja ja krokotiileja ilman värinää. Mutta hänellä oli yksi salaisuus — hän pelkäsi pieniä hiiriä kuollakseen!", "Eräänä päivänä pieni hiiri nimeltä Pip jäi jumiin Leon harjaan. Leo jähmettyi pelosta. Pip vapautti itsensä varovasti ja sanoi iloisesti: \"Älä huoli! Me hiiret olemme ystävällisiä. Olisin voinut purra mutta miksi? Olet upea!\"", "Siitä päivästä Leo ja Pip tulivat kaikkein epätodennäköisimmiksi parhaiks ystäviksi. Leo tajusi pelkonsa olleen hölmöä — ja Pip ymmärsi että pienuus ei tarkoita merkityksettömyyttä."], "moral": "Rohkeus tarkoittaa pelkojen kohtaamista. Jopa kuninkaat voivat oppia pienimmiltä olennoilta.", "cat": "Eläimet"}, {"id": 5, "c": "animals", "e": "🐢", "bg": "linear-gradient(135deg,#1b5e20,#2e7d32)", "cc": "#a5d6a7", "title": "Hidas Kilpikonna voittaa kilvan", "pages": ["Jänis Pikainen nauroi kilpikonnalle joka päivä. \"Olet niin hidas! Miten edes pääset mihinkään?\" hän ivasi ääneen juomapaikalla kaikkien eläinten kuullen.", "Kilpikonna hymyili rauhallisesti. \"Pääsen aina perille\" hän sanoi. \"Kilpaileeko meistä kumpikaan suurelle tammelle auringonnousulla?\" Koko savanni tuli katsomaan varma jäniksen voitosta.", "Mutta Pikainen nukkui lämpimässä auringossa varma voitostaan. Kilpikonna käveli tasaisesti — yksi askel sitten toinen koskaan pysähtymättä. Kun Pikainen heräsi ja spurttasi kilpikonna istui jo tammen alla hymyillen rauhallisesti."], "moral": "Hitaasti ja tasaisesti kilpa voitetaan. Johdonmukaisuus päihittää nopeuden joka kerta.", "cat": "Eläimet"}, {"id": 6, "c": "animals", "e": "🐘", "bg": "linear-gradient(135deg,#607d8b,#37474f)", "cc": "#90a4ae", "title": "Norsu joka ei unohtanut mitään", "pages": ["Ellie-norsu muisti kaiken — missä jokainen puu kasvoi missä jokainen vesipaikka oli piilotettu ja ennen kaikkea jokaisen ystävänsä nimen ja kasvot.", "Eräänä kuivana vuodenaikana eläimet kärsivät janosta. Ellie sulki silmänsä ja muisti — kaksi vuotta sitten hän oli löytänyt salaisen lähteen syvällä itäisessä laaksossa. Hän johti koko lauman sinne turvallisesti.", "\"Mistä tiesit?\" nuoret seeprat kysyivät ihmeissään. Ellie hymyili. \"Koska kiinnitin huomiota enkä koskaan unohda ystävällisyyttä tai löytöä. Muisti on suurin lahja.\""], "moral": "Kiinnitä huomiota ympäröivään maailmaan. Mitä opit tänään saattaa pelastaa sinut huomenna.", "cat": "Eläimet"}, {"id": 7, "c": "animals", "e": "🦋", "bg": "linear-gradient(135deg,#7b1fa2,#4a148c)", "cc": "#ce93d8", "title": "Toukka joka epäili itseään", "pages": ["Clara-toukka katsoi perhosten tanssimista niityllä ja itki. \"En koskaan ole kaunis kuin ne\" hän huokaisi. \"Olen vain hidas pörröinen tavallinen toukka.\"", "Eräänä syyspäivänä hän tunsi outoa halua kietoa itsensä tiukasti. Oli pimeää ja yksinäistä kotelossa. Hän työnsi sitä vastaan peloissaan ja hämmentyneenä miettien oliko tehnyt virheen.", "Sitten eräänä aamuna jotain maagista tapahtui. Hän työnsi läpi sokeaisevaan kultaiseen valoon — ja levitti loistavia oranssin ja mustan siipensä leveämmälle kuin koko kehonsa oli ennen ollut. Hän oli monarkkiperhonen."], "moral": "Kauneimmat asiat kasvavat kamppailun kautta. Vaikeimmat hetkesi muuttavat sinua.", "cat": "Eläimet"}, {"id": 8, "c": "magic", "e": "⭐", "bg": "linear-gradient(135deg,#4a148c,#1a237e)", "cc": "#ce93d8", "title": "Toivotähti jolta loppuivat toiveet", "pages": ["Tähti oli täyttänyt toiveita tuhat vuotta — poneja karkkia korkeampia rakennuksia isompia leluja. Mutta eräänä kylmänä yönä hän tunsi itsensä tyhjäksi. Ei enää toiveita hänen hohtavan sisällään.", "Pieni tyttö nimeltä Lily katsoi ylös ja sanoi: \"Rakas tähti en tarvitse toivetta. Halusin vain sanoa kiitos kuusta ja yötaivaasta ja tästä kauniista maailmasta.\" Tähti ei ollut koskaan kuullut sitä ennen.", "Lilyn kiitos täytti Tähden kultaisella valolla jälleen — enemmän kuin hän oli koskaan kantanut. Hän tajusi silloin että kiitollisuus oli paljon voimakkaampaa kuin mikään myönnetty toive."], "moral": "Kiitollisuus täyttää maailman enemmällä taikuudella kuin mikään toive voisi.", "cat": "Taikuus"}, {"id": 9, "c": "magic", "e": "🔮", "bg": "linear-gradient(135deg,#6a1b9a,#4a148c)", "cc": "#f3e5f5", "title": "Taika-sivellin", "pages": ["Zoe löysi ullakolta siveltimen joka pystyi herättämään henkiin kaiken minkä hän maalasi. Hän maalasi kultaisen linnun joka lensi laulellen pois. Hän maalasi omenan ja söi sen tuoreena. Hän oli hämmästynyt!", "Sitten hän maalasi ystävän — koska hän oli yksinäinen. Mutta maalattu ystävä ei osannut nauraa oikeille vitseille ei osannut jakaa oikeita salaisuuksia eikä pystynyt antamaan oikeita halauksia. Zoe tunsi itsensä vielä yksinäisemmäksi.", "Hän maalasi viimeisen asian listallaan — kirjeen naapurilleen jolle hän oli ollut liian ujo tutustumaan. Sinä iltana naapuri koputteli ovelle. He puhuivat tuntikausia. Se oli todellista taikuutta."], "moral": "Todellinen taika on rohkeus ottaa yhteyttä oikeisiin ihmisiin. Mikään sivellin ei pysty maalaamaan todellista ystävyyttä.", "cat": "Taikuus"}, {"id": 10, "c": "magic", "e": "🌙", "bg": "linear-gradient(135deg,#1a237e,#311b92)", "cc": "#9fa8da", "title": "Kuun kadonnut hohtaminen", "pages": ["Eräänä yönä kuu ei paistanut. Koko maailma vajosi pimeyteen ja eläimet pelkäsivät. Kuu oli antanut valonsa pikku kalalle joka oli vahingossa niellyt sen.", "Pieni kala ui meren syvimpään osaan liian peloissaan tullakseen ylös. Kaikki meriolennot tulivat auttamaan — valas nosti varovasti delfiinit ohjasivat meritähdet valaisivat tien.", "Kun kala viimein loikkasi merestä kuunvalo purkautui vapaaksi ja täytti koko taivaan. Kuu hehkui kirkkaammin kuin koskaan — kiitollisena kaikille pienille auttajille."], "moral": "Kun autamme toisiamme jopa pimeimmistä öistä voi tulla kirkkaimpia.", "cat": "Taikuus"}, {"id": 11, "c": "nature", "e": "🌱", "bg": "linear-gradient(135deg,#1b5e20,#33691e)", "cc": "#a5d6a7", "title": "Pienen siemenen suuri unelma", "pages": ["Pieni siemen putosi korkeasta tammesta ja laskeutui kovaan kivikkoiseen maahan. Kaikki muut siemenet olivat pudonneet pehmeään multaan. \"Et koskaan kasva täällä\" tuuli kuiskasi. \"Maa on liian kova.\"", "Mutta siemen lähetti juurensa alas ja alas löytäen pieniä halkeamia kalliosta etsien jokaista vesipisaraa kurkottaen kohti syvää mustaa multaa kivien alla.", "Kymmenen vuoden kuluttua upea puu seisoi siellä missä mikään ei ollut kasvanut ennen. Vaeltajat lepäsivät hänen varjossaan ihmetellen miten puu saattoi kasvaa niin mahdottomassa maassa. Puu vain hymyili ja kasvoi."], "moral": "Vahvimmat puut kasvavat kovimmassa maassa. Vaikeat alut tekevät syvimmät juuret.", "cat": "Luonto"}, {"id": 12, "c": "nature", "e": "🌧️", "bg": "linear-gradient(135deg,#1565c0,#0d47a1)", "cc": "#90caf9", "title": "Sade ja kuiva laakso", "pages": ["Laakso ei ollut nähnyt sadetta kahteen kokonaiseen vuoteen. Joki oli kuivunut pölyksi. Kukat olivat luovuttaneet. Eläimet olivat lähteneet. Vain yksi vanha kilpikonna oli jäänyt odottamaan kärsivällisesti.", "Eräänä päivänä horisontissa ilmestyi pieni tumma pilvi. Kaikki jäljellä olevat olennot nauroivat. \"Yksi pilvi ei voi pelastaa kokonaista laaksoa!\" Mutta kilpikonna sanoi: \"Jokainen tulva alkaa yhdestä pisarasta.\"", "Pilvi kasvoi. Sitten tuli toinen. Sitten seurasi sata muuta. Sinä iltana sade satoi koko yön ja aamuun mennessä joki virtasi taas. Kilpikonna oli ollut oikeassa koko ajan."], "moral": "Älä koskaan aliarvioi yhtä pientä ystävällisyyden tekoa tai yhtä pientä pilveä. Jokainen suuri muutos alkaa pienenä.", "cat": "Luonto"}, {"id": 13, "c": "nature", "e": "🌺", "bg": "linear-gradient(135deg,#880e4f,#c62828)", "cc": "#f48fb1", "title": "Kukka joka kukkii talvella", "pages": ["Kun talvi tuli jokainen kukka sulkeutui ja odotti kevättä kuten aina ennenkin. Mutta yksi pieni punainen kukka nimeltä Ruusu päätti kukkia joka tapauksessa huolimatta pakkasesta ja lumesta.", "Muut kukat pitivät häntä hulluna. Mehiläiset olivat kaikki lähteneet. Kuka näkisi hänet? Mutta yksinäinen lapsi harmaata puutarhaa kävelemässä pysähtyi ja huokaisi ihmeestä yksittäisen punaisen kukan nähdessään.", "Lapsi tuli takaisin joka päivä ja kertoi ystävilleen ja pian harmaa puutarha oli täynnä naurua ja lämpöä — kaikki koska yksi pieni kukka uskalsi kukkia kun kukaan ei odottanut sitä."], "moral": "Uskalla kukkia vaikka olosuhteet eivät olisi täydelliset. Rohkeutesi voi lämmittää koko maailman.", "cat": "Luonto"}, {"id": 14, "c": "funny", "e": "🐸", "bg": "linear-gradient(135deg,#1b5e20,#004d40)", "cc": "#69f0ae", "title": "Sammakko joka halusi laulajaks", "pages": ["Freddy-sammakolla oli yksi unelma — laulaa Suuren Lammen konsertissa. Oli vain yksi ongelma. Kun Freddy lauloi se kuulosti ruosteiselta kärrynpyörältä jota vuohi työntää soralla.", "Freddy harjoitteli joka aamu. Kalat tukkivat korvansa. Linnut lensivät pois. Lumpeet aaltoilivat ääniaallosta. Mutta Freddy ei luovuttanut.", "Konsertti-iltana Freddy astui esiin otti valtavan hengen ja kronksi täydellä voimallaan. Yleisö oli hetken hiljaa. Sitten kaikki purskahtivat nauruun — ja antoivat hänelle seisovaansuosionosoituksen. Koska hänen hirveä laulunsa oli iloisin ääni mitä he olivat koskaan kuulleet."], "moral": "Tee mitä rakastat täydellä sydämelläsi — vaikka teet sen huonosti. Ilo tarttuu.", "cat": "Hauska"}, {"id": 15, "c": "funny", "e": "🐷", "bg": "linear-gradient(135deg,#e91e63,#c2185b)", "cc": "#f48fb1", "title": "Sika joka halusi lentää", "pages": ["Pertti-sika oli koko elämänsä katsonut lintujen lentoa ja päättänyt että hänkin oppii. Hän yritti läpätä pieniä sorkkiaan aamiaisella. Hän hyppäsi heinäsuovista lounasaikaan. Hän käytti sulkahattua päivällisellä.", "\"Siat eivät voi lentää\" sanoi kaikki tilalla — lehmä hevonen kana jopa hyvin filosofinen ankka. Mutta Pertti jatkoi harjoittelemista.", "Eräänä myrskypäivänä ladon katto lähti tuulen mukana — suoraan aidan yli suoraan mutaan. Pertti katsoi sitä ja kohautti olan. \"No niin\" hän sanoi \"lato voi lentää. Lähellä edes.\" Ja hän oli äärimmäisen ylpeä."], "moral": "Jotkut unelmat muuttavat muotoaan matkan varrella — se ei ole epäonnistuminen se on viisaus.", "cat": "Hauska"}, {"id": 16, "c": "funny", "e": "🦉", "bg": "linear-gradient(135deg,#4e342e,#6d4c41)", "cc": "#ffcc80", "title": "Pöllö joka ei osannut sanoa Kuka", "pages": ["Oliver-pöllöllä oli ongelma — jokainen pöllö osaa sanoa KUKA mutta Oliver pystyi sanomaan vain MITÄ. \"MITÄ! MITÄ!\" hän huusi joka yö. Metsä oli hyvin hämmentynyt.", "\"Kuka siellä?\" kysyi kettu eräänä pimeänä iltana. \"MITÄ!\" vastasi Oliver. \"Mitä missä?\" kysyi kettu aiempaa hämmentyneempänä. He jatkoivat näin hyvin pitkän aikaa.", "Lopulta kettu luovutti yrittämästä ja vain istui Oliverin viereen. He katselivat tähtiä yhdessä mukavassa hiljaisuudessa. Oliver ajatteli — ehkä MITÄ on oikea kysymys loppujen lopuksi. Mikä tähti on tuo? Mikä ääni on tuo? Miten mahtava maailma."], "moral": "Kysymällä MITÄ ympäröivästä maailmasta voi löytää yhtä monia upeita löytöjä kuin kysymällä KUKA.", "cat": "Hauska"}, {"id": 17, "c": "funny", "e": "🐒", "bg": "linear-gradient(135deg,#e65100,#bf360c)", "cc": "#ffcc80", "title": "Apina joka varasti kuninkaan kruunun", "pages": ["Makke-apina piti kuninkaan kultaista kruunua erittäin mukavan näköisenä hedelmäkulhona. Joten eräänä iltapäivänä kuninkaan nokostaessa hän hiljaa lainasi sen ja täytti sen banaaneilla.", "Koko palatsi oli hälytystilassa. Vartijat etsivät kaikkialta. Mutta Makke istui mangopuussa kruunu-hedelmäkulho päässään näyttäen äärimmäisen kuninkaalliselta.", "Kuningas löysi hänet lopulta eikä pystynyt lopettamaan nauramistaan. \"Tiedättekös\" kuningas sanoi ottaen banaanin \"tämä ON erinomainen hedelmäkulho.\" Hän antoi Makkelle oikean kultaisen kulhon ja Makke palautti kruunun. Kaikki olivat onnellisia."], "moral": "Nauru voi ratkaista ongelmia joita vakavuus ei pysty. Älä koskaan ole liian tärkeä näkemään hauskaa puolta.", "cat": "Hauska"}, {"id": 18, "c": "adventure", "e": "🚀", "bg": "linear-gradient(135deg,#1a237e,#311b92)", "cc": "#9fa8da", "title": "Tyttö joka rakensi raketin", "pages": ["Nina oli seitsemänvuotias ja täysin varma siitä että hän pystyisi rakentamaan raketin pahvilaatikoista tölkeistä ja päättäväisyydestä. Kaikki sanoivat sen olevan mahdotonta. Hän alkoi rakentaa silti.", "Seitsemäntoista epäonnistuneen prototyypin ja yhden erittäin säikähtänyttä kissaa koskettaneen tapauksen jälkeen Ninan Raketti numero kahdeksantoista viimein toimi — se lensi 40 metriä pihalla ja laskeutui Rouva Johnssonin ruusupensaisiin.", "\"Nuori neiti!\" huusi Rouva Johnsson aidan yli pitäen kuluneessa rakettia kädessään. Sitten hän hymyili. \"Kun rakennat raketin numero yhdeksäntoista tähtää hieman enemmän vasemmalle. Haluatko limonadia? Haluan kuulla kaiken.\""], "moral": "Epäonnistuminen on vain prototyypin rakentamista. Jokainen yritys vie sinut lähemmäs tähtiä.", "cat": "Seikkailu"}];
+
+var sbCurCat='all', sbCurIdx=0;
+
+function sbGetStories(){
+  var data=SB[LG]||SB.en;
+  if(sbCurCat==='all') return data;
+  return data.filter(function(s){return s.c===sbCurCat;});
+}
+
+function sbCatColor(c){
+  var m={adventure:'#90caf9',animals:'#a5d6a7',magic:'#ce93d8',nature:'#69f0ae',funny:'#ffcc80'};
+  return m[c]||'#ffb627';
+}
+
+function sbRender(){
+  var stories=sbGetStories();
+  var track=document.getElementById('sbTrack');
+  if(!track) return;
+  track.innerHTML='';
+  stories.forEach(function(story,idx){
+    var card=document.createElement('div');
+    card.style.cssText='min-width:175px;max-width:175px;border-radius:18px;cursor:pointer;transition:transform .22s;border:1.5px solid rgba(255,255,255,.12);flex-shrink:0;overflow:hidden;';
+    var catName=sbGetCatName(story.c);
+    var cc=sbCatColor(story.c);
+    card.innerHTML=
+      '<div style="width:100%;height:115px;display:flex;align-items:center;justify-content:center;font-size:3.5rem;background:'+story.bg+'">'+story.e+'</div>'+
+      '<div style="padding:10px 11px 12px;background:rgba(15,5,35,.92)">'+
+        '<span style="font-family:Fredoka One,cursive;font-size:.58rem;letter-spacing:1px;padding:2px 8px;border-radius:50px;color:'+cc+';background:rgba(0,0,0,.3);border:1px solid '+cc+';display:inline-block;margin-bottom:4px">'+catName+'</span>'+
+        '<div style="font-family:Fredoka One,cursive;font-size:.88rem;color:#fff;line-height:1.25;margin-bottom:4px">'+story.title+'</div>'+
+        '<div style="font-size:.7rem;color:rgba(255,255,255,.45);font-weight:600;line-height:1.4;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical">'+story.pages[0].substring(0,70)+'...</div>'+
+        '<div style="font-family:Fredoka One,cursive;font-size:.65rem;color:#ffb627;margin-top:6px">'+(LG==='fi'?'Lue tarina ▶':'Read story ▶')+'</div>'+
+      '</div>';
+    (function(s,i){
+      card.addEventListener('click',function(){sbOpen(s,i);});
+      card.addEventListener('mouseover',function(){card.style.transform='translateY(-5px) scale(1.03)';});
+      card.addEventListener('mouseout',function(){card.style.transform='none';});
+    })(story,idx);
+    track.appendChild(card);
+  });
+  // dots
+  var dots=document.getElementById('sbDots');
+  if(dots){
+    dots.innerHTML='';
+    var pages=Math.ceil(stories.length/4);
+    for(var i=0;i<pages;i++){
+      var dot=document.createElement('div');
+      dot.style.cssText='width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.25);cursor:pointer;transition:background .2s;';
+      if(i===0)dot.style.background='#ffb627';
+      dots.appendChild(dot);
+    }
+  }
+}
+
+function sbGetCatName(c){
+  var m={
+    adventure:{en:'Adventure',fi:'Seikkailu'},
+    animals:{en:'Animals',fi:'Eläimet'},
+    magic:{en:'Magic',fi:'Taikuus'},
+    nature:{en:'Nature',fi:'Luonto'},
+    funny:{en:'Funny',fi:'Hauska'}
+  };
+  return m[c]?(m[c][LG]||m[c].en):c;
+}
+
+function sbOpen(story,idx){
+  sbCurIdx=idx;
+  var modal=document.getElementById('sbModal');
+  var em=document.getElementById('sbMEmoji');
+  if(em){em.textContent=story.e;document.getElementById('sbMCover').style.background=story.bg;}
+  var t=document.getElementById('sbMTitle');if(t)t.textContent=story.title;
+  var cc=sbCatColor(story.c);
+  var badge=document.getElementById('sbMCatBadge');
+  if(badge){badge.textContent=sbGetCatName(story.c);badge.style.color=cc;}
+  // Show first page only - user navigates page by page
+  sbCurPage=0;
+  sbShowPage(story);
+  var ml=document.getElementById('sbMoralLabel');
+  if(ml)ml.textContent=LG==='fi'?'🌟 OPETUS':'🌟 THE MORAL';
+  var bc=document.getElementById('sbBClose');if(bc)bc.textContent=LG==='fi'?'📚 Takaisin tarinoihin':'📚 Back to Stories';
+  var bp=document.getElementById('sbBPrev');if(bp)bp.textContent=LG==='fi'?'◀ Edellinen':'◀ Previous';
+  var bn=document.getElementById('sbBNext');if(bn)bn.textContent=LG==='fi'?'Seuraava ▶':'Next ▶';
+  var by=document.getElementById('sbMBy');if(by)by.textContent=LG==='fi'?'✨ Lue ääneen perheesi kanssa!':'✨ Read aloud with your family!';
+  if(modal){modal.style.display='flex';document.body.style.overflow='hidden';}
+}
+
+function sbClose(){
+  var modal=document.getElementById('sbModal');
+  if(modal){modal.style.display='none';document.body.style.overflow='';}
+}
+
+var sbCurPage=0;
+
+function sbNext(){
+  var stories=sbGetStories();
+  var story=stories[sbCurIdx];
+  if(sbCurPage < story.pages.length-1){
+    // Go to next PAGE within same story
+    sbCurPage++;
+    sbShowPage(story);
+  } else {
+    // Last page - go to next STORY
+    sbCurIdx=(sbCurIdx+1)%stories.length;
+    sbCurPage=0;
+    sbOpen(stories[sbCurIdx],sbCurIdx);
+  }
+}
+
+function sbPrev(){
+  var stories=sbGetStories();
+  var story=stories[sbCurIdx];
+  if(sbCurPage > 0){
+    // Go to previous PAGE within same story
+    sbCurPage--;
+    sbShowPage(story);
+  } else {
+    // First page - go to previous STORY
+    sbCurIdx=(sbCurIdx-1+stories.length)%stories.length;
+    var prevStory=stories[sbCurIdx];
+    sbCurPage=prevStory.pages.length-1;
+    sbOpen(prevStory,sbCurIdx);
+  }
+}
+
+function sbShowPage(story){
+  var cc=sbCatColor(story.c);
+  var txt=document.getElementById('sbMText');
+  if(txt){
+    txt.innerHTML='';
+    var p=document.createElement('p');
+    p.style.cssText='margin-bottom:12px;font-size:.95rem;line-height:1.9;color:rgba(255,255,255,.9);font-weight:600;';
+    p.textContent=story.pages[sbCurPage];
+    txt.appendChild(p);
+  }
+  // Show moral only on last page
+  var moralBox=document.getElementById('sbMoral');
+  if(moralBox){
+    if(sbCurPage===story.pages.length-1){
+      moralBox.style.display='block';
+      var moral=document.getElementById('sbMoralText');
+      if(moral)moral.textContent=story.moral;
+    } else {
+      moralBox.style.display='none';
+    }
+  }
+  // Page counter
+  var counter=document.getElementById('sbPageCount');
+  if(counter)counter.textContent=(LG==='fi'?'Sivu ':'Page ')+(sbCurPage+1)+' / '+story.pages.length;
+  // Update page dots
+  var dotsEl=document.getElementById('sbPageDots');
+  if(dotsEl){
+    dotsEl.innerHTML='';
+    for(var di=0;di<story.pages.length;di++){
+      var dot=document.createElement('div');
+      dot.style.cssText='width:8px;height:8px;border-radius:50%;background:'+(di===sbCurPage?cc:'rgba(255,255,255,.2)')+';transition:background .2s;cursor:pointer;';
+      (function(pg){dot.addEventListener('click',function(){sbCurPage=pg;sbShowPage(story);});})(di);
+      dotsEl.appendChild(dot);
+    }
+  }
+  // Update button labels
+  var bp=document.getElementById('sbBPrev');
+  var bn=document.getElementById('sbBNext');
+  var stories=sbGetStories();
+  if(bp){
+    if(sbCurPage===0){
+      bp.textContent=LG==='fi'?'◀ Edellinen tarina':'◀ Prev Story';
+      bp.style.opacity='0.6';
+    } else {
+      bp.textContent=LG==='fi'?'◀ Edellinen sivu':'◀ Prev Page';
+      bp.style.opacity='1';
+    }
+  }
+  if(bn){
+    if(sbCurPage===story.pages.length-1){
+      bn.textContent=LG==='fi'?'Seuraava tarina ▶':'Next Story ▶';
+      bn.style.background='linear-gradient(135deg,#7ed957,#4aaa22)';
+    } else {
+      bn.textContent=LG==='fi'?'Seuraava sivu ▶':'Next Page ▶';
+      bn.style.background='rgba(255,255,255,.1)';
+    }
+  }
+}
+
+function sbFilter(cat){
+  sbCurCat=cat;
+  document.querySelectorAll('#g-stories .ngt').forEach(function(b){b.classList.remove('on');});
+  var ids={all:'sbAll',adventure:'sbAdv',animals:'sbAni',magic:'sbMag',nature:'sbNat',funny:'sbFun'};
+  var el=document.getElementById(ids[cat]);if(el)el.classList.add('on');
+  sbRender();sClk();
+}
+
+function sbScroll(dir){
+  var t=document.getElementById('sbTrack');
+  if(t)t.scrollLeft+=dir*380;
+}
+
+// Hook into setLang
+var _origSetLang4=setLang;
+setLang=function(l){
+  _origSetLang4(l);
+  var sub=document.getElementById('lStoriesSub');
+  if(sub)sub.textContent=l==='fi'?'Napauta tarinaa lukeaksesi sen! Uusia seikkailuja joka kerta 🌟':'Tap any story to read it! New adventures every time 🌟';
+  var tSt=document.getElementById('tStories');if(tSt)tSt.textContent=l==='fi'?'📚 Tarinakirja':'📚 Story Book';
+  var cats={sbAll:{en:'🌟 All',fi:'🌟 Kaikki'},sbAdv:{en:'🗺️ Adventure',fi:'🗺️ Seikkailu'},sbAni:{en:'🐾 Animals',fi:'🐾 Eläimet'},sbMag:{en:'✨ Magic',fi:'✨ Taikuus'},sbNat:{en:'🌿 Nature',fi:'🌿 Luonto'},sbFun:{en:'😄 Funny',fi:'😄 Hauska'}};
+  Object.keys(cats).forEach(function(id){var e=document.getElementById(id);if(e)e.textContent=cats[id][l]||cats[id].en;});
+  document.querySelectorAll('.nb[data-g="stories"]').forEach(function(b){b.textContent=l==='fi'?'📚 Tarinat':'📚 Stories';});
+  sbRender();
+};
+
+sbRender();
 
 setLang('en');
 </script>
