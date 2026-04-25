@@ -158,22 +158,7 @@ learnkids, learn kids online, kids fun zone, lapset oppiminen pelaaminen
 <meta name="google-site-verification" content="CfzaKXigs9ze6N7dRUcD6GYglYD28__0eatJIGwnGQg">
 
 <!-- ═══ GOOGLE ANALYTICS GA4 ═══ -->
-<!-- Google Analytics GA4 + Consent Mode - G-K7X0JG40CB -->
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  // Set consent defaults BEFORE loading GA (required for GDPR/EEA)
-  var _ck = typeof localStorage !== 'undefined' ? localStorage.getItem('cookieConsent') : null;
-  gtag('consent', 'default', {
-    'analytics_storage': _ck === 'accepted' ? 'granted' : 'denied',
-    'ad_storage': _ck === 'accepted' ? 'granted' : 'denied',
-    'ad_user_data': _ck === 'accepted' ? 'granted' : 'denied',
-    'ad_personalization': _ck === 'accepted' ? 'granted' : 'denied',
-    'wait_for_update': 500
-  });
-  gtag('js', new Date());
-  gtag('config', 'G-K7X0JG40CB');
-</script>
+<!-- Google Analytics GA4 - G-K7X0JG40CB -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-K7X0JG40CB"></script>
 
 <!-- ═══ GOOGLE ADSENSE ═══ -->
@@ -285,14 +270,26 @@ footer{position:relative;z-index:5;background:rgba(0,0,0,.55);border-top:1.5px s
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
 </style>
 
+
+<!-- Google Analytics GA4 + Consent Mode -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  var _ck = typeof localStorage !== 'undefined' ? localStorage.getItem('cookieConsent') : null;
+  gtag('consent', 'default', {
+    'analytics_storage': _ck === 'accepted' ? 'granted' : 'denied',
+    'ad_storage': _ck === 'accepted' ? 'granted' : 'denied',
+    'wait_for_update': 500
+  });
+  gtag('js', new Date());
+  gtag('config', 'G-K7X0JG40CB');
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-K7X0JG40CB"></script>
+
 </head>
 <body>
+<div id="cookieBanner" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:2147483640;background:linear-gradient(135deg,#1a0e38,#0d2240);border-top:2px solid rgba(255,182,39,.4);padding:14px 20px;box-shadow:0 -4px 30px rgba(0,0,0,.5)"><div style="max-width:900px;margin:0 auto;display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:space-between"><div style="flex:1;min-width:220px"><div style="font-family:'Fredoka One',cursive;font-size:.95rem;color:#ffb627;margin-bottom:3px">🍪 We use cookies</div><div style="font-size:.75rem;color:rgba(255,255,255,.65);font-weight:600">We use cookies to improve your experience. Accept or decline.</div></div><div style="display:flex;gap:8px"><button onclick="cookieDecline()" style="font-family:'Fredoka One',cursive;font-size:.8rem;padding:8px 16px;border:1.5px solid rgba(255,255,255,.2);border-radius:50px;background:transparent;color:rgba(255,255,255,.7);cursor:pointer">❌ Decline</button><button onclick="cookieAccept()" style="font-family:'Fredoka One',cursive;font-size:.8rem;padding:8px 18px;border:none;border-radius:50px;background:linear-gradient(135deg,#ff6b47,#ffb627);color:#fff;cursor:pointer">✅ Accept</button></div></div></div>
 
-<!-- ═══ COOKIE CONSENT BANNER (GDPR/EEA) ═══ -->
-<div id="cookieBanner" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:99999999;background:linear-gradient(135deg,#1a0e38,#0d2240);border-top:2px solid rgba(255,182,39,.4);padding:16px 20px;box-shadow:0 -4px 30px rgba(0,0,0,.5)">
-  <div style="max-width:900px;margin:0 auto;display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:space-between">
-    <div style="flex:1;min-width:260px">
-      <div style="font-family:'Fredoka One',cursive;font-size:1rem;color:#ffb627;margin-bottom:4px">🍪 We use cookies</div>
       <div style="font-size:.78rem;color:rgba(255,255,255,.7);font-weight:600;line-height:1.5" id="cookieText">We use cookies to improve your experience and show relevant ads. You can choose to accept or decline. Your choice will be remembered.</div>
     </div>
     <div style="display:flex;gap:8px;flex-wrap:wrap">
@@ -1697,166 +1694,175 @@ var WD_DIFF='easy';
 
 // ═══ DRAW (fixed cursor) ═══
 var dC='#111',dSz=4,dEr=false,dHist=[],dDrw=false,dLX=0,dLY=0;
-var cvs=G('cvs'),ctx=cvs.getContext('2d');
-function szCvs(){var w=cvs.parentElement.clientWidth-4;cvs.width=w;cvs.height=Math.min(280,Math.floor(w*.52));ctx.fillStyle='#fff';ctx.fillRect(0,0,cvs.width,cvs.height);}
-szCvs();
+var cvs;
+function szCvs(){if(!cvs||!cvs.parentElement)return;var w=cvs.parentElement.clientWidth-4;cvs.width=w;cvs.height=Math.min(280,Math.floor(w*.52));ctx.fillStyle='#fff';ctx.fillRect(0,0,cvs.width,cvs.height);}
 function gPt(e,c){var r=c.getBoundingClientRect();return[(e.clientX-r.left)*(c.width/r.width),(e.clientY-r.top)*(c.height/r.height)];}
 function snap(c,ct,h){h.push(ct.getImageData(0,0,c.width,c.height));if(h.length>25)h.shift();}
 function doDr(e){var p=gPt(e,cvs);ctx.beginPath();ctx.moveTo(dLX,dLY);ctx.lineTo(p[0],p[1]);ctx.strokeStyle=dEr?'#fff':dC;ctx.lineWidth=dSz;ctx.lineCap='round';ctx.lineJoin='round';ctx.stroke();dLX=p[0];dLY=p[1];}
-cvs.addEventListener('mousedown',function(e){e.preventDefault();dDrw=true;var p=gPt(e,cvs);dLX=p[0];dLY=p[1];snap(cvs,ctx,dHist);});
-cvs.addEventListener('mousemove',function(e){if(dDrw)doDr(e);});
-cvs.addEventListener('mouseup',function(){dDrw=false;});cvs.addEventListener('mouseleave',function(){dDrw=false;});
-cvs.addEventListener('touchstart',function(e){e.preventDefault();dDrw=true;var p=gPt(e.touches[0],cvs);dLX=p[0];dLY=p[1];snap(cvs,ctx,dHist);},{passive:false});
-cvs.addEventListener('touchmove',function(e){e.preventDefault();if(dDrw)doDr(e.touches[0]);},{passive:false});
-cvs.addEventListener('touchend',function(){dDrw=false;});
-function clearDraw(){ctx.fillStyle='#fff';ctx.fillRect(0,0,cvs.width,cvs.height);dHist=[];}
-G('dUn').addEventListener('click',function(){if(dHist.length>0)ctx.putImageData(dHist.pop(),0,0);});
-G('dCl').addEventListener('click',clearDraw);G('dBlank').addEventListener('click',clearDraw);
-G('dSv').addEventListener('click',function(){var a=document.createElement('a');a.download='drawing.png';a.href=cvs.toDataURL();a.click();toast(T('saved'));});
-document.querySelectorAll('.dcol').forEach(function(d){d.addEventListener('click',function(){dEr=false;document.querySelectorAll('.dcol').forEach(function(x){x.classList.remove('on');});d.classList.add('on');dC=d.getAttribute('data-c');});});
-document.querySelectorAll('.dsz').forEach(function(b){b.addEventListener('click',function(){document.querySelectorAll('.dsz').forEach(function(x){x.classList.remove('on');});b.classList.add('on');if(b.getAttribute('data-er')==='1'){dEr=true;dSz=26;}else{dEr=false;dSz=parseInt(b.getAttribute('data-s'));}});});
-function drawTpl(tp){clearDraw();ctx.strokeStyle='#555';ctx.lineWidth=3;ctx.lineCap='round';var W=cvs.width,H=cvs.height;if(tp==='house'){ctx.beginPath();ctx.rect(W*.3,H*.44,W*.4,H*.46);ctx.stroke();ctx.beginPath();ctx.moveTo(W*.24,H*.44);ctx.lineTo(W*.5,H*.09);ctx.lineTo(W*.76,H*.44);ctx.stroke();ctx.beginPath();ctx.rect(W*.44,H*.64,W*.12,H*.26);ctx.stroke();}else if(tp==='sun'){ctx.beginPath();ctx.arc(W*.5,H*.46,H*.2,0,2*Math.PI);ctx.stroke();for(var i=0;i<12;i++){var a=i*(Math.PI/6),r1=H*.26,r2=H*.34;ctx.beginPath();ctx.moveTo(W*.5+Math.cos(a)*r1,H*.46+Math.sin(a)*r1);ctx.lineTo(W*.5+Math.cos(a)*r2,H*.46+Math.sin(a)*r2);ctx.stroke();}}else if(tp==='tree'){ctx.beginPath();ctx.rect(W*.46,H*.55,W*.08,H*.36);ctx.stroke();ctx.beginPath();ctx.moveTo(W*.5,H*.08);ctx.lineTo(W*.24,H*.55);ctx.lineTo(W*.76,H*.55);ctx.closePath();ctx.stroke();}else if(tp==='cat'){ctx.beginPath();ctx.arc(W*.5,H*.42,H*.24,0,2*Math.PI);ctx.stroke();ctx.beginPath();ctx.moveTo(W*.3,H*.2);ctx.lineTo(W*.22,H*.06);ctx.lineTo(W*.42,H*.22);ctx.stroke();ctx.beginPath();ctx.moveTo(W*.7,H*.2);ctx.lineTo(W*.78,H*.06);ctx.lineTo(W*.58,H*.22);ctx.stroke();}}
-document.querySelectorAll('[data-tpl]').forEach(function(btn){btn.addEventListener('click',function(){drawTpl(btn.getAttribute('data-tpl'));});});
-// ═══ PIANO ═══
-var pN=[{f:261.63,l:'C',k:'A'},{f:293.66,l:'D',k:'S'},{f:329.63,l:'E',k:'D'},{f:349.23,l:'F',k:'F'},{f:392,l:'G',k:'G'},{f:440,l:'A',k:'H'},{f:493.88,l:'B',k:'J'},{f:523.25,l:'C5',k:'K'},{f:587.33,l:'D5',k:'L'}];
-var pC=['#ffd6e0','#ffe0c4','#fff4c4','#d4f5c4','#c4e4ff','#ddc4ff','#ffc4ee','#ffd6e0','#ffe0c4'];
-(function(){var c=G('pKs');c.innerHTML='';pN.forEach(function(n,i){var k=document.createElement('button');k.className='pk';k.id='pk'+i;k.style.background='linear-gradient(180deg,'+pC[i]+',#fff)';k.style.color='#444';k.innerHTML='<span>'+n.l+'<br><small style="font-size:.55rem;color:#bbb">'+n.k+'</small></span>';k.addEventListener('mousedown',function(){sNote(n.f);k.classList.add('on');});k.addEventListener('mouseup',function(){k.classList.remove('on');});k.addEventListener('touchstart',function(e){e.preventDefault();sNote(n.f);k.classList.add('on');},{passive:false});k.addEventListener('touchend',function(){k.classList.remove('on');});c.appendChild(k);});})();
-var km={'a':0,'s':1,'d':2,'f':3,'g':4,'h':5,'j':6,'k':7,'l':8};
-document.addEventListener('keydown',function(e){if(!G('g-piano').classList.contains('on'))return;var i=km[e.key.toLowerCase()];if(i===undefined)return;sNote(pN[i].f);var pk=G('pk'+i);if(pk)pk.classList.add('on');});
-document.addEventListener('keyup',function(e){var i=km[e.key.toLowerCase()];if(i===undefined)return;var pk=G('pk'+i);if(pk)pk.classList.remove('on');});
-var songs={hb:{n:[0,0,1,0,3,2,0,0,1,0,4,3,0,0,7,5,3,2,1,6,6,5,3,4,3],d:[0,.3,.3,.6,.6,.6,1.2,.3,.3,.6,.6,.6,1.2,.3,.3,.6,.6,.6,.6,1.2,.3,.3,.6,.6,1]},tw:{n:[0,0,4,4,5,5,4,3,3,2,2,1,1,0,4,4,3,3,2,2,1,4,4,3,3,2,2,1,0,0,4,4,5,5,4,3,3,2,2,1,1,0],d:Array(42).fill(.4)},hcb:{n:[2,1,0,2,1,0,0,0,0,0,1,1,1,1,2,1,0],d:[.4,.4,.8,.4,.4,.8,.25,.25,.25,.25,.25,.25,.25,.25,.4,.4,.8]},ml:{n:[2,1,0,1,2,2,2,1,1,1,2,4,4,2,1,0,1,2,2,2,1,1,2,1,0],d:Array(25).fill(.35)}};
-var pTOs=[];
-document.querySelectorAll('[data-song]').forEach(function(btn){btn.addEventListener('click',function(){pTOs.forEach(clearTimeout);pTOs=[];var id=btn.getAttribute('data-song'),s=songs[id];var tt=0;s.n.forEach(function(ni,i){tt+=s.d[i];(function(ni2,t2){pTOs.push(setTimeout(function(){sNote(pN[ni2].f);var pk=G('pk'+ni2);if(pk){pk.classList.add('on');setTimeout(function(){pk.classList.remove('on');},220);}},t2*1000));})(ni,tt);});});});
-// ═══ SIMON ═══
-var simSeq=[],simP=[],simSc=0,simBt=0,simOn=false,simPlay=false;
-G('simGo').addEventListener('click',startSim);
-for(var si=0;si<4;si++){(function(idx){G('sb'+idx).addEventListener('click',function(){simClk(idx);});})(si);}
-function startSim(){simSeq=[];simP=[];simSc=0;simOn=true;setText('simSc',0);G('simGo').style.display='none';setText('simSt',T('simWatch'));simNext();incP();}
-function simNext(){simP=[];simSeq.push(R(0,3));simSc=simSeq.length-1;setText('simSc',simSc);simPlaySeq();}
-function simPlaySeq(){simPlay=true;var tt=570;simSeq.forEach(function(b,i){setTimeout(function(){simLit(b,360);beep([260,320,380,440][b],.3,'sine',.25,0);},tt*i);});setTimeout(function(){simPlay=false;setText('simSt',T('simYours'));},tt*simSeq.length);}
-function simLit(b,d){var e=G('sb'+b);e.classList.add('lit');setTimeout(function(){e.classList.remove('lit');},d);}
-function simClk(b){if(!simOn||simPlay)return;simLit(b,190);beep([260,320,380,440][b],.15,'sine',.25,0);simP.push(b);var i=simP.length-1;if(simP[i]!==simSeq[i]){simOn=false;sNo();setText('simSt',T('simOver')+simSc);if(simSc>simBt){simBt=simSc;setText('simBt',simBt);}addS(simSc);setTimeout(function(){G('simGo').style.display='inline-block';},900);return;}if(simP.length===simSeq.length){simSc++;setText('simSc',simSc);addS(1);sOk();setText('simSt',T('simNext'));setTimeout(simNext,820);}}
-// ═══ SNAKE ═══
-var snC=G('snc'),snX=snC.getContext('2d');
-var GR=17,GCL=20,GRW=20;
-var snBody=[],snDir={x:1,y:0},snNx={x:1,y:0},snFood={},snSc=0,snBt=0,snRun=false,snIv=null;
-function startSn(){clearInterval(snIv);snRun=true;snSc=0;snBody=[{x:10,y:10},{x:9,y:10},{x:8,y:10}];snDir={x:1,y:0};snNx={x:1,y:0};snPlace();G('snOv').style.display='none';setText('snSc',0);snIv=setInterval(snTick,130);incP();}
-function snPlace(){snFood={x:R(0,GCL-1),y:R(0,GRW-1)};}
-function snTick(){snDir.x=snNx.x;snDir.y=snNx.y;var h={x:snBody[0].x+snDir.x,y:snBody[0].y+snDir.y};if(h.x<0||h.x>=GCL||h.y<0||h.y>=GRW){snDie();return;}for(var i=0;i<snBody.length;i++){if(snBody[i].x===h.x&&snBody[i].y===h.y){snDie();return;}}snBody.unshift(h);if(h.x===snFood.x&&h.y===snFood.y){snSc+=10;setText('snSc',snSc);addS(1);sPop();snPlace();}else snBody.pop();drawSn();}
-function snDie(){clearInterval(snIv);snRun=false;if(snSc>snBt){snBt=snSc;setText('snBt',snBt);}G('snOv').style.display='flex';setText('snMsg',T('snOver')+snSc);sNo();}
-function drawSn(){snX.fillStyle='#030d08';snX.fillRect(0,0,snC.width,snC.height);snX.strokeStyle='rgba(126,217,87,.05)';snX.lineWidth=1;for(var x=0;x<=GCL;x++){snX.beginPath();snX.moveTo(x*GR,0);snX.lineTo(x*GR,snC.height);snX.stroke();}for(var y=0;y<=GRW;y++){snX.beginPath();snX.moveTo(0,y*GR);snX.lineTo(snC.width,y*GR);snX.stroke();}snX.font=(GR-1)+'px serif';snX.textAlign='center';snX.textBaseline='middle';snX.fillText('🍎',snFood.x*GR+GR/2,snFood.y*GR+GR/2);snBody.forEach(function(s,i){snX.fillStyle=i===0?'#a8ff78':'#7ed957';snX.beginPath();snX.arc(s.x*GR+GR/2,s.y*GR+GR/2,GR/2-1,0,2*Math.PI);snX.fill();});}
-G('snGo').addEventListener('click',startSn);
-G('dpU').addEventListener('click',function(){if(snDir.y!==0)return;snNx={x:0,y:-1};});G('dpD').addEventListener('click',function(){if(snDir.y!==0)return;snNx={x:0,y:1};});G('dpL').addEventListener('click',function(){if(snDir.x!==0)return;snNx={x:-1,y:0};});G('dpR').addEventListener('click',function(){if(snDir.x!==0)return;snNx={x:1,y:0};});
-document.addEventListener('keydown',function(e){if(!G('g-snake').classList.contains('on'))return;if(e.key==='ArrowUp'&&snDir.y===0){snNx={x:0,y:-1};e.preventDefault();}else if(e.key==='ArrowDown'&&snDir.y===0){snNx={x:0,y:1};e.preventDefault();}else if(e.key==='ArrowLeft'&&snDir.x===0){snNx={x:-1,y:0};e.preventDefault();}else if(e.key==='ArrowRight'&&snDir.x===0){snNx={x:1,y:0};e.preventDefault();}});
-drawSn();
-// ═══ MOLE ═══
-var moEmj=['🐹','🐭','🦔','🐿️'];
-var moSc=0,moTm=30,moTI=null,moSI=null,moOn=false,moMs=0;
-(function(){var g=G('mgrd');g.innerHTML='';for(var i=0;i<9;i++){var h=document.createElement('div');h.className='mhole';h.id='mh'+i;var f=document.createElement('div');f.className='mfc';f.textContent='🐹';h.appendChild(f);g.appendChild(h);(function(idx){h.addEventListener('click',function(){whack(idx);});})(i);}})();
-G('moGo').addEventListener('click',startMo);
-function startMo(){if(moOn)return;moOn=true;moSc=0;moTm=30;moMs=0;setText('moSc',0);setText('moTm',30);setText('moMs',0);G('moSA').style.display='none';moTI=setInterval(function(){moTm--;setText('moTm',moTm);if(moTm<=0)endMo();},1000);moSI=setInterval(popMo,680);incP();}
-function popMo(){var free=[];document.querySelectorAll('.mhole').forEach(function(h){if(!h.classList.contains('up'))free.push(h);});if(!free.length)return;var h=free[R(0,free.length-1)];var bomb=Math.random()<.15;h.querySelector('.mfc').textContent=bomb?'💣':moEmj[R(0,moEmj.length-1)];h.dataset.b=bomb?'1':'0';h.classList.add('up');setTimeout(function(){if(h.classList.contains('up')){h.classList.remove('up');if(!bomb){moMs++;setText('moMs',moMs);}}},1300+R(0,500));}
-function whack(i){var h=G('mh'+i);if(!h.classList.contains('up')||!moOn)return;h.classList.remove('up');h.classList.add('wk');setTimeout(function(){h.classList.remove('wk');},170);if(h.dataset.b==='1'){sNo();moSc=Math.max(0,moSc-15);toast(T('whackBoom'));}else{sPop();moSc+=10;addS(1);toast(T('whackHit'));}setText('moSc',moSc);}
-function endMo(){clearInterval(moTI);clearInterval(moSI);moOn=false;document.querySelectorAll('.mhole').forEach(function(h){h.classList.remove('up');});G('moSA').style.display='block';modal('🔨','Whack-a-Mole!','Score: '+moSc);addS(Math.floor(moSc/10));sWin();}
-// ═══ DINO ═══
-var dnC=G('dnc'),dnX=dnC.getContext('2d');
-var DCW=600,DCH=170,GND=128;
-var dnY=GND,dnVY=0,dnJumps=0,dnSc=0,dnBt=0,dnRun=false,dnRAF=null,dnSpd=4,dnFr=0,dnObs=[];
-function jumpDn(){if(!dnRun){startDn();return;}if(dnJumps<2){dnVY=-11;dnJumps++;beep(440,.1,'sine',.18);}}
-dnC.addEventListener('click',jumpDn);dnC.addEventListener('touchstart',function(e){e.preventDefault();jumpDn();},{passive:false});
-document.addEventListener('keydown',function(e){if(e.code==='Space'&&G('g-dino').classList.contains('on')){e.preventDefault();jumpDn();}});
-function startDn(){if(dnRun)return;dnRun=true;dnY=GND;dnVY=0;dnJumps=0;dnSc=0;dnSpd=4;dnObs=[];dnFr=0;cancelAnimationFrame(dnRAF);dnLoop();incP();}
-function dnLoop(){if(!dnRun)return;dnFr++;dnSc++;setText('dnSc',Math.floor(dnSc/6));if(dnFr%300===0&&dnSpd<11)dnSpd+=.5;dnVY+=.7;dnY+=dnVY;if(dnY>=GND){dnY=GND;dnVY=0;dnJumps=0;}if(dnFr%Math.max(48,82-dnSpd*3)===0){dnObs.push({x:DCW,h:25+R(0,25),w:16+R(0,12)});}dnObs.forEach(function(o){o.x-=dnSpd;});dnObs=dnObs.filter(function(o){return o.x>-50;});var sc=dnC.width/DCW;for(var oi=0;oi<dnObs.length;oi++){var o=dnObs[oi];if(60*sc+28*sc>o.x*sc&&60*sc<(o.x+o.w)*sc&&(dnY+36)*sc>(GND+36-o.h)*sc){dnRun=false;if(dnSc/6>dnBt){dnBt=Math.floor(dnSc/6);setText('dnBt',dnBt);}drawDn(true);sNo();return;}}drawDn(false);dnRAF=requestAnimationFrame(dnLoop);}
-function drawDn(dead){var sc=dnC.width/DCW;dnX.clearRect(0,0,dnC.width,dnC.height);dnX.fillStyle='#0a0520';dnX.fillRect(0,0,dnC.width,dnC.height);dnX.fillStyle='rgba(255,107,71,.28)';dnX.fillRect(0,(GND+36)*sc,dnC.width,3*sc);dnObs.forEach(function(o){dnX.fillStyle='#ff6b47';dnX.fillRect(o.x*sc,(GND+36-o.h)*sc,o.w*sc,o.h*sc);});dnX.font=(35*sc)+'px serif';dnX.textAlign='center';dnX.textBaseline='bottom';dnX.fillText(dead?'💥':'🦕',76*sc,(dnY+36)*sc);if(dead){dnX.fillStyle='rgba(255,255,255,.85)';dnX.font='bold '+(14*sc)+'px sans-serif';dnX.textAlign='center';dnX.fillText(T('dinoOver'),DCW/2*sc,DCH/2*sc);}}
-drawDn(false);
-// ═══ COLORING BOOK ═══
-var cbCvs=G('cbcvs'),cbCtx=cbCvs.getContext('2d');
+// cvs events - init when draw game opens
+var _drawEventsInit=false;
+function initDrawCanvas(){
+  if(_drawEventsInit||!cvs)return;_drawEventsInit=true;
+  cvs.addEventListener('mousedown',function(e){e.preventDefault();dDrw=true;var p=gPt(e,cvs);dLX=p[0];dLY=p[1];snap(cvs,ctx,dHist);});
+  cvs.addEventListener('mousemove',function(e){if(dDrw)doDr(e);});
+  cvs.addEventListener('mouseup',function(){dDrw=false;});cvs.addEventListener('mouseleave',function(){dDrw=false;});
+  cvs.addEventListener('touchstart',function(e){e.preventDefault();dDrw=true;var p=gPt(e.touches[0],cvs);dLX=p[0];dLY=p[1];snap(cvs,ctx,dHist);},{passive:false});
+  cvs.addEventListener('touchmove',function(e){e.preventDefault();if(dDrw)doDr(e.touches[0]);},{passive:false});
+  cvs.addEventListener('touchend',function(){dDrw=false;});
+  function clearDraw(){ctx.fillStyle='#fff';ctx.fillRect(0,0,cvs.width,cvs.height);dHist=[];}
+  G('dUn').addEventListener('click',function(){if(dHist.length>0)ctx.putImageData(dHist.pop(),0,0);});
+  G('dCl').addEventListener('click',clearDraw);G('dBlank').addEventListener('click',clearDraw);
+  G('dSv').addEventListener('click',function(){var a=document.createElement('a');a.download='drawing.png';a.href=cvs.toDataURL();a.click();toast(T('saved'));});
+  document.querySelectorAll('.dcol').forEach(function(d){d.addEventListener('click',function(){dEr=false;document.querySelectorAll('.dcol').forEach(function(x){x.classList.remove('on');});d.classList.add('on');dC=d.getAttribute('data-c');});});
+  document.querySelectorAll('.dsz').forEach(function(b){b.addEventListener('click',function(){document.querySelectorAll('.dsz').forEach(function(x){x.classList.remove('on');});b.classList.add('on');if(b.getAttribute('data-er')==='1'){dEr=true;dSz=26;}else{dEr=false;dSz=parseInt(b.getAttribute('data-s'));}});});
+  function drawTpl(tp){clearDraw();ctx.strokeStyle='#555';ctx.lineWidth=3;ctx.lineCap='round';var W=cvs.width,H=cvs.height;if(tp==='house'){ctx.beginPath();ctx.rect(W*.3,H*.44,W*.4,H*.46);ctx.stroke();ctx.beginPath();ctx.moveTo(W*.24,H*.44);ctx.lineTo(W*.5,H*.09);ctx.lineTo(W*.76,H*.44);ctx.stroke();ctx.beginPath();ctx.rect(W*.44,H*.64,W*.12,H*.26);ctx.stroke();}else if(tp==='sun'){ctx.beginPath();ctx.arc(W*.5,H*.46,H*.2,0,2*Math.PI);ctx.stroke();for(var i=0;i<12;i++){var a=i*(Math.PI/6),r1=H*.26,r2=H*.34;ctx.beginPath();ctx.moveTo(W*.5+Math.cos(a)*r1,H*.46+Math.sin(a)*r1);ctx.lineTo(W*.5+Math.cos(a)*r2,H*.46+Math.sin(a)*r2);ctx.stroke();}}else if(tp==='tree'){ctx.beginPath();ctx.rect(W*.46,H*.55,W*.08,H*.36);ctx.stroke();ctx.beginPath();ctx.moveTo(W*.5,H*.08);ctx.lineTo(W*.24,H*.55);ctx.lineTo(W*.76,H*.55);ctx.closePath();ctx.stroke();}else if(tp==='cat'){ctx.beginPath();ctx.arc(W*.5,H*.42,H*.24,0,2*Math.PI);ctx.stroke();ctx.beginPath();ctx.moveTo(W*.3,H*.2);ctx.lineTo(W*.22,H*.06);ctx.lineTo(W*.42,H*.22);ctx.stroke();ctx.beginPath();ctx.moveTo(W*.7,H*.2);ctx.lineTo(W*.78,H*.06);ctx.lineTo(W*.58,H*.22);ctx.stroke();}}
+  document.querySelectorAll('[data-tpl]').forEach(function(btn){btn.addEventListener('click',function(){drawTpl(btn.getAttribute('data-tpl'));});});
+  // ═══ PIANO ═══
+  var pN=[{f:261.63,l:'C',k:'A'},{f:293.66,l:'D',k:'S'},{f:329.63,l:'E',k:'D'},{f:349.23,l:'F',k:'F'},{f:392,l:'G',k:'G'},{f:440,l:'A',k:'H'},{f:493.88,l:'B',k:'J'},{f:523.25,l:'C5',k:'K'},{f:587.33,l:'D5',k:'L'}];
+  var pC=['#ffd6e0','#ffe0c4','#fff4c4','#d4f5c4','#c4e4ff','#ddc4ff','#ffc4ee','#ffd6e0','#ffe0c4'];
+  (function(){var c=G('pKs');c.innerHTML='';pN.forEach(function(n,i){var k=document.createElement('button');k.className='pk';k.id='pk'+i;k.style.background='linear-gradient(180deg,'+pC[i]+',#fff)';k.style.color='#444';k.innerHTML='<span>'+n.l+'<br><small style="font-size:.55rem;color:#bbb">'+n.k+'</small></span>';k.addEventListener('mousedown',function(){sNote(n.f);k.classList.add('on');});k.addEventListener('mouseup',function(){k.classList.remove('on');});k.addEventListener('touchstart',function(e){e.preventDefault();sNote(n.f);k.classList.add('on');},{passive:false});k.addEventListener('touchend',function(){k.classList.remove('on');});c.appendChild(k);});})();
+  var km={'a':0,'s':1,'d':2,'f':3,'g':4,'h':5,'j':6,'k':7,'l':8};
+  document.addEventListener('keydown',function(e){if(!G('g-piano').classList.contains('on'))return;var i=km[e.key.toLowerCase()];if(i===undefined)return;sNote(pN[i].f);var pk=G('pk'+i);if(pk)pk.classList.add('on');});
+  document.addEventListener('keyup',function(e){var i=km[e.key.toLowerCase()];if(i===undefined)return;var pk=G('pk'+i);if(pk)pk.classList.remove('on');});
+  var songs={hb:{n:[0,0,1,0,3,2,0,0,1,0,4,3,0,0,7,5,3,2,1,6,6,5,3,4,3],d:[0,.3,.3,.6,.6,.6,1.2,.3,.3,.6,.6,.6,1.2,.3,.3,.6,.6,.6,.6,1.2,.3,.3,.6,.6,1]},tw:{n:[0,0,4,4,5,5,4,3,3,2,2,1,1,0,4,4,3,3,2,2,1,4,4,3,3,2,2,1,0,0,4,4,5,5,4,3,3,2,2,1,1,0],d:Array(42).fill(.4)},hcb:{n:[2,1,0,2,1,0,0,0,0,0,1,1,1,1,2,1,0],d:[.4,.4,.8,.4,.4,.8,.25,.25,.25,.25,.25,.25,.25,.25,.4,.4,.8]},ml:{n:[2,1,0,1,2,2,2,1,1,1,2,4,4,2,1,0,1,2,2,2,1,1,2,1,0],d:Array(25).fill(.35)}};
+  var pTOs=[];
+  document.querySelectorAll('[data-song]').forEach(function(btn){btn.addEventListener('click',function(){pTOs.forEach(clearTimeout);pTOs=[];var id=btn.getAttribute('data-song'),s=songs[id];var tt=0;s.n.forEach(function(ni,i){tt+=s.d[i];(function(ni2,t2){pTOs.push(setTimeout(function(){sNote(pN[ni2].f);var pk=G('pk'+ni2);if(pk){pk.classList.add('on');setTimeout(function(){pk.classList.remove('on');},220);}},t2*1000));})(ni,tt);});});});
+  // ═══ SIMON ═══
+  var simSeq=[],simP=[],simSc=0,simBt=0,simOn=false,simPlay=false;
+  G('simGo').addEventListener('click',startSim);
+  for(var si=0;si<4;si++){(function(idx){G('sb'+idx).addEventListener('click',function(){simClk(idx);});})(si);}
+  function startSim(){simSeq=[];simP=[];simSc=0;simOn=true;setText('simSc',0);G('simGo').style.display='none';setText('simSt',T('simWatch'));simNext();incP();}
+  function simNext(){simP=[];simSeq.push(R(0,3));simSc=simSeq.length-1;setText('simSc',simSc);simPlaySeq();}
+  function simPlaySeq(){simPlay=true;var tt=570;simSeq.forEach(function(b,i){setTimeout(function(){simLit(b,360);beep([260,320,380,440][b],.3,'sine',.25,0);},tt*i);});setTimeout(function(){simPlay=false;setText('simSt',T('simYours'));},tt*simSeq.length);}
+  function simLit(b,d){var e=G('sb'+b);e.classList.add('lit');setTimeout(function(){e.classList.remove('lit');},d);}
+  function simClk(b){if(!simOn||simPlay)return;simLit(b,190);beep([260,320,380,440][b],.15,'sine',.25,0);simP.push(b);var i=simP.length-1;if(simP[i]!==simSeq[i]){simOn=false;sNo();setText('simSt',T('simOver')+simSc);if(simSc>simBt){simBt=simSc;setText('simBt',simBt);}addS(simSc);setTimeout(function(){G('simGo').style.display='inline-block';},900);return;}if(simP.length===simSeq.length){simSc++;setText('simSc',simSc);addS(1);sOk();setText('simSt',T('simNext'));setTimeout(simNext,820);}}
+  // ═══ SNAKE ═══
+  var snC;
+  var GR=17,GCL=20,GRW=20;
+  var snBody=[],snDir={x:1,y:0},snNx={x:1,y:0},snFood={},snSc=0,snBt=0,snRun=false,snIv=null;
+  function startSn(){clearInterval(snIv);snRun=true;snSc=0;snBody=[{x:10,y:10},{x:9,y:10},{x:8,y:10}];snDir={x:1,y:0};snNx={x:1,y:0};snPlace();G('snOv').style.display='none';setText('snSc',0);snIv=setInterval(snTick,130);incP();}
+  function snPlace(){snFood={x:R(0,GCL-1),y:R(0,GRW-1)};}
+  function snTick(){snDir.x=snNx.x;snDir.y=snNx.y;var h={x:snBody[0].x+snDir.x,y:snBody[0].y+snDir.y};if(h.x<0||h.x>=GCL||h.y<0||h.y>=GRW){snDie();return;}for(var i=0;i<snBody.length;i++){if(snBody[i].x===h.x&&snBody[i].y===h.y){snDie();return;}}snBody.unshift(h);if(h.x===snFood.x&&h.y===snFood.y){snSc+=10;setText('snSc',snSc);addS(1);sPop();snPlace();}else snBody.pop();drawSn();}
+  function snDie(){clearInterval(snIv);snRun=false;if(snSc>snBt){snBt=snSc;setText('snBt',snBt);}G('snOv').style.display='flex';setText('snMsg',T('snOver')+snSc);sNo();}
+  function drawSn(){snX.fillStyle='#030d08';snX.fillRect(0,0,snC.width,snC.height);snX.strokeStyle='rgba(126,217,87,.05)';snX.lineWidth=1;for(var x=0;x<=GCL;x++){snX.beginPath();snX.moveTo(x*GR,0);snX.lineTo(x*GR,snC.height);snX.stroke();}for(var y=0;y<=GRW;y++){snX.beginPath();snX.moveTo(0,y*GR);snX.lineTo(snC.width,y*GR);snX.stroke();}snX.font=(GR-1)+'px serif';snX.textAlign='center';snX.textBaseline='middle';snX.fillText('🍎',snFood.x*GR+GR/2,snFood.y*GR+GR/2);snBody.forEach(function(s,i){snX.fillStyle=i===0?'#a8ff78':'#7ed957';snX.beginPath();snX.arc(s.x*GR+GR/2,s.y*GR+GR/2,GR/2-1,0,2*Math.PI);snX.fill();});}
+  G('snGo').addEventListener('click',startSn);
+  G('dpU').addEventListener('click',function(){if(snDir.y!==0)return;snNx={x:0,y:-1};});G('dpD').addEventListener('click',function(){if(snDir.y!==0)return;snNx={x:0,y:1};});G('dpL').addEventListener('click',function(){if(snDir.x!==0)return;snNx={x:-1,y:0};});G('dpR').addEventListener('click',function(){if(snDir.x!==0)return;snNx={x:1,y:0};});
+  document.addEventListener('keydown',function(e){if(!G('g-snake').classList.contains('on'))return;if(e.key==='ArrowUp'&&snDir.y===0){snNx={x:0,y:-1};e.preventDefault();}else if(e.key==='ArrowDown'&&snDir.y===0){snNx={x:0,y:1};e.preventDefault();}else if(e.key==='ArrowLeft'&&snDir.x===0){snNx={x:-1,y:0};e.preventDefault();}else if(e.key==='ArrowRight'&&snDir.x===0){snNx={x:1,y:0};e.preventDefault();}});
+  drawSn();
+  // ═══ MOLE ═══
+  var moEmj=['🐹','🐭','🦔','🐿️'];
+  var moSc=0,moTm=30,moTI=null,moSI=null,moOn=false,moMs=0;
+  (function(){var g=G('mgrd');g.innerHTML='';for(var i=0;i<9;i++){var h=document.createElement('div');h.className='mhole';h.id='mh'+i;var f=document.createElement('div');f.className='mfc';f.textContent='🐹';h.appendChild(f);g.appendChild(h);(function(idx){h.addEventListener('click',function(){whack(idx);});})(i);}})();
+  G('moGo').addEventListener('click',startMo);
+  function startMo(){if(moOn)return;moOn=true;moSc=0;moTm=30;moMs=0;setText('moSc',0);setText('moTm',30);setText('moMs',0);G('moSA').style.display='none';moTI=setInterval(function(){moTm--;setText('moTm',moTm);if(moTm<=0)endMo();},1000);moSI=setInterval(popMo,680);incP();}
+  function popMo(){var free=[];document.querySelectorAll('.mhole').forEach(function(h){if(!h.classList.contains('up'))free.push(h);});if(!free.length)return;var h=free[R(0,free.length-1)];var bomb=Math.random()<.15;h.querySelector('.mfc').textContent=bomb?'💣':moEmj[R(0,moEmj.length-1)];h.dataset.b=bomb?'1':'0';h.classList.add('up');setTimeout(function(){if(h.classList.contains('up')){h.classList.remove('up');if(!bomb){moMs++;setText('moMs',moMs);}}},1300+R(0,500));}
+  function whack(i){var h=G('mh'+i);if(!h.classList.contains('up')||!moOn)return;h.classList.remove('up');h.classList.add('wk');setTimeout(function(){h.classList.remove('wk');},170);if(h.dataset.b==='1'){sNo();moSc=Math.max(0,moSc-15);toast(T('whackBoom'));}else{sPop();moSc+=10;addS(1);toast(T('whackHit'));}setText('moSc',moSc);}
+  function endMo(){clearInterval(moTI);clearInterval(moSI);moOn=false;document.querySelectorAll('.mhole').forEach(function(h){h.classList.remove('up');});G('moSA').style.display='block';modal('🔨','Whack-a-Mole!','Score: '+moSc);addS(Math.floor(moSc/10));sWin();}
+  // ═══ DINO ═══
+  var dnC;
+  var DCW=600,DCH=170,GND=128;
+  var dnY=GND,dnVY=0,dnJumps=0,dnSc=0,dnBt=0,dnRun=false,dnRAF=null,dnSpd=4,dnFr=0,dnObs=[];
+  function jumpDn(){if(!dnRun){startDn();return;}if(dnJumps<2){dnVY=-11;dnJumps++;beep(440,.1,'sine',.18);}}
+  dnC.addEventListener('click',jumpDn);dnC.addEventListener('touchstart',function(e){e.preventDefault();jumpDn();},{passive:false});
+  document.addEventListener('keydown',function(e){if(e.code==='Space'&&G('g-dino').classList.contains('on')){e.preventDefault();jumpDn();}});
+  function startDn(){if(dnRun)return;dnRun=true;dnY=GND;dnVY=0;dnJumps=0;dnSc=0;dnSpd=4;dnObs=[];dnFr=0;cancelAnimationFrame(dnRAF);dnLoop();incP();}
+  function dnLoop(){if(!dnRun)return;dnFr++;dnSc++;setText('dnSc',Math.floor(dnSc/6));if(dnFr%300===0&&dnSpd<11)dnSpd+=.5;dnVY+=.7;dnY+=dnVY;if(dnY>=GND){dnY=GND;dnVY=0;dnJumps=0;}if(dnFr%Math.max(48,82-dnSpd*3)===0){dnObs.push({x:DCW,h:25+R(0,25),w:16+R(0,12)});}dnObs.forEach(function(o){o.x-=dnSpd;});dnObs=dnObs.filter(function(o){return o.x>-50;});var sc=dnC.width/DCW;for(var oi=0;oi<dnObs.length;oi++){var o=dnObs[oi];if(60*sc+28*sc>o.x*sc&&60*sc<(o.x+o.w)*sc&&(dnY+36)*sc>(GND+36-o.h)*sc){dnRun=false;if(dnSc/6>dnBt){dnBt=Math.floor(dnSc/6);setText('dnBt',dnBt);}drawDn(true);sNo();return;}}drawDn(false);dnRAF=requestAnimationFrame(dnLoop);}
+  function drawDn(dead){var sc=dnC.width/DCW;dnX.clearRect(0,0,dnC.width,dnC.height);dnX.fillStyle='#0a0520';dnX.fillRect(0,0,dnC.width,dnC.height);dnX.fillStyle='rgba(255,107,71,.28)';dnX.fillRect(0,(GND+36)*sc,dnC.width,3*sc);dnObs.forEach(function(o){dnX.fillStyle='#ff6b47';dnX.fillRect(o.x*sc,(GND+36-o.h)*sc,o.w*sc,o.h*sc);});dnX.font=(35*sc)+'px serif';dnX.textAlign='center';dnX.textBaseline='bottom';dnX.fillText(dead?'💥':'🦕',76*sc,(dnY+36)*sc);if(dead){dnX.fillStyle='rgba(255,255,255,.85)';dnX.font='bold '+(14*sc)+'px sans-serif';dnX.textAlign='center';dnX.fillText(T('dinoOver'),DCW/2*sc,DCH/2*sc);}}
+  drawDn(false);
+  // ═══ COLORING BOOK ═══
+  var cbCvs;
+}
+
 var cbColor='#111',cbSz=6,cbEr=false,cbDrw=false,cbLX=0,cbLY=0,cbHist=[],cbPic='sun';
-function szCB(){var w=Math.min(480,cbCvs.parentElement.clientWidth-4);cbCvs.width=w;cbCvs.height=Math.floor(w*0.7);}
-szCB();
+function szCB(){if(!cbCvs)return;var w=Math.min(480,cbCvs.parentElement.clientWidth-4);cbCvs.width=w;cbCvs.height=Math.floor(w*0.7);}
 document.querySelectorAll('.cbsw').forEach(function(sw){sw.addEventListener('click',function(){document.querySelectorAll('.cbsw').forEach(function(x){x.classList.remove('on');});sw.classList.add('on');cbColor=sw.getAttribute('data-c');cbEr=false;});});
 document.querySelectorAll('.cbsz').forEach(function(b){b.addEventListener('click',function(){document.querySelectorAll('.cbsz').forEach(function(x){x.classList.remove('on');});b.classList.add('on');if(b.getAttribute('data-er')==='1'){cbEr=true;cbSz=30;}else{cbEr=false;cbSz=parseInt(b.getAttribute('data-s'));}});});
 function cbPt(e){var r=cbCvs.getBoundingClientRect();return[(e.clientX-r.left)*(cbCvs.width/r.width),(e.clientY-r.top)*(cbCvs.height/r.height)];}
 function cbSnap(){cbHist.push(cbCtx.getImageData(0,0,cbCvs.width,cbCvs.height));if(cbHist.length>25)cbHist.shift();}
 function cbDraw(e){var p=cbPt(e);cbCtx.beginPath();cbCtx.moveTo(cbLX,cbLY);cbCtx.lineTo(p[0],p[1]);cbCtx.strokeStyle=cbEr?'#fff':cbColor;cbCtx.lineWidth=cbSz;cbCtx.lineCap='round';cbCtx.lineJoin='round';cbCtx.stroke();cbLX=p[0];cbLY=p[1];}
-cbCvs.addEventListener('mousedown',function(e){e.preventDefault();cbDrw=true;var p=cbPt(e);cbLX=p[0];cbLY=p[1];cbSnap();});
-cbCvs.addEventListener('mousemove',function(e){if(cbDrw)cbDraw(e);});
-cbCvs.addEventListener('mouseup',function(){cbDrw=false;});cbCvs.addEventListener('mouseleave',function(){cbDrw=false;});
-cbCvs.addEventListener('touchstart',function(e){e.preventDefault();cbDrw=true;var p=cbPt(e.touches[0]);cbLX=p[0];cbLY=p[1];cbSnap();},{passive:false});
-cbCvs.addEventListener('touchmove',function(e){e.preventDefault();if(cbDrw)cbDraw(e.touches[0]);},{passive:false});
-cbCvs.addEventListener('touchend',function(){cbDrw=false;});
-G('cbUn').addEventListener('click',function(){if(cbHist.length>0)cbCtx.putImageData(cbHist.pop(),0,0);});
-G('cbCl').addEventListener('click',function(){cbDrawPic(cbPic);});
-G('cbSv').addEventListener('click',function(){var a=document.createElement('a');a.download='coloring.png';a.href=cbCvs.toDataURL();a.click();toast(T('saved'));});
-function cbDrawPic(name){
-  cbPic=name;szCB();
-  var W=cbCvs.width,H=cbCvs.height;
-  cbCtx.fillStyle='#fff';cbCtx.fillRect(0,0,W,H);
-  cbCtx.lineCap='round';cbCtx.lineJoin='round';
-  if(name==='sun'){
-    cbCtx.fillStyle='#e8f4fd';cbCtx.fillRect(0,0,W,H*.75);
-    cbCtx.fillStyle='#d4edda';cbCtx.fillRect(0,H*.75,W,H*.25);
-    cbCtx.fillStyle='#fffde7';cbCtx.beginPath();cbCtx.arc(W*.5,H*.44,H*.22,0,2*Math.PI);cbCtx.fill();
-    cbCtx.strokeStyle='#333';cbCtx.lineWidth=2.5;cbCtx.stroke();
-    for(var i=0;i<12;i++){var a=i*Math.PI/6,r1=H*.28,r2=H*.37;cbCtx.beginPath();cbCtx.moveTo(W*.5+Math.cos(a)*r1,H*.44+Math.sin(a)*r1);cbCtx.lineTo(W*.5+Math.cos(a)*r2,H*.44+Math.sin(a)*r2);cbCtx.lineWidth=2;cbCtx.stroke();}
-    cbCtx.fillStyle='#555';cbCtx.beginPath();cbCtx.arc(W*.43,H*.41,5,0,2*Math.PI);cbCtx.fill();cbCtx.beginPath();cbCtx.arc(W*.57,H*.41,5,0,2*Math.PI);cbCtx.fill();
-    cbCtx.lineWidth=2;cbCtx.beginPath();cbCtx.arc(W*.5,H*.47,H*.06,0.2,Math.PI-0.2);cbCtx.stroke();
-    cbCtx.fillStyle='#e3f2fd';
-    [[W*.2,H*.18,H*.07],[W*.28,H*.14,H*.09],[W*.36,H*.18,H*.07]].forEach(function(c){cbCtx.beginPath();cbCtx.arc(c[0],c[1],c[2],0,2*Math.PI);cbCtx.fill();cbCtx.strokeStyle='#333';cbCtx.lineWidth=2;cbCtx.stroke();});
-    [[W*.64,H*.2,H*.06],[W*.72,H*.15,H*.08],[W*.8,H*.2,H*.06]].forEach(function(c){cbCtx.beginPath();cbCtx.arc(c[0],c[1],c[2],0,2*Math.PI);cbCtx.fill();cbCtx.stroke();});
-    cbCtx.lineWidth=2.5;cbCtx.strokeStyle='#333';cbCtx.beginPath();cbCtx.moveTo(0,H*.76);cbCtx.lineTo(W,H*.76);cbCtx.stroke();
-    [W*.15,W*.4,W*.65,W*.88].forEach(function(fx){cbCtx.lineWidth=2;cbCtx.beginPath();cbCtx.moveTo(fx,H*.76);cbCtx.lineTo(fx,H*.9);cbCtx.stroke();cbCtx.fillStyle='#fce4ec';cbCtx.beginPath();cbCtx.arc(fx,H*.75,H*.04,0,2*Math.PI);cbCtx.fill();cbCtx.strokeStyle='#333';cbCtx.stroke();cbCtx.fillStyle='#fff9c4';cbCtx.beginPath();cbCtx.arc(fx,H*.75,H*.02,0,2*Math.PI);cbCtx.fill();cbCtx.stroke();});
-  } else if(name==='house'){
-    cbCtx.fillStyle='#e3f2fd';cbCtx.fillRect(0,0,W,H*.68);cbCtx.fillStyle='#c8e6c9';cbCtx.fillRect(0,H*.68,W,H*.32);
-    cbCtx.lineWidth=2.5;cbCtx.strokeStyle='#333';cbCtx.beginPath();cbCtx.moveTo(0,H*.68);cbCtx.lineTo(W,H*.68);cbCtx.stroke();
-    cbCtx.fillStyle='#fff9e6';cbCtx.beginPath();cbCtx.rect(W*.2,H*.38,W*.6,H*.5);cbCtx.fill();cbCtx.stroke();
-    cbCtx.fillStyle='#ffccbc';cbCtx.beginPath();cbCtx.moveTo(W*.14,H*.38);cbCtx.lineTo(W*.5,H*.1);cbCtx.lineTo(W*.86,H*.38);cbCtx.closePath();cbCtx.fill();cbCtx.stroke();
-    cbCtx.fillStyle='#d7ccc8';cbCtx.beginPath();cbCtx.rect(W*.62,H*.12,W*.1,H*.2);cbCtx.fill();cbCtx.stroke();
-    cbCtx.fillStyle='#d7a57a';cbCtx.beginPath();cbCtx.rect(W*.42,H*.6,W*.16,H*.28);cbCtx.fill();cbCtx.stroke();
-    cbCtx.fillStyle='#555';cbCtx.beginPath();cbCtx.arc(W*.55,H*.745,3,0,2*Math.PI);cbCtx.fill();
-    cbCtx.fillStyle='#b3e5fc';cbCtx.beginPath();cbCtx.rect(W*.25,H*.44,W*.15,H*.14);cbCtx.fill();cbCtx.stroke();
-    cbCtx.beginPath();cbCtx.rect(W*.6,H*.44,W*.15,H*.14);cbCtx.fill();cbCtx.stroke();
-    cbCtx.lineWidth=1.5;[[W*.325,H*.44,W*.325,H*.58],[W*.25,H*.51,W*.4,H*.51],[W*.675,H*.44,W*.675,H*.58],[W*.6,H*.51,W*.75,H*.51]].forEach(function(l){cbCtx.beginPath();cbCtx.moveTo(l[0],l[1]);cbCtx.lineTo(l[2],l[3]);cbCtx.stroke();});
-  } else if(name==='tree'){
-    cbCtx.fillStyle='#e3f2fd';cbCtx.fillRect(0,0,W,H*.72);cbCtx.fillStyle='#c8e6c9';cbCtx.fillRect(0,H*.72,W,H*.28);
-    cbCtx.lineWidth=2.5;cbCtx.strokeStyle='#333';cbCtx.beginPath();cbCtx.moveTo(0,H*.72);cbCtx.lineTo(W,H*.72);cbCtx.stroke();
-    cbCtx.fillStyle='#d7b89a';cbCtx.beginPath();cbCtx.rect(W*.44,H*.55,W*.12,H*.38);cbCtx.fill();cbCtx.stroke();
-    [[W*.5,H*.08,W*.28,H*.32],[W*.5,H*.24,W*.32,H*.24],[W*.5,H*.38,W*.36,H*.22]].forEach(function(tri){cbCtx.fillStyle='#c8e6c9';cbCtx.beginPath();cbCtx.moveTo(tri[0],tri[1]);cbCtx.lineTo(tri[0]-tri[2],tri[1]+tri[3]);cbCtx.lineTo(tri[0]+tri[2],tri[1]+tri[3]);cbCtx.closePath();cbCtx.fill();cbCtx.stroke();});
-    [[W*.34,H*.32],[W*.66,H*.38],[W*.5,H*.22]].forEach(function(ap){cbCtx.fillStyle='#ffcdd2';cbCtx.beginPath();cbCtx.arc(ap[0],ap[1],H*.04,0,2*Math.PI);cbCtx.fill();cbCtx.stroke();});
-  } else if(name==='fish'){
-    cbCtx.fillStyle='#e1f5fe';cbCtx.fillRect(0,0,W,H);
-    cbCtx.fillStyle='#b3e5fc';cbCtx.beginPath();cbCtx.ellipse(W*.5,H*.48,W*.28,H*.22,0,0,2*Math.PI);cbCtx.fill();cbCtx.lineWidth=2.5;cbCtx.strokeStyle='#333';cbCtx.stroke();
-    cbCtx.fillStyle='#81d4fa';cbCtx.beginPath();cbCtx.moveTo(W*.22,H*.48);cbCtx.lineTo(W*.06,H*.28);cbCtx.lineTo(W*.06,H*.68);cbCtx.closePath();cbCtx.fill();cbCtx.stroke();
-    cbCtx.fillStyle='#fff';cbCtx.beginPath();cbCtx.arc(W*.64,H*.42,H*.055,0,2*Math.PI);cbCtx.fill();cbCtx.stroke();
-    cbCtx.fillStyle='#333';cbCtx.beginPath();cbCtx.arc(W*.65,H*.41,3,0,2*Math.PI);cbCtx.fill();
-    cbCtx.fillStyle='#b2ebf2';cbCtx.beginPath();cbCtx.moveTo(W*.5,H*.28);cbCtx.lineTo(W*.38,H*.14);cbCtx.lineTo(W*.62,H*.14);cbCtx.closePath();cbCtx.fill();cbCtx.stroke();
-    cbCtx.beginPath();cbCtx.moveTo(W*.44,H*.66);cbCtx.lineTo(W*.36,H*.8);cbCtx.lineTo(W*.52,H*.8);cbCtx.closePath();cbCtx.fill();cbCtx.stroke();
-    cbCtx.lineWidth=1.5;for(var si2=0;si2<4;si2++){cbCtx.beginPath();cbCtx.arc(W*(.34+si2*.08),H*.48,H*.07,Math.PI,0);cbCtx.stroke();}
-    cbCtx.lineWidth=2;cbCtx.beginPath();cbCtx.arc(W*.64,H*.5,H*.04,0.3,Math.PI-0.3);cbCtx.stroke();
-    cbCtx.lineWidth=1.5;[[W*.82,H*.22],[W*.86,H*.14],[W*.9,H*.08]].forEach(function(bp){cbCtx.beginPath();cbCtx.arc(bp[0],bp[1],H*.025,0,2*Math.PI);cbCtx.stroke();});
-  } else if(name==='butterfly'){
-    cbCtx.fillStyle='#f3e5f5';cbCtx.fillRect(0,0,W,H);
-    cbCtx.lineWidth=2;cbCtx.strokeStyle='#333';
-    cbCtx.fillStyle='#e1bee7';cbCtx.beginPath();cbCtx.moveTo(W*.48,H*.28);cbCtx.bezierCurveTo(W*.22,H*.1,W*.06,H*.32,W*.16,H*.54);cbCtx.bezierCurveTo(W*.26,H*.68,W*.44,H*.56,W*.48,H*.5);cbCtx.fill();cbCtx.stroke();
-    cbCtx.beginPath();cbCtx.moveTo(W*.52,H*.28);cbCtx.bezierCurveTo(W*.78,H*.1,W*.94,H*.32,W*.84,H*.54);cbCtx.bezierCurveTo(W*.74,H*.68,W*.56,H*.56,W*.52,H*.5);cbCtx.fill();cbCtx.stroke();
-    cbCtx.fillStyle='#ce93d8';
-    cbCtx.beginPath();cbCtx.moveTo(W*.46,H*.52);cbCtx.bezierCurveTo(W*.18,H*.56,W*.12,H*.8,W*.28,H*.9);cbCtx.bezierCurveTo(W*.38,H*.96,W*.46,H*.74,W*.48,H*.62);cbCtx.fill();cbCtx.stroke();
-    cbCtx.beginPath();cbCtx.moveTo(W*.54,H*.52);cbCtx.bezierCurveTo(W*.82,H*.56,W*.88,H*.8,W*.72,H*.9);cbCtx.bezierCurveTo(W*.62,H*.96,W*.54,H*.74,W*.52,H*.62);cbCtx.fill();cbCtx.stroke();
-    cbCtx.fillStyle='#a06060';cbCtx.beginPath();cbCtx.ellipse(W*.5,H*.5,W*.03,H*.3,0,0,2*Math.PI);cbCtx.fill();cbCtx.stroke();
-    cbCtx.lineWidth=1.5;cbCtx.beginPath();cbCtx.moveTo(W*.48,H*.22);cbCtx.bezierCurveTo(W*.38,H*.1,W*.28,H*.08,W*.24,H*.06);cbCtx.stroke();
-    cbCtx.fillStyle='#333';cbCtx.beginPath();cbCtx.arc(W*.24,H*.06,4,0,2*Math.PI);cbCtx.fill();
-    cbCtx.beginPath();cbCtx.moveTo(W*.52,H*.22);cbCtx.bezierCurveTo(W*.62,H*.1,W*.72,H*.08,W*.76,H*.06);cbCtx.stroke();
-    cbCtx.beginPath();cbCtx.arc(W*.76,H*.06,4,0,2*Math.PI);cbCtx.fill();
-    [[W*.28,H*.38],[W*.72,H*.38],[W*.3,H*.7],[W*.7,H*.7]].forEach(function(dp){cbCtx.fillStyle='#fff59d';cbCtx.beginPath();cbCtx.arc(dp[0],dp[1],H*.035,0,2*Math.PI);cbCtx.fill();cbCtx.strokeStyle='#333';cbCtx.lineWidth=1.5;cbCtx.stroke();});
+// cbCvs events - init when colorbook opens
+var _cbEventsInit=false;
+function initCBCanvas(){
+  if(_cbEventsInit||!cbCvs)return;_cbEventsInit=true;
+  cbCvs.addEventListener('mousedown',function(e){e.preventDefault();cbDrw=true;var p=cbPt(e);cbLX=p[0];cbLY=p[1];cbSnap();});
+  cbCvs.addEventListener('mousemove',function(e){if(cbDrw)cbDraw(e);});
+  cbCvs.addEventListener('mouseup',function(){cbDrw=false;});cbCvs.addEventListener('mouseleave',function(){cbDrw=false;});
+  cbCvs.addEventListener('touchstart',function(e){e.preventDefault();cbDrw=true;var p=cbPt(e.touches[0]);cbLX=p[0];cbLY=p[1];cbSnap();},{passive:false});
+  cbCvs.addEventListener('touchmove',function(e){e.preventDefault();if(cbDrw)cbDraw(e.touches[0]);},{passive:false});
+  cbCvs.addEventListener('touchend',function(){cbDrw=false;});
+  G('cbUn').addEventListener('click',function(){if(cbHist.length>0)cbCtx.putImageData(cbHist.pop(),0,0);});
+  G('cbCl').addEventListener('click',function(){cbDrawPic(cbPic);});
+  G('cbSv').addEventListener('click',function(){var a=document.createElement('a');a.download='coloring.png';a.href=cbCvs.toDataURL();a.click();toast(T('saved'));});
+  function cbDrawPic(name){
+    cbPic=name;szCB();
+    var W=cbCvs.width,H=cbCvs.height;
+    cbCtx.fillStyle='#fff';cbCtx.fillRect(0,0,W,H);
+    cbCtx.lineCap='round';cbCtx.lineJoin='round';
+    if(name==='sun'){
+      cbCtx.fillStyle='#e8f4fd';cbCtx.fillRect(0,0,W,H*.75);
+      cbCtx.fillStyle='#d4edda';cbCtx.fillRect(0,H*.75,W,H*.25);
+      cbCtx.fillStyle='#fffde7';cbCtx.beginPath();cbCtx.arc(W*.5,H*.44,H*.22,0,2*Math.PI);cbCtx.fill();
+      cbCtx.strokeStyle='#333';cbCtx.lineWidth=2.5;cbCtx.stroke();
+      for(var i=0;i<12;i++){var a=i*Math.PI/6,r1=H*.28,r2=H*.37;cbCtx.beginPath();cbCtx.moveTo(W*.5+Math.cos(a)*r1,H*.44+Math.sin(a)*r1);cbCtx.lineTo(W*.5+Math.cos(a)*r2,H*.44+Math.sin(a)*r2);cbCtx.lineWidth=2;cbCtx.stroke();}
+      cbCtx.fillStyle='#555';cbCtx.beginPath();cbCtx.arc(W*.43,H*.41,5,0,2*Math.PI);cbCtx.fill();cbCtx.beginPath();cbCtx.arc(W*.57,H*.41,5,0,2*Math.PI);cbCtx.fill();
+      cbCtx.lineWidth=2;cbCtx.beginPath();cbCtx.arc(W*.5,H*.47,H*.06,0.2,Math.PI-0.2);cbCtx.stroke();
+      cbCtx.fillStyle='#e3f2fd';
+      [[W*.2,H*.18,H*.07],[W*.28,H*.14,H*.09],[W*.36,H*.18,H*.07]].forEach(function(c){cbCtx.beginPath();cbCtx.arc(c[0],c[1],c[2],0,2*Math.PI);cbCtx.fill();cbCtx.strokeStyle='#333';cbCtx.lineWidth=2;cbCtx.stroke();});
+      [[W*.64,H*.2,H*.06],[W*.72,H*.15,H*.08],[W*.8,H*.2,H*.06]].forEach(function(c){cbCtx.beginPath();cbCtx.arc(c[0],c[1],c[2],0,2*Math.PI);cbCtx.fill();cbCtx.stroke();});
+      cbCtx.lineWidth=2.5;cbCtx.strokeStyle='#333';cbCtx.beginPath();cbCtx.moveTo(0,H*.76);cbCtx.lineTo(W,H*.76);cbCtx.stroke();
+      [W*.15,W*.4,W*.65,W*.88].forEach(function(fx){cbCtx.lineWidth=2;cbCtx.beginPath();cbCtx.moveTo(fx,H*.76);cbCtx.lineTo(fx,H*.9);cbCtx.stroke();cbCtx.fillStyle='#fce4ec';cbCtx.beginPath();cbCtx.arc(fx,H*.75,H*.04,0,2*Math.PI);cbCtx.fill();cbCtx.strokeStyle='#333';cbCtx.stroke();cbCtx.fillStyle='#fff9c4';cbCtx.beginPath();cbCtx.arc(fx,H*.75,H*.02,0,2*Math.PI);cbCtx.fill();cbCtx.stroke();});
+    } else if(name==='house'){
+      cbCtx.fillStyle='#e3f2fd';cbCtx.fillRect(0,0,W,H*.68);cbCtx.fillStyle='#c8e6c9';cbCtx.fillRect(0,H*.68,W,H*.32);
+      cbCtx.lineWidth=2.5;cbCtx.strokeStyle='#333';cbCtx.beginPath();cbCtx.moveTo(0,H*.68);cbCtx.lineTo(W,H*.68);cbCtx.stroke();
+      cbCtx.fillStyle='#fff9e6';cbCtx.beginPath();cbCtx.rect(W*.2,H*.38,W*.6,H*.5);cbCtx.fill();cbCtx.stroke();
+      cbCtx.fillStyle='#ffccbc';cbCtx.beginPath();cbCtx.moveTo(W*.14,H*.38);cbCtx.lineTo(W*.5,H*.1);cbCtx.lineTo(W*.86,H*.38);cbCtx.closePath();cbCtx.fill();cbCtx.stroke();
+      cbCtx.fillStyle='#d7ccc8';cbCtx.beginPath();cbCtx.rect(W*.62,H*.12,W*.1,H*.2);cbCtx.fill();cbCtx.stroke();
+      cbCtx.fillStyle='#d7a57a';cbCtx.beginPath();cbCtx.rect(W*.42,H*.6,W*.16,H*.28);cbCtx.fill();cbCtx.stroke();
+      cbCtx.fillStyle='#555';cbCtx.beginPath();cbCtx.arc(W*.55,H*.745,3,0,2*Math.PI);cbCtx.fill();
+      cbCtx.fillStyle='#b3e5fc';cbCtx.beginPath();cbCtx.rect(W*.25,H*.44,W*.15,H*.14);cbCtx.fill();cbCtx.stroke();
+      cbCtx.beginPath();cbCtx.rect(W*.6,H*.44,W*.15,H*.14);cbCtx.fill();cbCtx.stroke();
+      cbCtx.lineWidth=1.5;[[W*.325,H*.44,W*.325,H*.58],[W*.25,H*.51,W*.4,H*.51],[W*.675,H*.44,W*.675,H*.58],[W*.6,H*.51,W*.75,H*.51]].forEach(function(l){cbCtx.beginPath();cbCtx.moveTo(l[0],l[1]);cbCtx.lineTo(l[2],l[3]);cbCtx.stroke();});
+    } else if(name==='tree'){
+      cbCtx.fillStyle='#e3f2fd';cbCtx.fillRect(0,0,W,H*.72);cbCtx.fillStyle='#c8e6c9';cbCtx.fillRect(0,H*.72,W,H*.28);
+      cbCtx.lineWidth=2.5;cbCtx.strokeStyle='#333';cbCtx.beginPath();cbCtx.moveTo(0,H*.72);cbCtx.lineTo(W,H*.72);cbCtx.stroke();
+      cbCtx.fillStyle='#d7b89a';cbCtx.beginPath();cbCtx.rect(W*.44,H*.55,W*.12,H*.38);cbCtx.fill();cbCtx.stroke();
+      [[W*.5,H*.08,W*.28,H*.32],[W*.5,H*.24,W*.32,H*.24],[W*.5,H*.38,W*.36,H*.22]].forEach(function(tri){cbCtx.fillStyle='#c8e6c9';cbCtx.beginPath();cbCtx.moveTo(tri[0],tri[1]);cbCtx.lineTo(tri[0]-tri[2],tri[1]+tri[3]);cbCtx.lineTo(tri[0]+tri[2],tri[1]+tri[3]);cbCtx.closePath();cbCtx.fill();cbCtx.stroke();});
+      [[W*.34,H*.32],[W*.66,H*.38],[W*.5,H*.22]].forEach(function(ap){cbCtx.fillStyle='#ffcdd2';cbCtx.beginPath();cbCtx.arc(ap[0],ap[1],H*.04,0,2*Math.PI);cbCtx.fill();cbCtx.stroke();});
+    } else if(name==='fish'){
+      cbCtx.fillStyle='#e1f5fe';cbCtx.fillRect(0,0,W,H);
+      cbCtx.fillStyle='#b3e5fc';cbCtx.beginPath();cbCtx.ellipse(W*.5,H*.48,W*.28,H*.22,0,0,2*Math.PI);cbCtx.fill();cbCtx.lineWidth=2.5;cbCtx.strokeStyle='#333';cbCtx.stroke();
+      cbCtx.fillStyle='#81d4fa';cbCtx.beginPath();cbCtx.moveTo(W*.22,H*.48);cbCtx.lineTo(W*.06,H*.28);cbCtx.lineTo(W*.06,H*.68);cbCtx.closePath();cbCtx.fill();cbCtx.stroke();
+      cbCtx.fillStyle='#fff';cbCtx.beginPath();cbCtx.arc(W*.64,H*.42,H*.055,0,2*Math.PI);cbCtx.fill();cbCtx.stroke();
+      cbCtx.fillStyle='#333';cbCtx.beginPath();cbCtx.arc(W*.65,H*.41,3,0,2*Math.PI);cbCtx.fill();
+      cbCtx.fillStyle='#b2ebf2';cbCtx.beginPath();cbCtx.moveTo(W*.5,H*.28);cbCtx.lineTo(W*.38,H*.14);cbCtx.lineTo(W*.62,H*.14);cbCtx.closePath();cbCtx.fill();cbCtx.stroke();
+      cbCtx.beginPath();cbCtx.moveTo(W*.44,H*.66);cbCtx.lineTo(W*.36,H*.8);cbCtx.lineTo(W*.52,H*.8);cbCtx.closePath();cbCtx.fill();cbCtx.stroke();
+      cbCtx.lineWidth=1.5;for(var si2=0;si2<4;si2++){cbCtx.beginPath();cbCtx.arc(W*(.34+si2*.08),H*.48,H*.07,Math.PI,0);cbCtx.stroke();}
+      cbCtx.lineWidth=2;cbCtx.beginPath();cbCtx.arc(W*.64,H*.5,H*.04,0.3,Math.PI-0.3);cbCtx.stroke();
+      cbCtx.lineWidth=1.5;[[W*.82,H*.22],[W*.86,H*.14],[W*.9,H*.08]].forEach(function(bp){cbCtx.beginPath();cbCtx.arc(bp[0],bp[1],H*.025,0,2*Math.PI);cbCtx.stroke();});
+    } else if(name==='butterfly'){
+      cbCtx.fillStyle='#f3e5f5';cbCtx.fillRect(0,0,W,H);
+      cbCtx.lineWidth=2;cbCtx.strokeStyle='#333';
+      cbCtx.fillStyle='#e1bee7';cbCtx.beginPath();cbCtx.moveTo(W*.48,H*.28);cbCtx.bezierCurveTo(W*.22,H*.1,W*.06,H*.32,W*.16,H*.54);cbCtx.bezierCurveTo(W*.26,H*.68,W*.44,H*.56,W*.48,H*.5);cbCtx.fill();cbCtx.stroke();
+      cbCtx.beginPath();cbCtx.moveTo(W*.52,H*.28);cbCtx.bezierCurveTo(W*.78,H*.1,W*.94,H*.32,W*.84,H*.54);cbCtx.bezierCurveTo(W*.74,H*.68,W*.56,H*.56,W*.52,H*.5);cbCtx.fill();cbCtx.stroke();
+      cbCtx.fillStyle='#ce93d8';
+      cbCtx.beginPath();cbCtx.moveTo(W*.46,H*.52);cbCtx.bezierCurveTo(W*.18,H*.56,W*.12,H*.8,W*.28,H*.9);cbCtx.bezierCurveTo(W*.38,H*.96,W*.46,H*.74,W*.48,H*.62);cbCtx.fill();cbCtx.stroke();
+      cbCtx.beginPath();cbCtx.moveTo(W*.54,H*.52);cbCtx.bezierCurveTo(W*.82,H*.56,W*.88,H*.8,W*.72,H*.9);cbCtx.bezierCurveTo(W*.62,H*.96,W*.54,H*.74,W*.52,H*.62);cbCtx.fill();cbCtx.stroke();
+      cbCtx.fillStyle='#a06060';cbCtx.beginPath();cbCtx.ellipse(W*.5,H*.5,W*.03,H*.3,0,0,2*Math.PI);cbCtx.fill();cbCtx.stroke();
+      cbCtx.lineWidth=1.5;cbCtx.beginPath();cbCtx.moveTo(W*.48,H*.22);cbCtx.bezierCurveTo(W*.38,H*.1,W*.28,H*.08,W*.24,H*.06);cbCtx.stroke();
+      cbCtx.fillStyle='#333';cbCtx.beginPath();cbCtx.arc(W*.24,H*.06,4,0,2*Math.PI);cbCtx.fill();
+      cbCtx.beginPath();cbCtx.moveTo(W*.52,H*.22);cbCtx.bezierCurveTo(W*.62,H*.1,W*.72,H*.08,W*.76,H*.06);cbCtx.stroke();
+      cbCtx.beginPath();cbCtx.arc(W*.76,H*.06,4,0,2*Math.PI);cbCtx.fill();
+      [[W*.28,H*.38],[W*.72,H*.38],[W*.3,H*.7],[W*.7,H*.7]].forEach(function(dp){cbCtx.fillStyle='#fff59d';cbCtx.beginPath();cbCtx.arc(dp[0],dp[1],H*.035,0,2*Math.PI);cbCtx.fill();cbCtx.strokeStyle='#333';cbCtx.lineWidth=1.5;cbCtx.stroke();});
+    }
   }
+  cbDrawPic('sun');
+  document.querySelectorAll('[data-cbp]').forEach(function(btn){btn.addEventListener('click',function(){cbDrawPic(btn.getAttribute('data-cbp'));});});
+  // ═══ COLOR BY NUMBER ═══
 }
-cbDrawPic('sun');
-document.querySelectorAll('[data-cbp]').forEach(function(btn){btn.addEventListener('click',function(){cbDrawPic(btn.getAttribute('data-cbp'));});});
-// ═══ COLOR BY NUMBER ═══
-var cnCvs=G('cncvs'),cnCtx=cnCvs.getContext('2d');
+
+var cnCvs;
 var cnSelNum=-1,cnSelColor=null,cnFilled={},cnCurPic='sun';
-function szCN(){var w=Math.min(480,cnCvs.parentElement.clientWidth-4);cnCvs.width=w;cnCvs.height=Math.floor(w*0.75);}
-szCN();
+function szCN(){if(!cnCvs)return;var w=Math.min(480,cnCvs.parentElement.clientWidth-4);cnCvs.width=w;cnCvs.height=Math.floor(w*0.75);}
 var CNPICS={
   sun:{pal:[{n:1,c:'#FFD700',name:'Yellow'},{n:2,c:'#87CEEB',name:'Blue'},{n:3,c:'#90EE90',name:'Green'},{n:4,c:'#FF8C00',name:'Orange'},{n:5,c:'#FFFFFF',name:'White'}],grid:[[2,2,5,5,2,2,5,5,2,2],[2,4,4,2,1,1,2,4,4,2],[2,4,2,1,1,1,1,2,4,2],[2,2,1,1,1,1,1,1,2,2],[2,2,1,1,1,1,1,1,2,2],[2,2,2,2,1,1,2,2,2,2],[3,3,3,3,3,3,3,3,3,3],[3,3,3,3,3,3,3,3,3,3]]},
   house:{pal:[{n:1,c:'#FF6B6B',name:'Red'},{n:2,c:'#87CEEB',name:'Blue'},{n:3,c:'#FFD700',name:'Yellow'},{n:4,c:'#90EE90',name:'Green'},{n:5,c:'#D2B48C',name:'Brown'}],grid:[[2,2,2,2,2,2,2,2,2,2],[2,2,2,1,1,1,1,2,2,2],[2,2,1,1,1,1,1,1,2,2],[2,1,1,3,3,3,3,1,1,2],[2,3,2,3,3,3,2,3,2,2],[2,3,3,3,5,5,3,3,3,2],[2,3,3,3,5,5,3,3,3,2],[4,4,4,4,4,4,4,4,4,4]]},
@@ -1931,21 +1937,27 @@ function cnClick(x,y){
     sNo();toast(T('cnWrong')+cellNum+'!');
   }
 }
-cnCvs.addEventListener('click',function(e){var p=cnGetPt(e);cnClick(p.x,p.y);});
-cnCvs.addEventListener('touchend',function(e){e.preventDefault();var t=e.changedTouches[0];var p=cnGetPt(t);cnClick(p.x,p.y);});
-document.querySelectorAll('[data-cnp]').forEach(function(btn){btn.addEventListener('click',function(){cnLoadPic(btn.getAttribute('data-cnp'));});});
-cnLoadPic('sun');
-// Fix: re-init canvases after fonts/layout settle
-window.addEventListener('load',function(){
-  setTimeout(function(){szCB();cbDrawPic('sun');szCN();cnRender();},200);
-});
-window.addEventListener('resize',function(){
-  szCvs();szCB();cbDrawPic(cbPic);szCN();cnRender();
-});
+// cnCvs events - init when colornumber opens
+var _cnEventsInit=false;
+function initCNCanvas(){
+  if(_cnEventsInit||!cnCvs)return;_cnEventsInit=true;
+  cnCvs.addEventListener('click',function(e){var p=cnGetPt(e);cnClick(p.x,p.y);});
+  cnCvs.addEventListener('touchend',function(e){e.preventDefault();var t=e.changedTouches[0];var p=cnGetPt(t);cnClick(p.x,p.y);});
+  document.querySelectorAll('[data-cnp]').forEach(function(btn){btn.addEventListener('click',function(){cnLoadPic(btn.getAttribute('data-cnp'));});});
+  cnLoadPic('sun');
+  // Fix: re-init canvases after fonts/layout settle
+  window.addEventListener('load',function(){
+    setTimeout(function(){szCB();cbDrawPic('sun');szCN();cnRender();},200);
+  });
+  window.addEventListener('resize',function(){
+    szCvs();szCB();cbDrawPic(cbPic);szCN();cnRender();
+  });
+  
+}
 
 // ═══ FLAPPY BIRD ═══
 (function(){
-var fc=document.getElementById('flcvs'),fx=fc.getContext('2d');
+var fc,fx;
 var FW=360,FH=480,GAP=130,PIPE_W=52,SPEED=2.8;
 var bird={x:80,y:FH/2,vy:0,r:18};
 var pipes=[],flSc=0,flBt=0,flOn=false,flRaf=null,flFr=0;
@@ -1955,8 +1967,8 @@ function flJump(){
   if(!flOn){flOn=true;flReset();cancelAnimationFrame(flRaf);flLoop();incP();return;}
   bird.vy=JUMP;beep(600,.08,'sine',.2);
 }
-fc.addEventListener('click',flJump);
-fc.addEventListener('touchstart',function(e){e.preventDefault();flJump();},{passive:false});
+if(fc)fc.addEventListener('click',flJump);
+if(fc)fc.addEventListener('touchstart',function(e){e.preventDefault();flJump();},{passive:false});
 document.addEventListener('keydown',function(e){if(e.code==='Space'&&G('g-flappy').classList.contains('on')){e.preventDefault();flJump();}});
 function flLoop(){
   if(!flOn)return;
@@ -2041,30 +2053,29 @@ function flDraw(){
   fx.restore();
 }
 G('g-flappy').addEventListener('click',function(){},true);
-flDraw();
 })();
 
 // ═══ PONG ═══
 (function(){
-var pc=document.getElementById('pgcvs'),px=pc.getContext('2d');
+var pc,px;
 var PW=400,PH=300,PAD_H=60,PAD_W=10,BALL_R=8;
 var player={y:PH/2-PAD_H/2},cpu={y:PH/2-PAD_H/2};
 var ball={x:PW/2,y:PH/2,vx:3.5,vy:2.5};
 var pgSc=0,pgCpu=0,pgOn=false,pgRaf=null;
-pc.addEventListener('mousemove',function(e){
+if(pc)pc.addEventListener('mousemove',function(e){
   var r=pc.getBoundingClientRect();
   player.y=(e.clientY-r.top)*(PH/r.height)-PAD_H/2;
   player.y=Math.max(0,Math.min(PH-PAD_H,player.y));
   if(!pgOn){pgOn=true;pgLoop();incP();}
 });
-pc.addEventListener('touchmove',function(e){
+if(pc)pc.addEventListener('touchmove',function(e){
   e.preventDefault();
   var r=pc.getBoundingClientRect();
   player.y=(e.touches[0].clientY-r.top)*(PH/r.height)-PAD_H/2;
   player.y=Math.max(0,Math.min(PH-PAD_H,player.y));
   if(!pgOn){pgOn=true;pgLoop();incP();}
 },{passive:false});
-pc.addEventListener('click',function(){if(!pgOn){pgOn=true;pgLoop();incP();}});
+if(pc)pc.addEventListener('click',function(){if(!pgOn){pgOn=true;pgLoop();incP();}});
 function pgLoop(){
   if(!pgOn)return;
   ball.x+=ball.vx;ball.y+=ball.vy;
@@ -2120,7 +2131,6 @@ function pgDraw(){
   }
   px.restore();
 }
-pgDraw();
 })();
 
 // ═══ BALLOON POP ═══
@@ -2176,25 +2186,152 @@ function endBln(){
 }
 })();
 
+// ═══ WORD GUESS (WORDLE-STYLE) ═══
+(function(){
+var WD_LIST_EASY=['APPLE','BIRD','BRAVE','CANDY','CHAIR','CLOUD','DANCE','DREAM','EAGLE','FLAME',
+'FLOOD','FLUTE','FROST','FRUIT','GLASS','GRAPE','GRASS','GUARD','HAPPY','HEART',
+'HONEY','HOUSE','JUICE','JUICE','KNIFE','LEMON','LIGHT','MAGIC','MOUSE','NIGHT'];
+var WD_LIST_MED=['BEACH','BLAZE','BLOOM','BOXER','CAMEL','CEDAR','CHESS','COACH','CORAL','CRANE',
+'CRISP','CROWN','DELTA','DWARF','EMBER','FANCY','FEAST','FLAIR','FLOUR','FLOWN',
+'GHOST','GIANT','GLOOM','GREET','GRIND','GUARD','GUIDE','GUILD','GUILE','HATCH',
+'HAVEN','HEDGE','HORSE','HOTEL','HOUND','HUMID','HURRY','JEWEL','JOKER','KARMA'];
+var WD_LIST_HARD=['BLANK','BLEND','BLIMP','BLOWN','BRISK','BROTH','BUILT','BURNT','CHANT','CHORD',
+'CLAMP','CLEFT','CLIMB','CLINK','CLOAK','CLONE','CLOSE','CLOTH','CLOWN','COACH',
+'CRANE','CRANK','CREEP','CRIMP','CRYPT','DELTA','DIGIT','DIVER','DIZZY','DRANK',
+'DWARF','ELBOW','ENVOY','EPOCH','EXCEL','EXPEL','EXTRA','FABLE','FACET','FANCY',
+'KNEEL','LYMPH','NYMPH','OZONE','PIXEL','PLUMB','PROXY','PSALM','QUART','QUERY',
+'QUOTA','QUOTE','RADIX','REALM','REBUS','REMIX','RISKY','RIVET','SCALD','SCALP'];
+var WD_DIFF='easy';
+var WD_LIST=WD_LIST_EASY;
+var wdWord='',wdGuess=[],wdRow=0,wdDone=false;
+var ROWS=6,COLS=5;
+function wdNew(){
+  var pool=WD_DIFF==='hard'?WD_LIST_HARD:WD_DIFF==='medium'?WD_LIST_MED:WD_LIST_EASY;
+  wdWord=pool[R(0,pool.length-1)];
+  wdGuess=[];wdRow=0;wdDone=false;
+  setText('wdMsg','');buildGrid();buildKb();
+}
+function buildGrid(){
+  var g=G('wdGrid');g.innerHTML='';
+  for(var r=0;r<ROWS;r++)for(var c=0;c<COLS;c++){
+    var d=document.createElement('div');
+    d.id='wc'+r+'_'+c;
+    d.style.cssText='aspect-ratio:1;border-radius:8px;background:rgba(255,255,255,.07);border:2px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-family:Fredoka One,cursive;font-size:1.4rem;color:#fff;transition:all .2s;';
+    g.appendChild(d);
+  }
+}
+function buildKb(){
+  var kb=G('wdKb');kb.innerHTML='';
+  var rows=['QWERTYUIOP','ASDFGHJKL','ZXCVBNM⌫↵'];
+  rows.forEach(function(row){
+    var rowDiv=document.createElement('div');rowDiv.style.cssText='display:flex;gap:4px;';
+    row.split('').forEach(function(k){
+      var btn=document.createElement('button');
+      btn.className='kb';btn.id='wk'+k;btn.textContent=k;
+      btn.style.cssText='width:'+(k==='⌫'||k==='↵'?'46px':'33px')+';height:42px;border-radius:8px;background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.18);font-family:Fredoka One,cursive;font-size:.82rem;color:#fff;cursor:pointer;';
+      btn.addEventListener('click',function(){handleKey(k);});
+      rowDiv.appendChild(btn);
+    });
+    kb.appendChild(rowDiv);
+  });
+}
+function handleKey(k){
+  if(wdDone)return;
+  if(k==='⌫'){if(wdGuess.length>0)wdGuess.pop();}
+  else if(k==='↵'){
+    if(wdGuess.length===COLS)submitGuess();
+    else toast('Need 5 letters!');
+  } else if(/^[A-Z]$/.test(k)&&wdGuess.length<COLS){wdGuess.push(k);}
+  updateGrid();
+}
+document.addEventListener('keydown',function(e){
+  if(!G('g-wordle').classList.contains('on'))return;
+  if(e.key==='Backspace')handleKey('⌫');
+  else if(e.key==='Enter')handleKey('↵');
+  else if(/^[a-zA-Z]$/.test(e.key))handleKey(e.key.toUpperCase());
+});
+function updateGrid(){
+  for(var c=0;c<COLS;c++){
+    var d=G('wc'+wdRow+'_'+c);if(!d)return;
+    d.textContent=wdGuess[c]||'';
+    d.style.border=wdGuess[c]?'2px solid rgba(255,182,39,.6)':'2px solid rgba(255,255,255,.15)';
+    d.style.transform=wdGuess[c]?'scale(1.08)':'scale(1)';
+  }
+}
+function submitGuess(){
+  var guess=wdGuess.join('');
+  var result=[];
+  var wArr=wdWord.split('');var gArr=guess.split('');
+  var used=wArr.map(function(){return false;});
+  // exact
+  gArr.forEach(function(l,i){
+    if(l===wArr[i]){result[i]='green';used[i]=true;}
+    else result[i]='grey';
+  });
+  // present
+  gArr.forEach(function(l,i){
+    if(result[i]==='green')return;
+    for(var j=0;j<wArr.length;j++){
+      if(!used[j]&&l===wArr[j]){result[i]='yellow';used[j]=true;break;}
+    }
+  });
+  // color tiles
+  gArr.forEach(function(l,i){
+    var d=G('wc'+wdRow+'_'+i);
+    var col=result[i]==='green'?'#538d4e':result[i]==='yellow'?'#b59f3b':'#3a3a3c';
+    d.style.background=col;d.style.border='2px solid '+col;
+    d.style.color='#fff';
+    // update keyboard
+    var kb=G('wk'+l);
+    if(kb){
+      var cur=kb.style.background;
+      if(result[i]==='green')kb.style.background='#538d4e';
+      else if(result[i]==='yellow'&&cur!=='#538d4e')kb.style.background='#b59f3b';
+      else if(result[i]==='grey'&&cur==='rgba(255,255,255,0.12)')kb.style.background='#3a3a3c';
+    }
+  });
+  sClk();
+  if(guess===wdWord){
+    sWin();addS(3+(ROWS-wdRow));wdDone=true;
+    var bonusTxt=wdRow===0?'⭐ GENIUS! First try!':wdRow<=2?cheer():LG==='fi'?'Hyvää työtä!':'Nice work!';
+    G('wdMsg').textContent=bonusTxt+' '+wdWord;
+    if(wdRow<=1)confettiBurst();incP();
+  } else {
+    wdRow++;wdGuess=[];
+    if(wdRow>=ROWS){sNo();wdDone=true;G('wdMsg').textContent='😞 The word was: '+wdWord;}
+  }
+}
+G('wdNew').addEventListener('click',wdNew);
+function setWdDiff(d){
+  WD_DIFF=d;
+  ['easy','medium','hard'].forEach(function(x){
+    var btn=G('wdD'+x[0].toUpperCase());
+    if(btn)btn.style.opacity=x===d?'1':'0.55';
+  });
+  wdNew();
+}
+wdNew();
+})();
+
 // ═══ CATCH THE FRUIT ═══
 (function(){
-var cc=document.getElementById('ctcvs'),cx=cc.getContext('2d');
+var cc,cx;
 var CW=400,CH=280;
 var basket={x:CW/2,w:70,h:20,y:CH-30};
 var items=[],ctSc=0,ctLv=3,ctTm=30,ctOn=false,ctTI=null,ctSI=null,ctRaf=null;
 var FRUITS=['🍎','🍊','🍋','🍇','🍓','🍑','🍍','🥝','🍒','🍌'];
-cc.addEventListener('mousemove',function(e){
+if(cc)cc.addEventListener('mousemove',function(e){
   var r=cc.getBoundingClientRect();
   basket.x=(e.clientX-r.left)*(CW/r.width);
   if(!ctOn)startCatch();
 });
-cc.addEventListener('touchmove',function(e){
+if(cc)cc.addEventListener('touchmove',function(e){
   e.preventDefault();
   var r=cc.getBoundingClientRect();
   basket.x=(e.touches[0].clientX-r.left)*(CW/r.width);
   if(!ctOn)startCatch();
 },{passive:false});
-cc.addEventListener('click',function(){if(!ctOn)startCatch();});
+if(cc)cc.addEventListener('click',function(){if(!ctOn)startCatch();});
 function startCatch(){
   ctOn=true;ctSc=0;ctLv=3;ctTm=30;items=[];
   setText('ctSc',0);setText('ctLv',3);setText('ctTm',30);
@@ -2256,7 +2393,6 @@ function ctDraw(){
   }
   cx.restore();
 }
-ctDraw();
 })();
 
 // ═══ NUMBER GRID (2048) ═══
@@ -2330,6 +2466,7 @@ ngNew();
 })();
 
 // ═══ INIT ═══
+setLang('en');
 // === NATGEO KIDS CAROUSEL ===
 var NG={en:[],fi:[]};
 
@@ -2385,19 +2522,7 @@ NG.en = [
   {c:"ocean",e:"\ud83d\udc22",bg:"linear-gradient(135deg,#1b5e20,#2e7d32)",cc:"#a5d6a7",t:"Sea Turtles",f:"Sea turtles have swum the oceans for over 100 million years! They can hold their breath for up to 7 hours when sleeping. The leatherback can weigh up to 900 kg.",x:"Female sea turtles return to the exact beach where they were born to lay their eggs. They navigate thousands of kilometers using Earth magnetic field as a GPS.",fun:"Fun Fact: The sex of sea turtle hatchlings is determined by the temperature of the sand!"},
   {c:"ocean",e:"\ud83e\uddad",bg:"linear-gradient(135deg,#0277bd,#01579b)",cc:"#81d4fa",t:"Sea Lions",f:"Sea lions are extremely intelligent and the US Navy trains them to locate underwater mines! They can dive to 300 meters deep and sleep floating with just their nose above water.",x:"Sea lions navigate using a form of echolocation similar to dolphins. They can run faster than humans for short distances despite having flippers instead of feet.",fun:"Fun Fact: Sea lions can run faster than humans on land for short distances!"},
   {c:"ocean",e:"\ud83e\udda6",bg:"linear-gradient(135deg,#4e342e,#3e2723)",cc:"#bcaaa4",t:"Sea Otters",f:"Sea otters are vital to kelp forest health - they eat sea urchins that would otherwise destroy kelp forests. They have the densest fur of any animal - one million hairs per square centimeter!",x:"Sea otters hold hands while sleeping on the ocean surface to avoid drifting apart. Groups of resting otters are called rafts.",fun:"Fun Fact: Sea otters use rocks as tools to crack shellfish and keep their favorite rocks in a pocket of skin!"}
-,
-  {c:"dinosaurs",e:"\ud83e\udd95",bg:"linear-gradient(135deg,#2e7d32,#1b5e20)",cc:"#a5d6a7",t:"T-Rex",f:"T-Rex was one of the largest predators ever! It grew 12 meters long and weighed 8 tonnes. Its bite could crush bone completely with enormous force.",x:"Despite its size T-Rex could run at 20 km per hour. Its arms were tiny at only 1 meter long. Scientists still debate what those small arms were actually used for.",fun:"Fun Fact: T-Rex had the strongest bite force of any land animal ever - 57,000 Newtons of crushing power!"},
-  {c:"dinosaurs",e:"\ud83e\udd96",bg:"linear-gradient(135deg,#1b5e20,#004d40)",cc:"#80deea",t:"Triceratops",f:"Triceratops was one of the last dinosaurs before the mass extinction 66 million years ago. Its three horns could grow 1 meter long and its skull was among the largest of any land animal.",x:"Scientists believe Triceratops used its horns to fight off T-Rex attacks and battle rival Triceratops for territory. Its large neck frill may also have been used to attract mates.",fun:"Fun Fact: Triceratops horns were made of keratin - the exact same material as your fingernails and hair!"},
-  {c:"dinosaurs",e:"\ud83e\udeb6",bg:"linear-gradient(135deg,#4a148c,#1a237e)",cc:"#ce93d8",t:"Velociraptor",f:"Velociraptors were actually the size of a turkey - much smaller than in movies! They had feathers and were closely related to modern birds. They were fast and intelligent hunters.",x:"The famous sickle claw was used to pin prey not slash it. Scientists proved this from fossil wear patterns. Birds are actually living dinosaurs directly descended from raptors like Velociraptor.",fun:"Fun Fact: Velociraptor is more closely related to a modern chicken than it is to T-Rex!"},
-  {c:"dinosaurs",e:"\ud83c\udf3f",bg:"linear-gradient(135deg,#33691e,#1b5e20)",cc:"#dce775",t:"Brachiosaurus",f:"Brachiosaurus was as tall as a 4-story building at 13 meters! Its long neck let it eat from the very tops of tall trees. It weighed between 30 and 60 tonnes making it heavier than 8 elephants.",x:"Unlike most dinosaurs its front legs were longer than its back legs giving it a giraffe-like posture. It needed to eat around 400 kilograms of plants every single day just to survive.",fun:"Fun Fact: Brachiosaurus needed 400 kg of food every day - like eating 800 large pizzas!"},
-  {c:"dinosaurs",e:"\ud83c\udf0a",bg:"linear-gradient(135deg,#0d47a1,#1a237e)",cc:"#90caf9",t:"Mosasaurus",f:"Mosasaurus was a 17 meter giant sea reptile and the apex predator of ancient oceans! It ate sharks, fish and other mosasaurs. It breathed air like modern whales and dolphins.",x:"Mosasaurus had a flexible snake-like jaw to swallow prey whole. Fossils found on every continent including Antarctica. It ruled the seas until the great extinction 66 million years ago.",fun:"Fun Fact: Mosasaurus was named after the Meuse River in Netherlands where its first fossil was found in 1764!"},
-  {c:"dinosaurs",e:"\ud83e\udd85",bg:"linear-gradient(135deg,#e65100,#bf360c)",cc:"#ffcc80",t:"Pterodactyl",f:"Pterodactyls were flying reptiles not dinosaurs! The largest had an 11 meter wingspan as wide as a small airplane. They had hollow bones like birds to reduce weight for flight.",x:"Pterodactyls were the first vertebrates to evolve powered flight before birds and bats. Some had crests on their heads used for display or to help steer in flight like a rudder on a ship.",fun:"Fun Fact: Pterodactyls were the first flying vertebrates on Earth appearing 228 million years ago!"},
-  {c:"history",e:"\ud83c\udfdb\ufe0f",bg:"linear-gradient(135deg,#4e342e,#3e2723)",cc:"#ffcc80",t:"Ancient Egypt",f:"Ancient Egypt lasted over 3,000 years and gave us pyramids, hieroglyphics, and incredible art! The Great Pyramid used 2 million stone blocks and was the world tallest structure for 3,800 years.",x:"Ancient Egyptians invented toothpaste, breath mints, and the first calendar. Cleopatra lived closer in time to the Moon landing than to the building of the Great Pyramid!",fun:"Fun Fact: Ancient Egyptians had over 2,000 gods and goddesses including a cat goddess, chaos god, and hippo goddess!"},
-  {c:"history",e:"\ud83c\udffa",bg:"linear-gradient(135deg,#1565c0,#0d47a1)",cc:"#90caf9",t:"Ancient Greece",f:"Ancient Greece gave the world democracy, philosophy, the Olympics, theater, and the foundations of modern science! Thinkers like Plato and Aristotle still influence how humans think today.",x:"Ancient Greeks calculated the circumference of Earth correctly 2,200 years ago using shadow measurements and geometry. They were within 2 percent of the modern value without any technology at all!",fun:"Fun Fact: Ancient Greeks invented the first vending machine - it dispensed holy water when a coin was inserted!"},
-  {c:"history",e:"\ud83c\udf19",bg:"linear-gradient(135deg,#1a237e,#311b92)",cc:"#9fa8da",t:"Vikings",f:"Vikings from Scandinavia reached North America nearly 500 years before Columbus! Between 800 and 1100 AD they explored Europe, Asia, and the Americas. They were skilled traders not just warriors.",x:"Viking women had more rights than women in most medieval societies. Vikings established trade routes from Scandinavia to Constantinople and Baghdad exchanging furs and amber for silk and spices.",fun:"Fun Fact: Vikings established the first European settlement in North America at Newfoundland Canada around 1000 AD!"},
-  {c:"history",e:"\ud83c\udfef",bg:"linear-gradient(135deg,#b71c1c,#880e4f)",cc:"#ef9a9a",t:"Ancient China",f:"Ancient China invented paper, printing, gunpowder and the compass - four inventions that changed the entire world! Chinese civilization spans over 5,000 years of continuous history.",x:"The Great Wall stretches over 21,000 km and took 2,000 years to complete. Ancient China also invented ice cream 3,000 years ago, paper money, playing cards, kites, and the first earthquake detector!",fun:"Fun Fact: Ancient China invented paper money over 1,000 years before Europe - they called it flying money!"},
-  {c:"history",e:"\ud83d\uddff",bg:"linear-gradient(135deg,#37474f,#263238)",cc:"#b0bec5",t:"Easter Island",f:"Easter Island has 900 mysterious giant stone Moai statues carved between 1400 and 1650 AD. The largest weighs 86 tonnes and stands 10 meters tall. The statues have full bodies buried underground!",x:"Scientists proved the Rapa Nui people walked the statues upright by rocking them side to side - exactly as ancient oral tradition described. This was confirmed by modern experiments in 2012.",fun:"Fun Fact: The Easter Island heads have full bodies buried underground - most of each statue is hidden below the surface!"},
-  {c:"history",e:"\ud83c\udfad",bg:"linear-gradient(135deg,#880e4f,#4a148c)",cc:"#f48fb1",t:"Renaissance",f:"The Renaissance was a cultural rebirth in Europe from the 14th to 17th centuries. Leonardo da Vinci designed flying machines and tanks hundreds of years before they were invented!",x:"Leonardo filled over 13,000 pages of notebooks with ideas. The Mona Lisa took 4 years to paint. Michelangelo painted the Sistine Chapel ceiling while lying on his back for 4 years straight!",fun:"Fun Fact: Leonardo da Vinci could write with one hand and draw with the other simultaneously - he was naturally ambidextrous!"}];
+];
 
 NG.fi = [
   {c:"animals",e:"\ud83e\udd81",bg:"linear-gradient(135deg,#c8520a,#8B4513)",cc:"#ff8c00",t:"Afrikkalainen leijona",f:"Leijonat ovat ainoita kissoja jotka el\u00e4v\u00e4t laumoissa. Laumassa voi olla jopa 30 leijonaa! Naaraat tekev\u00e4t suurimman osan mets\u00e4styksest\u00e4, kun taas koiraat suojelevat reviiria.",x:"Leijonan karjunta kuuluu jopa 8 kilometrin p\u00e4\u00e4h\u00e4n! Ne karjuvat kommunikoidakseen lauman kanssa ja varoittaakseen kilpailijoita pysym\u00e4\u00e4n poissa reviirilt\u00e4.",fun:"Hauska fakta: Leijonat nukkuvat jopa 20 tuntia p\u00e4iv\u00e4ss\u00e4!"},
@@ -2450,19 +2575,7 @@ NG.fi = [
   {c:"ocean",e:"\ud83d\udc20",bg:"linear-gradient(135deg,#e65100,#bf360c)",cc:"#ffcc80",t:"Klovnikala",f:"Klovnikalalat el\u00e4v\u00e4t merivahvajalokien polttavien lonkeroiden joukossa t\u00e4ydellisessa kumppanuudessa. Limainen p\u00e4\u00e4llyste suojaa klovnikalaa polttavilta soluilta.",x:"Kaikki klovnikalalat syntyv\u00e4t koiraina! Suurin kala ryhm\u00e4ss\u00e4 muuttuu naaraaksi. Jos naaras kuolee hallitseva koiras muuttuu pysyv\u00e4sti naaraaksi.",fun:"Hauska fakta: Oikeat klovnikalalat eiv\u00e4t yleens\u00e4 koskaan poistu anemoneiltaan - toisin kuin Nemo elokuvassa!"},
   {c:"ocean",e:"\ud83d\udc22",bg:"linear-gradient(135deg,#1b5e20,#2e7d32)",cc:"#a5d6a7",t:"Merikilpikonnat",f:"Merikilpikonnat ovat uineet valtameriss\u00e4 yli 100 miljoonaa vuotta! Ne voivat pid\u00e4tt\u00e4\u00e4 hengityst\u00e4 jopa 7 tuntia nukkuessaan. Nahkiaiskilpikonna voi painaa 900 kg.",x:"Naaras merikilpikonnat palaavat t\u00e4sm\u00e4lleen samalle rannalle syntym\u00e4paikastaan munimaan. Ne navigoivat tuhansien kilometrien p\u00e4\u00e4h\u00e4n k\u00e4ytt\u00e4en Maan magneettikentt\u00e4\u00e4 GPS:n\u00e4.",fun:"Hauska fakta: Merikilpikonnien poikasten sukupuoli m\u00e4\u00e4r\u00e4ytyy hiekan l\u00e4mp\u00f6tilasta jossa ne kehittyv\u00e4t!"},
   {c:"ocean",e:"\ud83e\uddad",bg:"linear-gradient(135deg,#0277bd,#01579b)",cc:"#81d4fa",t:"Merileijona",f:"Merileijonat ovat \u00e4lykk\u00e4it\u00e4 ja USA:n merivoimat kouluttaa niit\u00e4 paikallistamaan vedenalaisia miinoja! Ne voivat sukeltaa 300 metrin syvyyteen.",x:"Merileijonat navigoivat kehittyneell\u00e4 kaiutuksella samantapaisella kuin delfiinit. Ne voivat juosta lyhyill\u00e4 matkoilla nopeammin kuin ihmiset maalla evist\u00e4\u00e4n huolimatta.",fun:"Hauska fakta: Merileijonat voivat juosta nopeammin kuin ihmiset lyhyill\u00e4 matkoilla!"},
-  {c:"ocean",e:"\ud83e\udda6",bg:"linear-gradient(135deg,#4e342e,#3e2723)",cc:"#bcaaa4",t:"Merissaukko",f:"Merissaukot ovat t\u00e4rkeit\u00e4 lev\u00e4mets\u00e4ekosysteemeille - ne sy\u00f6v\u00e4t merisiilej\u00e4 jotka muuten tuhoaisivat lev\u00e4mets\u00e4t. Niill\u00e4 on tiheimm\u00e4t turkki kaikista el\u00e4imist\u00e4 - miljoona karvaa per cm\u00b2!",x:"Merissaukot pit\u00e4v\u00e4t toisiaan k\u00e4dest\u00e4 nukkuessaan kelluen pinnalla ettei virtaus vie niit\u00e4 erilleen. Lev\u00e4htyvi\u00e4 saukkoja kutsutaan lautaksi.",fun:"Hauska fakta: Merissaukot k\u00e4ytt\u00e4v\u00e4t kivi\u00e4 ty\u00f6kaluina murskatakseen simpukoita ja pit\u00e4v\u00e4t lempikivi\u00e4\u00e4n ihon taskussa!"},
-  {c:"dinosaurs",e:"\ud83e\udd95",bg:"linear-gradient(135deg,#2e7d32,#1b5e20)",cc:"#a5d6a7",t:"T-Rex",f:"T-Rex oli yksi suurimmista saalistajista ikin\u00e4! Se kasvoi 12 metri\u00e4 pitk\u00e4ksi ja painoi 8 tonnia. Sen purenta oli niin voimakas ett\u00e4 se pystyi murskaavaan luita t\u00e4ysin.",x:"Koostaan huolimatta T-Rex pystyi juoksemaan 20 km tunnissa. Sen k\u00e4sivarret olivat vain metrin mittaisia. Tiedemiehill\u00e4 on yh\u00e4 teorioita mihin noita pieni\u00e4 k\u00e4sivarsia k\u00e4ytettiin.",fun:"Hauska fakta: T-Rexill\u00e4 oli kaikkien aikojen voimakkain purentavoima maaelaimilla - 57 000 Newtonia!"},
-  {c:"dinosaurs",e:"\ud83e\udd96",bg:"linear-gradient(135deg,#1b5e20,#004d40)",cc:"#80deea",t:"Triceratops",f:"Triceratops oli yksi viimeisist\u00e4 dinosaureista ennen sukupuuttoa 66 miljoonaa vuotta sitten. Sen kolme sarvea kasvoivat metrin mittaisiksi ja kallo oli yksi suurimmista kaikista maaelaimista.",x:"Tiedemiehet uskovat Triceratopsin k\u00e4ytt\u00e4neen sarviaan T-Rexin torjumiseen ja muiden Triceratopsien kanssa taistelemiseen reviireist\u00e4. Niskakaulus saattoi auttaa my\u00f6s kumppanin houkuttelussa.",fun:"Hauska fakta: Triceratopsin sarvet olivat keratiinia - samaa ainetta kuin kyntemme ja hiuksemme!"},
-  {c:"dinosaurs",e:"\ud83e\udeb6",bg:"linear-gradient(135deg,#4a148c,#1a237e)",cc:"#ce93d8",t:"Velociraptor",f:"Velociraptors olivat oikeasti kalkkunan kokoisia - paljon pienempi\u00e4 kuin elokuvissa! Niill\u00e4 oli h\u00f6yhenet ja ne olivat l\u00e4heist\u00e4 sukua nykyisille linnuille. Ne olivat nopeita ja \u00e4lykk\u00e4it\u00e4 mets\u00e4st\u00e4ji\u00e4.",x:"Sirppimainen kynsi k\u00e4ytettiin saaliin kiinnipit\u00e4miseen ei viilt\u00e4miseen. Linnut ovat oikeasti el\u00e4vi\u00e4 dinosauruksia jotka polveutuvat suoraan raptoreista kuten Velociraptorista.",fun:"Hauska fakta: Velociraptor on l\u00e4heisemp\u00e4\u00e4 sukua nykyiselle kanalle kuin T-Rexille!"},
-  {c:"dinosaurs",e:"\ud83c\udf3f",bg:"linear-gradient(135deg,#33691e,#1b5e20)",cc:"#dce775",t:"Brachiosaurus",f:"Brachiosaurus oli 4-kerroksisen rakennuksen korkuinen ylt\u00e4en 13 metriin! Sen pitk\u00e4 kaula salli puiden latvusten sy\u00f6misen. Se painoi 30-60 tonnia ollen raskaampi kuin 8 norsua.",x:"Toisin kuin useimmilla dinosaureilla sen etujalkansa olivat pidemm\u00e4t kuin takajalkansa antaen kirahvimaisen asennon. Se tarvitsi noin 400 kilogrammaa kasveja joka p\u00e4iv\u00e4 selviyty\u00e4kseen.",fun:"Hauska fakta: Brachiosaurus tarvitsi 400 kg ruokaa p\u00e4iv\u00e4ss\u00e4 - se on kuin s\u00f6isi 800 isoa pizzaa!"},
-  {c:"dinosaurs",e:"\ud83c\udf0a",bg:"linear-gradient(135deg,#0d47a1,#1a237e)",cc:"#90caf9",t:"Mosasaurus",f:"Mosasaurus oli 17 metri\u00e4 pitk\u00e4 meriel\u00e4in ja muinaisten merien huipunsaalistaja! Se s\u00f6i haileja kaloja ja muita mosasauruksia. Se hengitti ilmaa kuten nykyiset valaat ja delfiinit.",x:"Mosasauruksella oli k\u00e4\u00e4rmem\u00e4inen leuka saaliin nielemiseksi kokonaan. Fossiileja l\u00f6ydetty joka mantereelta. Se hallitsi meri\u00e4 sukupuuttoon asti 66 miljoonaa vuotta sitten.",fun:"Hauska fakta: Mosasaurus nimettiin Maasjoen mukaan Alankomaissa jossa ensimm\u00e4inen fossiili l\u00f6ydettiin 1764!"},
-  {c:"dinosaurs",e:"\ud83e\udd85",bg:"linear-gradient(135deg,#e65100,#bf360c)",cc:"#ffcc80",t:"Pterodaktyyli",f:"Pterodaktyyleja olivat lent\u00e4vi\u00e4 matelijoita ei dinosauruksia! Suurimmalla lajilla oli 11 metri\u00e4 leve\u00e4 siipien k\u00e4rkiv\u00e4li kuten pienell\u00e4 lentokoneella. Niill\u00e4 oli onttoja luita lentopainon v\u00e4hent\u00e4miseksi.",x:"Pterodaktyyleja olivat ensimm\u00e4isi\u00e4 selk\u00e4rankaisia jotka kehittiv\u00e4t lent\u00e4misen - ennen lintuja ja lepakoita. Joillakin lajeilla oli harjat p\u00e4\u00e4ss\u00e4 n\u00e4ytt\u00e4ytymiseen tai lent\u00e4misen ohjaukseen.",fun:"Hauska fakta: Pterodaktyyleja olivat maapallon ensimm\u00e4iset lent\u00e4v\u00e4t selk\u00e4rankaiset - 228 miljoonaa vuotta sitten!"},
-  {c:"history",e:"\ud83c\udfdb\ufe0f",bg:"linear-gradient(135deg,#4e342e,#3e2723)",cc:"#ffcc80",t:"Muinainen Egypti",f:"Muinainen Egypti kesti yli 3 000 vuotta ja antoi meille pyramidit hieroglyyfit ja uskomattoman taiteen! Suuri pyramidi k\u00e4ytti 2 miljoonaa kiviblokkia ja oli maailman korkein rakenne 3 800 vuotta.",x:"Muinaiset egyptil\u00e4iset keksiv\u00e4t hammastahnan hengenvirkist\u00e4j\u00e4t ja ensimm\u00e4isen kalenterin. Kleopatra eli ajallisesti l\u00e4hemp\u00e4n\u00e4 kuulaskeutumista kuin suuren pyramidin rakentamista!",fun:"Hauska fakta: Muinaisilla egyptil\u00e4isill\u00e4 oli yli 2 000 jumalaa mukaan lukien kissajumalatar kaaoksen jumala ja virtahepojumalatar!"},
-  {c:"history",e:"\ud83c\udffa",bg:"linear-gradient(135deg,#1565c0,#0d47a1)",cc:"#90caf9",t:"Muinainen Kreikka",f:"Muinainen Kreikka antoi maailmalle demokratian filosofian olympiakisat ja nykyaikaisen tieteen perustan! Ajattelijat kuten Platon ja Aristoteles vaikuttavat yh\u00e4 ihmisten ajatteluun t\u00e4n\u00e4\u00e4n.",x:"Muinaiset kreikkalaiset laskivat Maan keh\u00e4n oikein 2 200 vuotta sitten varjomittauksilla ja geometrialla ilman mit\u00e4\u00e4n teknologiaa. Tarkkuus oli 2 prosentin sis\u00e4ll\u00e4 nykyarvosta!",fun:"Hauska fakta: Muinaiset kreikkalaiset keksiv\u00e4t ensimm\u00e4isen myyntiauton - se jakoi pyh\u00e4\u00e4 vett\u00e4 kolikon pudottamalla!"},
-  {c:"history",e:"\ud83c\udf19",bg:"linear-gradient(135deg,#1a237e,#311b92)",cc:"#9fa8da",t:"Viikingit",f:"Skandinaviasta kotoisin olevat viikingit saapuivat Pohjois-Amerikkaan 500 vuotta ennen Kolumbusta! Vuosina 800-1100 he tutkivat Eurooppaa Aasiaa ja Amerikkaa. He olivat taitavia kauppiaita.",x:"Viikinkisnaisilla oli enemm\u00e4n oikeuksia kuin useimmissa muissa keskiaikaisissa yhteiskunnissa. Viikingit perustivat kauppareittej\u00e4 Skandinaviasta Konstantinopoliin vaihtaen turkiksia silkkiin.",fun:"Hauska fakta: Viikingit perustivat ensimm\u00e4isen eurooppalaisen siirtokunnan Pohjois-Amerikassa Newfoundlandissa noin vuonna 1000 jKr!"},
-  {c:"history",e:"\ud83c\udfef",bg:"linear-gradient(135deg,#b71c1c,#880e4f)",cc:"#ef9a9a",t:"Muinainen Kiina",f:"Muinainen Kiina keksi paperin kirjapainotaidon ruudin ja kompassin - nelj\u00e4 keksint\u00f6\u00e4 jotka muuttivat maailman! Kiinalainen sivilisaatio kattaa yli 5 000 vuotta jatkuvaa historiaa.",x:"Kiinan Suuri Muuri ulottuu yli 21 000 km ja sen rakentamiseen kului 2 000 vuotta. Muinainen Kiina keksi my\u00f6s j\u00e4\u00e4tel\u00f6n 3 000 vuotta sitten paperirahan pelikortit leijat ja maanj\u00e4ristyksen ilmaisimen!",fun:"Hauska fakta: Muinainen Kiina keksi paperirahan yli 1 000 vuotta ennen Eurooppaa - he kutsuivat sit\u00e4 lent\u00e4v\u00e4ksi rahaksi!"},
-  {c:"history",e:"\ud83d\uddff",bg:"linear-gradient(135deg,#37474f,#263238)",cc:"#b0bec5",t:"P\u00e4\u00e4si\u00e4issaari",f:"P\u00e4\u00e4si\u00e4issaarella on 900 mystist\u00e4 j\u00e4ttil\u00e4ispatsasta Moai veistetty vuosina 1400-1650. Suurin painaa 86 tonnia ja on 10 metri\u00e4 korkea. Patsailla on t\u00e4ysi\u00e4 kehoja maahan haudattuina!",x:"Tiedemiehet todistivat Rapa Nui kansan k\u00e4vellytt\u00e4neen patsaat keinuttamalla - aivan kuten muinainen suullinen perinne kuvasi. T\u00e4m\u00e4 vahvistettiin moderneilla kokeilla vuonna 2012.",fun:"Hauska fakta: P\u00e4\u00e4si\u00e4issaaren patsaiden p\u00e4iden alla on t\u00e4ysi\u00e4 kehoja haudattuina - suurin osa patsaasta on maan alla!"},
-  {c:"history",e:"\ud83c\udfad",bg:"linear-gradient(135deg,#880e4f,#4a148c)",cc:"#f48fb1",t:"Renessanssi",f:"Renessanssi oli kulttuurinen uudestisyntyminen Euroopassa 1300-1600-luvuilla. Leonardo da Vinci suunnitteli lentokoneita ja tankkeja satoja vuosia ennen kuin ne keksittiin!",x:"Leonardo t\u00e4ytti yli 13 000 sivua muistikirjoja ideoillaan. Mona Lisan maalaaminen kesti 4 vuotta. Michelangelo maalasi Sikstuksen kappelin katon makaamalla sel\u00e4ll\u00e4\u00e4n 4 vuotta putkeen!",fun:"Hauska fakta: Leonardo da Vinci kirjoitti yhdell\u00e4 k\u00e4dell\u00e4 ja piirsi toisella samanaikaisesti - h\u00e4n oli luonnostaan kaksik\u00e4tinen!"}
+  {c:"ocean",e:"\ud83e\udda6",bg:"linear-gradient(135deg,#4e342e,#3e2723)",cc:"#bcaaa4",t:"Merissaukko",f:"Merissaukot ovat t\u00e4rkeit\u00e4 lev\u00e4mets\u00e4ekosysteemeille - ne sy\u00f6v\u00e4t merisiilej\u00e4 jotka muuten tuhoaisivat lev\u00e4mets\u00e4t. Niill\u00e4 on tiheimm\u00e4t turkki kaikista el\u00e4imist\u00e4 - miljoona karvaa per cm\u00b2!",x:"Merissaukot pit\u00e4v\u00e4t toisiaan k\u00e4dest\u00e4 nukkuessaan kelluen pinnalla ettei virtaus vie niit\u00e4 erilleen. Lev\u00e4htyvi\u00e4 saukkoja kutsutaan lautaksi.",fun:"Hauska fakta: Merissaukot k\u00e4ytt\u00e4v\u00e4t kivi\u00e4 ty\u00f6kaluina murskatakseen simpukoita ja pit\u00e4v\u00e4t lempikivi\u00e4\u00e4n ihon taskussa!"}
 ];
 
 
@@ -2480,9 +2593,7 @@ function ngCatName(c){
     nature:{en:'Nature',fi:'Luonto'},
     geography:{en:'Geography',fi:'Maantiede'},
     space:{en:'Space',fi:'Avaruus'},
-    ocean:{en:'Ocean',fi:'Valtameri'},
-    dinosaurs:{en:'Dinosaurs',fi:'Dinosaurukset'},
-    history:{en:'History',fi:'Historia'}
+    ocean:{en:'Ocean',fi:'Valtameri'}
   };
   return m[c]?(m[c][LG]||m[c].en):c;
 }
@@ -2526,7 +2637,7 @@ function ngRender(){
 function ngFilter(cat){
   ngCurCat=cat;
   document.querySelectorAll('.ngt').forEach(function(b){b.classList.remove('on');});
-  var map={all:'ngAll',animals:'ngAnimals',nature:'ngNature',geography:'ngGeo',space:'ngSpace',ocean:'ngOcean',dinosaurs:'ngDinos',history:'ngHist'};
+  var map={all:'ngAll',animals:'ngAnimals',nature:'ngNature',geography:'ngGeo',space:'ngSpace',ocean:'ngOcean'};
   var el=document.getElementById(map[cat]);
   if(el)el.classList.add('on');
   ngRender();
@@ -2543,10 +2654,7 @@ function ngOpen(item){
   var cat=document.getElementById('ngMCatBadge');if(cat){cat.textContent=ngCatName(item.c);cat.style.color=item.cc;}
   var dyk=document.getElementById('ngMDyk');if(dyk)dyk.textContent=LG==='fi'?'🌟 Tiesitkö?':'🌟 Did you know?';
   var bk=document.getElementById('ngMBack');if(bk)bk.textContent=LG==='fi'?'Takaisin peleihin!':'Back to Games!';
-  if(modal){
-    modal.style.display='flex';
-    document.body.style.overflow='hidden';
-  }
+  if(modal){modal.style.display='flex';document.body.style.overflow='hidden';}
 }
 
 function ngClose(){
@@ -2559,7 +2667,7 @@ function ngScroll(dir){
   if(track)track.scrollLeft+=dir*400;
 }
 
-// ngModal click handled via onclick attribute
+document.getElementById('ngModal').addEventListener('click',function(e){if(e.target===this)ngClose();});
 
 var _origSetLang2=setLang;
 setLang=function(l){
@@ -2568,8 +2676,8 @@ setLang=function(l){
   if(title)title.textContent=l==='fi'?'Tutustu Hämmästyttävään Maailmaamme!':'Learn About Our Amazing World!';
   var sub=document.getElementById('ngSub');
   if(sub)sub.textContent=l==='fi'?'Napauta korttia löytääksesi siistejä faktoja!':'Tap any card to discover cool facts!';
-  var icons={ngAll:'🌟 ',ngAnimals:'🦁 ',ngNature:'🌿 ',ngGeo:'🌍 ',ngSpace:'🚀 ',ngOcean:'🌊 ',ngDinos:'🦕 ',ngHist:'🏛️ '};
-  var labels={ngAll:{en:'All',fi:'Kaikki'},ngAnimals:{en:'Animals',fi:'Eläimet'},ngNature:{en:'Nature',fi:'Luonto'},ngGeo:{en:'Geography',fi:'Maantiede'},ngSpace:{en:'Space',fi:'Avaruus'},ngOcean:{en:'Ocean',fi:'Valtameri'},ngDinos:{en:'Dinosaurs',fi:'Dinosaurukset'},ngHist:{en:'History',fi:'Historia'}};
+  var icons={ngAll:'🌟 ',ngAnimals:'🦁 ',ngNature:'🌿 ',ngGeo:'🌍 ',ngSpace:'🚀 ',ngOcean:'🌊 '};
+  var labels={ngAll:{en:'All',fi:'Kaikki'},ngAnimals:{en:'Animals',fi:'Eläimet'},ngNature:{en:'Nature',fi:'Luonto'},ngGeo:{en:'Geography',fi:'Maantiede'},ngSpace:{en:'Space',fi:'Avaruus'},ngOcean:{en:'Ocean',fi:'Valtameri'}};
   Object.keys(labels).forEach(function(id){
     var e=document.getElementById(id);
     if(e)e.textContent=icons[id]+(labels[id][l]||labels[id].en);
@@ -2579,79 +2687,150 @@ setLang=function(l){
 
 ngRender();
 
-// ═══ TYPING SPEED GAME ═══
-var TYP_EASY=['The cat sat on the mat and looked at the bird','The dog ran fast in the big green park','A red fox jumps over the lazy brown dog','Kids love to play games and learn new things','The sun shines bright on a warm summer day','Fish swim in the deep blue ocean every day','Birds fly high up in the clear blue sky','The quick fox jumps over the sleeping dog'];
-var TYP_MED=['Learning to type fast is a very useful skill','Practice makes perfect when you type every day','The rainbow appeared after the heavy rain storm','Butterflies have beautiful wings with many colors','Elephants are the largest land animals on Earth','The Amazon rainforest produces oxygen for our planet','Technology has changed the way children learn today','Scientists discovered a new species of fish last year'];
-var TYP_HARD=['Extraordinary achievements require exceptional dedication and perseverance','The sophisticated algorithm processed thousands of calculations simultaneously','Photosynthesis converts sunlight into chemical energy for plants','Biodiversity is essential for maintaining healthy ecosystems worldwide','The magnificent aurora borealis illuminates the Arctic night sky','Cryptography protects sensitive information through mathematical algorithms','The archaeological excavation revealed ancient civilizations beneath the surface'];
-var typDiff='easy',typActive=false,typTI=null,typStart=0,typCorr=0,typTotal=0,typTimeLeft=30,typCurText='';
+// ═══ STORY BOOK DATA ═══
+var SB={en:[],fi:[]};
 
-function setTypDiff(d){
-  typDiff=d;
-  ['easy','medium','hard'].forEach(function(x){
-    var b=document.getElementById('typD'+x[0].toUpperCase());
-    if(b)b.style.opacity=x===d?'1':'0.5';
-  });
-  newTypText();
+SB.en = [{"id": 1, "c": "adventure", "e": "🏴‍☠️", "bg": "linear-gradient(135deg,#1a237e,#0d47a1)", "cc": "#90caf9", "title": "The Pirate and the Magic Compass", "pages": ["Once upon a time, a young pirate named Leo found a glowing compass on a deserted island beach. Unlike any compass he had seen before, it did not point north — it pointed toward the thing you needed most!", "\"Show me the greatest treasure!\" Leo shouted. The compass spun wildly and pointed... straight back at his little wooden boat where his best friend Sam sat waiting.", "Leo laughed, realizing the compass was right all along. He ran back to Sam and together they sailed toward the setting sun, the best treasure they had already found in each other."], "moral": "The greatest treasure in life is true friendship — no map can lead you there.", "cat": "Adventure"}, {"id": 2, "c": "adventure", "e": "🏔️", "bg": "linear-gradient(135deg,#37474f,#1a237e)", "cc": "#b0bec5", "title": "Mia Climbs the Cloud Mountain", "pages": ["Mia was told that at the top of Cloud Mountain lived a wise old eagle who could answer any question. So she packed her bag and began the long climb, though everyone told her it was impossible.", "Along the way she helped a rabbit with a stuck paw, shared her water with a tired fox, and sang songs to a lonely tree. Each time she gave something, she felt lighter and faster.", "When she finally reached the top, the eagle smiled. \"I know your question,\" it said. \"You want to know how to be happy. You already showed yourself the answer on the way up.\""], "moral": "Happiness is found by giving to others along the journey, not waiting at the destination.", "cat": "Adventure"}, {"id": 3, "c": "adventure", "e": "🌊", "bg": "linear-gradient(135deg,#006064,#0d47a1)", "cc": "#80deea", "title": "The Boy Who Could Talk to Fish", "pages": ["Tom discovered he could understand fish when he fell into the lake one summer morning. The fish were panicking — a storm was coming that would flood the whole village!", "Nobody believed a boy could talk to fish. But Tom ran from house to house warning everyone. Most laughed. But three families listened and moved to higher ground.", "That night the storm came exactly as the fish had said. Those three families were safe. From then on, the whole village learned to listen to even the most unusual voices."], "moral": "Even the smallest voice can carry the most important message. Always listen.", "cat": "Adventure"}, {"id": 4, "c": "animals", "e": "🦁", "bg": "linear-gradient(135deg,#c8520a,#8B4513)", "cc": "#ff8c00", "title": "The Lion Who Was Afraid of Mice", "pages": ["King Leo was the bravest lion in the savanna. He could face elephants and crocodiles without a shiver. But he had one secret — he was terrified of tiny mice!", "One day a little mouse named Pip got stuck in Leo's mane. Leo froze in fear. Pip gently untangled himself and said cheerfully, \"Don't worry! We mice are friendly. I could have bitten you but why would I? You're magnificent!\"", "From that day Leo and Pip became the most unlikely best friends. Leo realized that his fear had been silly — and Pip realized that being small did not mean being unimportant."], "moral": "Bravery means facing your fears. Even kings can learn from the smallest creatures.", "cat": "Animals"}, {"id": 5, "c": "animals", "e": "🐢", "bg": "linear-gradient(135deg,#1b5e20,#2e7d32)", "cc": "#a5d6a7", "title": "Slow Turtle Wins the Race", "pages": ["Speedy the hare laughed at Turtle every single day. \"You are so slow! How do you even get anywhere?\" he mocked loudly at the watering hole so all the animals could hear.", "Turtle smiled calmly. \"I always get where I am going,\" he said. \"Shall we race to the big oak tree at sunrise?\" The whole savanna came to watch, certain the hare would win easily.", "But Speedy napped in the warm sun, sure of victory. Turtle walked steadily — one step, then another, never stopping. When Speedy woke and sprinted, Turtle was already sitting under the oak, smiling peacefully."], "moral": "Slow and steady wins the race. Consistency beats speed every time.", "cat": "Animals"}, {"id": 6, "c": "animals", "e": "🐘", "bg": "linear-gradient(135deg,#607d8b,#37474f)", "cc": "#90a4ae", "title": "The Elephant Who Forgot Nothing", "pages": ["Ellie the elephant remembered everything — where every tree grew, where every waterhole was hidden, and most importantly the name and face of every friend she had ever made.", "One dry season the animals were dying of thirst. Ellie closed her eyes and remembered — two years ago she had found a secret spring deep in the eastern valley. She led the whole herd there safely.", "\"How did you know?\" the young zebras asked in amazement. Ellie smiled. \"Because I paid attention and I never forget a kindness or a discovery. Memory is the greatest gift.\""], "moral": "Pay attention to the world around you. What you learn today may save you tomorrow.", "cat": "Animals"}, {"id": 7, "c": "animals", "e": "🦋", "bg": "linear-gradient(135deg,#7b1fa2,#4a148c)", "cc": "#ce93d8", "title": "The Caterpillar Who Doubted Herself", "pages": ["Clara the caterpillar watched butterflies dance in the meadow and cried. \"I will never be beautiful like them,\" she sighed. \"I am just a slow, fuzzy, ordinary caterpillar.\"", "One autumn day she felt a strange urge to wrap herself up tightly. It was dark and lonely inside her cocoon. She pushed against it frightened and confused, wondering if she had made a mistake.", "Then one morning something magical happened. She pushed through into blinding golden light — and spread brilliant orange and black wings wider than her whole body had once been. She was a monarch butterfly."], "moral": "The most beautiful things grow through struggle. Your hardest moments are changing you.", "cat": "Animals"}, {"id": 8, "c": "magic", "e": "⭐", "bg": "linear-gradient(135deg,#4a148c,#1a237e)", "cc": "#ce93d8", "title": "The Wishing Star Who Ran Out of Wishes", "pages": ["Star had granted wishes for a thousand years — ponies, candy, taller buildings, bigger toys. But one cold night she felt empty. No more wishes left inside her glow.", "A small girl named Lily looked up and said, \"Dear star, I do not need a wish. I just wanted to say thank you for the moon and the night sky and this beautiful world.\" Star had never heard that before.", "Lily's thanks filled Star up with golden light again — more than she had ever held. She realized then that gratitude was far more powerful than any wish ever granted."], "moral": "Gratitude fills the world with more magic than any wish ever could.", "cat": "Magic"}, {"id": 9, "c": "magic", "e": "🔮", "bg": "linear-gradient(135deg,#6a1b9a,#4a148c)", "cc": "#f3e5f5", "title": "The Magic Paintbrush", "pages": ["Zoe found a paintbrush in the attic that could bring anything she painted to life. She painted a golden bird which flew away singing. She painted an apple and ate it fresh. She was amazed!", "Then she painted a friend — because she was lonely. But the painted friend could not laugh at real jokes, could not share real secrets, and could not give real hugs. Zoe felt even more alone.", "She painted the last thing on her list — a letter to her neighbor who she had been too shy to meet. That night the neighbor knocked on her door. They talked for hours. That was real magic."], "moral": "Real magic is having the courage to reach out to real people. No brush can paint true friendship.", "cat": "Magic"}, {"id": 10, "c": "magic", "e": "🌙", "bg": "linear-gradient(135deg,#1a237e,#311b92)", "cc": "#9fa8da", "title": "The Moon's Missing Glow", "pages": ["One night the moon did not shine. The whole world fell into darkness and the animals were frightened. The moon had given her light to a little fish that had swallowed it accidentally.", "The tiny fish swam to the deepest part of the ocean, too scared to come up. All the sea creatures came to help — the whale lifted gently, the dolphins guided, the starfish lit the way.", "When the fish finally leaped from the ocean, the moonlight burst free and flooded the whole sky. The moon glowed brighter than she ever had — grateful to all the little helpers."], "moral": "When we help each other, even the darkest nights can become the brightest.", "cat": "Magic"}, {"id": 11, "c": "nature", "e": "🌱", "bg": "linear-gradient(135deg,#1b5e20,#33691e)", "cc": "#a5d6a7", "title": "The Little Seed's Big Dream", "pages": ["A tiny seed fell from a tall oak tree and landed in hard stony ground. All the other seeds had fallen in soft soil. \"You will never grow here,\" the wind whispered. \"The ground is too tough.\"", "But the seed sent her roots down and down, finding tiny cracks in the rock, seeking every drop of water, reaching toward the deep dark soil below the stones.", "Ten years later a magnificent tree stood where nothing had grown before. Hikers would rest in her shade and wonder at how a tree could grow in such impossible ground. The tree just smiled and grew."], "moral": "The strongest trees grow in the hardest ground. Difficult beginnings make the deepest roots.", "cat": "Nature"}, {"id": 12, "c": "nature", "e": "🌧️", "bg": "linear-gradient(135deg,#1565c0,#0d47a1)", "cc": "#90caf9", "title": "Rain and the Dry Valley", "pages": ["The Valley had not seen rain for two whole years. The river had dried to dust. The flowers had given up. The animals had left. Only one old tortoise remained, waiting patiently.", "One day a small dark cloud appeared on the horizon. All the remaining creatures laughed. \"One cloud cannot save a whole valley!\" But the tortoise said, \"Every flood begins with one drop.\"", "The cloud grew. Then another came. Then a hundred more followed. That evening the rain fell all night and by morning the river ran again. The tortoise had been right all along."], "moral": "Never underestimate one small act of kindness or one small cloud. Every great change starts small.", "cat": "Nature"}, {"id": 13, "c": "nature", "e": "🌺", "bg": "linear-gradient(135deg,#880e4f,#c62828)", "cc": "#f48fb1", "title": "The Flower That Bloomed in Winter", "pages": ["When winter came every flower closed up and waited for spring like they always had. But one little red flower named Rose decided to bloom anyway, despite the frost and the snow.", "The other flowers thought she was crazy. The bees had all gone. Who would see her? But a lonely child walking through the grey garden stopped and gasped in wonder at the single red bloom.", "That child came back every day, and told her friends, and soon the grey garden was full of laughter and warmth again — all because one small flower dared to bloom when nobody expected it."], "moral": "Dare to bloom even when the conditions are not perfect. Your courage can warm the whole world.", "cat": "Nature"}, {"id": 14, "c": "funny", "e": "🐸", "bg": "linear-gradient(135deg,#1b5e20,#004d40)", "cc": "#69f0ae", "title": "The Frog Who Wanted to Be a Singer", "pages": ["Freddy the frog had one dream — to sing at the Great Pond Concert. There was just one problem. When Freddy sang, it sounded like a rusty wheelbarrow being pushed over gravel by a goat.", "Freddy practiced every morning. The fish covered their ears. The birds flew away. The lily pads rippled from the sound waves. But Freddy did not give up.", "On concert night Freddy stepped up, took a huge breath, and croaked his absolute loudest. The crowd was silent for a moment. Then they all burst out laughing — and gave him a standing ovation. Because his terrible singing was the most joyful sound they had ever heard."], "moral": "Do what you love with all your heart — even if you do it badly. Joy is contagious.", "cat": "Funny"}, {"id": 15, "c": "funny", "e": "🐷", "bg": "linear-gradient(135deg,#e91e63,#c2185b)", "cc": "#f48fb1", "title": "The Pig Who Wanted to Fly", "pages": ["Percy the pig had watched birds fly his whole life and decided he too would learn. He tried flapping his little trotters at breakfast. He jumped off haybales at lunch. He wore a feather hat at dinner.", "\"Pigs cannot fly,\" said everyone on the farm — the cow, the horse, the chicken, even the very philosophical duck. But Percy kept practicing.", "One stormy day the barn roof was carried away by wind — right over the fence, right into the mud. Percy looked at it and shrugged. \"Well,\" he said, \"the barn can fly. Close enough.\" And he was extremely proud."], "moral": "Some dreams change shape along the way — that is not failure, that is wisdom.", "cat": "Funny"}, {"id": 16, "c": "funny", "e": "🦉", "bg": "linear-gradient(135deg,#4e342e,#6d4c41)", "cc": "#ffcc80", "title": "The Owl Who Could Not Say Who", "pages": ["Oliver the owl had a problem — every owl is supposed to say WHO but Oliver could only say WHAT. \"WHAT! WHAT!\" he called every night. The forest was very confused.", "\"Who is there?\" asked the fox one dark evening. \"WHAT!\" replied Oliver. \"What is where?\" asked the fox, more confused than before. They went around like this for a very long time.", "Eventually the fox gave up trying and just sat down next to Oliver. They watched the stars together in comfortable silence. Oliver thought — maybe WHAT is the right question after all. What is that star? What is that sound? What a wonderful world."], "moral": "Asking WHAT about the world around you can lead to just as many wonderful discoveries as asking WHO.", "cat": "Funny"}, {"id": 17, "c": "funny", "e": "🐒", "bg": "linear-gradient(135deg,#e65100,#bf360c)", "cc": "#ffcc80", "title": "The Monkey Who Stole the King's Crown", "pages": ["Max the monkey thought the king's golden crown looked like a very comfortable fruit bowl. So one afternoon while the king was napping he quietly borrowed it and filled it with bananas.", "The whole palace was in uproar. Guards searched everywhere. But Max was sitting in a mango tree, wearing the banana-filled crown on his head, looking absolutely regal.", "The king finally found him and could not stop laughing. \"You know,\" said the king, removing a banana, \"this IS an excellent fruit bowl.\" He gave Max a real bowl of gold and Max gave back the crown. Everyone was happy."], "moral": "Laughter can solve problems that seriousness cannot. Never be too important to see the funny side.", "cat": "Funny"}, {"id": 18, "c": "adventure", "e": "🚀", "bg": "linear-gradient(135deg,#1a237e,#311b92)", "cc": "#9fa8da", "title": "The Girl Who Built a Rocket", "pages": ["Nina was seven years old and absolutely certain she could build a rocket from cardboard boxes, tin cans, and determination. Everyone told her it was impossible. She began building anyway.", "After seventeen failed prototypes and one incident involving a very startled cat, Nina's Rocket Number Eighteen finally worked — it flew 40 meters across the backyard and landed in Mrs. Johnson's rose bushes.", "\"Young lady!\" called Mrs. Johnson over the fence, holding the battered rocket. Then she smiled. \"When you build Rocket Nineteen, please aim slightly more to the left. Also — would you like some lemonade? I want to hear everything.\""], "moral": "Failure is just prototype building. Every attempt gets you closer to the stars.", "cat": "Adventure"}];
+
+SB.fi = [{"id": 1, "c": "adventure", "e": "🏴‍☠️", "bg": "linear-gradient(135deg,#1a237e,#0d47a1)", "cc": "#90caf9", "title": "Merirosvo ja Taika-kompassi", "pages": ["Olipa kerran nuori merirosvo nimeltä Leo joka löysi hehkuvan kompassin autiolta saaren rannalta. Toisin kuin mikään kompassi jonka hän oli nähnyt se ei osoittanut pohjoiseen — se osoitti kohti sitä mitä tarvitsit eniten!", "\"Näytä minulle suurin aarre!\" Leo huusi. Kompassi pyöri villisti ja osoitti... suoraan takaisin hänen pienelle puuveneelleen missä paras ystävä Sam istui odottaen.", "Leo nauroi ymmärtäen kompassin olleen oikeassa koko ajan. Hän juoksi takaisin Samin luokse ja yhdessä he purjehtivat kohti laskevaa aurinkoa — parhaan aarteen jonka he olivat jo löytäneet toisissaan."], "moral": "Elämän suurin aarre on todellinen ystävyys — sinne ei johda mikään kartta.", "cat": "Seikkailu"}, {"id": 2, "c": "adventure", "e": "🏔️", "bg": "linear-gradient(135deg,#37474f,#1a237e)", "cc": "#b0bec5", "title": "Mia kiipeää Pilvivuorelle", "pages": ["Mialle oli kerrottu että Pilvivuoren huipulla asui viisas vanha kotka joka pystyi vastaamaan mihin tahansa kysymykseen. Niinpä hän pakkasi laukunsa ja aloitti pitkän kiipeilyn vaikka kaikki sanoivat sen olevan mahdotonta.", "Matkalla hän auttoi jänistä jolla oli tassu jumissa jakoi vetensä väsyneen ketun kanssa ja lauloi lauluja yksinäiselle puulle. Joka kerta kun hän antoi jotain hän tunsi itsensä kevyemmäksi ja nopeammaksi.", "Kun hän viimein saavutti huipun kotka hymyili. \"Tiedän kysymyksesi\" se sanoi. \"Haluat tietää kuinka olla onnellinen. Vastasit itse kysymykseen jo matkalla ylöspäin.\""], "moral": "Onnellisuus löytyy antamalla muille matkan varrella — ei odottamalla määränpäässä.", "cat": "Seikkailu"}, {"id": 3, "c": "adventure", "e": "🌊", "bg": "linear-gradient(135deg,#006064,#0d47a1)", "cc": "#80deea", "title": "Poika joka puhui kaloille", "pages": ["Tom huomasi pystyvänsä ymmärtämään kaloja kun hän putosi järveen kesäaamuna. Kalat olivat paniikissa — tuleva myrsky tulvisi koko kylään!", "Kukaan ei uskonut pojan pystyvän puhumaan kaloille. Mutta Tom juoksi talosta taloon varoittaen kaikkia. Useimmat nauroivat. Mutta kolme perhettä kuunteli ja siirtyi korkeammalle maalle.", "Sinä yönä myrsky tuli täsmälleen kuten kalat olivat sanoneet. Nämä kolme perhettä olivat turvassa. Siitä lähtien koko kylä oppi kuuntelemaan jopa kaikkein epätavallisimpia ääniä."], "moral": "Jopa pienin ääni voi kantaa tärkeintä viestiä. Kuuntele aina.", "cat": "Seikkailu"}, {"id": 4, "c": "animals", "e": "🦁", "bg": "linear-gradient(135deg,#c8520a,#8B4513)", "cc": "#ff8c00", "title": "Leijona joka pelkäsi hiiriä", "pages": ["Kuningas Leo oli rohkein leijona savannilla. Hän pystyi kohtaamaan norsuja ja krokotiileja ilman värinää. Mutta hänellä oli yksi salaisuus — hän pelkäsi pieniä hiiriä kuollakseen!", "Eräänä päivänä pieni hiiri nimeltä Pip jäi jumiin Leon harjaan. Leo jähmettyi pelosta. Pip vapautti itsensä varovasti ja sanoi iloisesti: \"Älä huoli! Me hiiret olemme ystävällisiä. Olisin voinut purra mutta miksi? Olet upea!\"", "Siitä päivästä Leo ja Pip tulivat kaikkein epätodennäköisimmiksi parhaiks ystäviksi. Leo tajusi pelkonsa olleen hölmöä — ja Pip ymmärsi että pienuus ei tarkoita merkityksettömyyttä."], "moral": "Rohkeus tarkoittaa pelkojen kohtaamista. Jopa kuninkaat voivat oppia pienimmiltä olennoilta.", "cat": "Eläimet"}, {"id": 5, "c": "animals", "e": "🐢", "bg": "linear-gradient(135deg,#1b5e20,#2e7d32)", "cc": "#a5d6a7", "title": "Hidas Kilpikonna voittaa kilvan", "pages": ["Jänis Pikainen nauroi kilpikonnalle joka päivä. \"Olet niin hidas! Miten edes pääset mihinkään?\" hän ivasi ääneen juomapaikalla kaikkien eläinten kuullen.", "Kilpikonna hymyili rauhallisesti. \"Pääsen aina perille\" hän sanoi. \"Kilpaileeko meistä kumpikaan suurelle tammelle auringonnousulla?\" Koko savanni tuli katsomaan varma jäniksen voitosta.", "Mutta Pikainen nukkui lämpimässä auringossa varma voitostaan. Kilpikonna käveli tasaisesti — yksi askel sitten toinen koskaan pysähtymättä. Kun Pikainen heräsi ja spurttasi kilpikonna istui jo tammen alla hymyillen rauhallisesti."], "moral": "Hitaasti ja tasaisesti kilpa voitetaan. Johdonmukaisuus päihittää nopeuden joka kerta.", "cat": "Eläimet"}, {"id": 6, "c": "animals", "e": "🐘", "bg": "linear-gradient(135deg,#607d8b,#37474f)", "cc": "#90a4ae", "title": "Norsu joka ei unohtanut mitään", "pages": ["Ellie-norsu muisti kaiken — missä jokainen puu kasvoi missä jokainen vesipaikka oli piilotettu ja ennen kaikkea jokaisen ystävänsä nimen ja kasvot.", "Eräänä kuivana vuodenaikana eläimet kärsivät janosta. Ellie sulki silmänsä ja muisti — kaksi vuotta sitten hän oli löytänyt salaisen lähteen syvällä itäisessä laaksossa. Hän johti koko lauman sinne turvallisesti.", "\"Mistä tiesit?\" nuoret seeprat kysyivät ihmeissään. Ellie hymyili. \"Koska kiinnitin huomiota enkä koskaan unohda ystävällisyyttä tai löytöä. Muisti on suurin lahja.\""], "moral": "Kiinnitä huomiota ympäröivään maailmaan. Mitä opit tänään saattaa pelastaa sinut huomenna.", "cat": "Eläimet"}, {"id": 7, "c": "animals", "e": "🦋", "bg": "linear-gradient(135deg,#7b1fa2,#4a148c)", "cc": "#ce93d8", "title": "Toukka joka epäili itseään", "pages": ["Clara-toukka katsoi perhosten tanssimista niityllä ja itki. \"En koskaan ole kaunis kuin ne\" hän huokaisi. \"Olen vain hidas pörröinen tavallinen toukka.\"", "Eräänä syyspäivänä hän tunsi outoa halua kietoa itsensä tiukasti. Oli pimeää ja yksinäistä kotelossa. Hän työnsi sitä vastaan peloissaan ja hämmentyneenä miettien oliko tehnyt virheen.", "Sitten eräänä aamuna jotain maagista tapahtui. Hän työnsi läpi sokeaisevaan kultaiseen valoon — ja levitti loistavia oranssin ja mustan siipensä leveämmälle kuin koko kehonsa oli ennen ollut. Hän oli monarkkiperhonen."], "moral": "Kauneimmat asiat kasvavat kamppailun kautta. Vaikeimmat hetkesi muuttavat sinua.", "cat": "Eläimet"}, {"id": 8, "c": "magic", "e": "⭐", "bg": "linear-gradient(135deg,#4a148c,#1a237e)", "cc": "#ce93d8", "title": "Toivotähti jolta loppuivat toiveet", "pages": ["Tähti oli täyttänyt toiveita tuhat vuotta — poneja karkkia korkeampia rakennuksia isompia leluja. Mutta eräänä kylmänä yönä hän tunsi itsensä tyhjäksi. Ei enää toiveita hänen hohtavan sisällään.", "Pieni tyttö nimeltä Lily katsoi ylös ja sanoi: \"Rakas tähti en tarvitse toivetta. Halusin vain sanoa kiitos kuusta ja yötaivaasta ja tästä kauniista maailmasta.\" Tähti ei ollut koskaan kuullut sitä ennen.", "Lilyn kiitos täytti Tähden kultaisella valolla jälleen — enemmän kuin hän oli koskaan kantanut. Hän tajusi silloin että kiitollisuus oli paljon voimakkaampaa kuin mikään myönnetty toive."], "moral": "Kiitollisuus täyttää maailman enemmällä taikuudella kuin mikään toive voisi.", "cat": "Taikuus"}, {"id": 9, "c": "magic", "e": "🔮", "bg": "linear-gradient(135deg,#6a1b9a,#4a148c)", "cc": "#f3e5f5", "title": "Taika-sivellin", "pages": ["Zoe löysi ullakolta siveltimen joka pystyi herättämään henkiin kaiken minkä hän maalasi. Hän maalasi kultaisen linnun joka lensi laulellen pois. Hän maalasi omenan ja söi sen tuoreena. Hän oli hämmästynyt!", "Sitten hän maalasi ystävän — koska hän oli yksinäinen. Mutta maalattu ystävä ei osannut nauraa oikeille vitseille ei osannut jakaa oikeita salaisuuksia eikä pystynyt antamaan oikeita halauksia. Zoe tunsi itsensä vielä yksinäisemmäksi.", "Hän maalasi viimeisen asian listallaan — kirjeen naapurilleen jolle hän oli ollut liian ujo tutustumaan. Sinä iltana naapuri koputteli ovelle. He puhuivat tuntikausia. Se oli todellista taikuutta."], "moral": "Todellinen taika on rohkeus ottaa yhteyttä oikeisiin ihmisiin. Mikään sivellin ei pysty maalaamaan todellista ystävyyttä.", "cat": "Taikuus"}, {"id": 10, "c": "magic", "e": "🌙", "bg": "linear-gradient(135deg,#1a237e,#311b92)", "cc": "#9fa8da", "title": "Kuun kadonnut hohtaminen", "pages": ["Eräänä yönä kuu ei paistanut. Koko maailma vajosi pimeyteen ja eläimet pelkäsivät. Kuu oli antanut valonsa pikku kalalle joka oli vahingossa niellyt sen.", "Pieni kala ui meren syvimpään osaan liian peloissaan tullakseen ylös. Kaikki meriolennot tulivat auttamaan — valas nosti varovasti delfiinit ohjasivat meritähdet valaisivat tien.", "Kun kala viimein loikkasi merestä kuunvalo purkautui vapaaksi ja täytti koko taivaan. Kuu hehkui kirkkaammin kuin koskaan — kiitollisena kaikille pienille auttajille."], "moral": "Kun autamme toisiamme jopa pimeimmistä öistä voi tulla kirkkaimpia.", "cat": "Taikuus"}, {"id": 11, "c": "nature", "e": "🌱", "bg": "linear-gradient(135deg,#1b5e20,#33691e)", "cc": "#a5d6a7", "title": "Pienen siemenen suuri unelma", "pages": ["Pieni siemen putosi korkeasta tammesta ja laskeutui kovaan kivikkoiseen maahan. Kaikki muut siemenet olivat pudonneet pehmeään multaan. \"Et koskaan kasva täällä\" tuuli kuiskasi. \"Maa on liian kova.\"", "Mutta siemen lähetti juurensa alas ja alas löytäen pieniä halkeamia kalliosta etsien jokaista vesipisaraa kurkottaen kohti syvää mustaa multaa kivien alla.", "Kymmenen vuoden kuluttua upea puu seisoi siellä missä mikään ei ollut kasvanut ennen. Vaeltajat lepäsivät hänen varjossaan ihmetellen miten puu saattoi kasvaa niin mahdottomassa maassa. Puu vain hymyili ja kasvoi."], "moral": "Vahvimmat puut kasvavat kovimmassa maassa. Vaikeat alut tekevät syvimmät juuret.", "cat": "Luonto"}, {"id": 12, "c": "nature", "e": "🌧️", "bg": "linear-gradient(135deg,#1565c0,#0d47a1)", "cc": "#90caf9", "title": "Sade ja kuiva laakso", "pages": ["Laakso ei ollut nähnyt sadetta kahteen kokonaiseen vuoteen. Joki oli kuivunut pölyksi. Kukat olivat luovuttaneet. Eläimet olivat lähteneet. Vain yksi vanha kilpikonna oli jäänyt odottamaan kärsivällisesti.", "Eräänä päivänä horisontissa ilmestyi pieni tumma pilvi. Kaikki jäljellä olevat olennot nauroivat. \"Yksi pilvi ei voi pelastaa kokonaista laaksoa!\" Mutta kilpikonna sanoi: \"Jokainen tulva alkaa yhdestä pisarasta.\"", "Pilvi kasvoi. Sitten tuli toinen. Sitten seurasi sata muuta. Sinä iltana sade satoi koko yön ja aamuun mennessä joki virtasi taas. Kilpikonna oli ollut oikeassa koko ajan."], "moral": "Älä koskaan aliarvioi yhtä pientä ystävällisyyden tekoa tai yhtä pientä pilveä. Jokainen suuri muutos alkaa pienenä.", "cat": "Luonto"}, {"id": 13, "c": "nature", "e": "🌺", "bg": "linear-gradient(135deg,#880e4f,#c62828)", "cc": "#f48fb1", "title": "Kukka joka kukkii talvella", "pages": ["Kun talvi tuli jokainen kukka sulkeutui ja odotti kevättä kuten aina ennenkin. Mutta yksi pieni punainen kukka nimeltä Ruusu päätti kukkia joka tapauksessa huolimatta pakkasesta ja lumesta.", "Muut kukat pitivät häntä hulluna. Mehiläiset olivat kaikki lähteneet. Kuka näkisi hänet? Mutta yksinäinen lapsi harmaata puutarhaa kävelemässä pysähtyi ja huokaisi ihmeestä yksittäisen punaisen kukan nähdessään.", "Lapsi tuli takaisin joka päivä ja kertoi ystävilleen ja pian harmaa puutarha oli täynnä naurua ja lämpöä — kaikki koska yksi pieni kukka uskalsi kukkia kun kukaan ei odottanut sitä."], "moral": "Uskalla kukkia vaikka olosuhteet eivät olisi täydelliset. Rohkeutesi voi lämmittää koko maailman.", "cat": "Luonto"}, {"id": 14, "c": "funny", "e": "🐸", "bg": "linear-gradient(135deg,#1b5e20,#004d40)", "cc": "#69f0ae", "title": "Sammakko joka halusi laulajaks", "pages": ["Freddy-sammakolla oli yksi unelma — laulaa Suuren Lammen konsertissa. Oli vain yksi ongelma. Kun Freddy lauloi se kuulosti ruosteiselta kärrynpyörältä jota vuohi työntää soralla.", "Freddy harjoitteli joka aamu. Kalat tukkivat korvansa. Linnut lensivät pois. Lumpeet aaltoilivat ääniaallosta. Mutta Freddy ei luovuttanut.", "Konsertti-iltana Freddy astui esiin otti valtavan hengen ja kronksi täydellä voimallaan. Yleisö oli hetken hiljaa. Sitten kaikki purskahtivat nauruun — ja antoivat hänelle seisovaansuosionosoituksen. Koska hänen hirveä laulunsa oli iloisin ääni mitä he olivat koskaan kuulleet."], "moral": "Tee mitä rakastat täydellä sydämelläsi — vaikka teet sen huonosti. Ilo tarttuu.", "cat": "Hauska"}, {"id": 15, "c": "funny", "e": "🐷", "bg": "linear-gradient(135deg,#e91e63,#c2185b)", "cc": "#f48fb1", "title": "Sika joka halusi lentää", "pages": ["Pertti-sika oli koko elämänsä katsonut lintujen lentoa ja päättänyt että hänkin oppii. Hän yritti läpätä pieniä sorkkiaan aamiaisella. Hän hyppäsi heinäsuovista lounasaikaan. Hän käytti sulkahattua päivällisellä.", "\"Siat eivät voi lentää\" sanoi kaikki tilalla — lehmä hevonen kana jopa hyvin filosofinen ankka. Mutta Pertti jatkoi harjoittelemista.", "Eräänä myrskypäivänä ladon katto lähti tuulen mukana — suoraan aidan yli suoraan mutaan. Pertti katsoi sitä ja kohautti olan. \"No niin\" hän sanoi \"lato voi lentää. Lähellä edes.\" Ja hän oli äärimmäisen ylpeä."], "moral": "Jotkut unelmat muuttavat muotoaan matkan varrella — se ei ole epäonnistuminen se on viisaus.", "cat": "Hauska"}, {"id": 16, "c": "funny", "e": "🦉", "bg": "linear-gradient(135deg,#4e342e,#6d4c41)", "cc": "#ffcc80", "title": "Pöllö joka ei osannut sanoa Kuka", "pages": ["Oliver-pöllöllä oli ongelma — jokainen pöllö osaa sanoa KUKA mutta Oliver pystyi sanomaan vain MITÄ. \"MITÄ! MITÄ!\" hän huusi joka yö. Metsä oli hyvin hämmentynyt.", "\"Kuka siellä?\" kysyi kettu eräänä pimeänä iltana. \"MITÄ!\" vastasi Oliver. \"Mitä missä?\" kysyi kettu aiempaa hämmentyneempänä. He jatkoivat näin hyvin pitkän aikaa.", "Lopulta kettu luovutti yrittämästä ja vain istui Oliverin viereen. He katselivat tähtiä yhdessä mukavassa hiljaisuudessa. Oliver ajatteli — ehkä MITÄ on oikea kysymys loppujen lopuksi. Mikä tähti on tuo? Mikä ääni on tuo? Miten mahtava maailma."], "moral": "Kysymällä MITÄ ympäröivästä maailmasta voi löytää yhtä monia upeita löytöjä kuin kysymällä KUKA.", "cat": "Hauska"}, {"id": 17, "c": "funny", "e": "🐒", "bg": "linear-gradient(135deg,#e65100,#bf360c)", "cc": "#ffcc80", "title": "Apina joka varasti kuninkaan kruunun", "pages": ["Makke-apina piti kuninkaan kultaista kruunua erittäin mukavan näköisenä hedelmäkulhona. Joten eräänä iltapäivänä kuninkaan nokostaessa hän hiljaa lainasi sen ja täytti sen banaaneilla.", "Koko palatsi oli hälytystilassa. Vartijat etsivät kaikkialta. Mutta Makke istui mangopuussa kruunu-hedelmäkulho päässään näyttäen äärimmäisen kuninkaalliselta.", "Kuningas löysi hänet lopulta eikä pystynyt lopettamaan nauramistaan. \"Tiedättekös\" kuningas sanoi ottaen banaanin \"tämä ON erinomainen hedelmäkulho.\" Hän antoi Makkelle oikean kultaisen kulhon ja Makke palautti kruunun. Kaikki olivat onnellisia."], "moral": "Nauru voi ratkaista ongelmia joita vakavuus ei pysty. Älä koskaan ole liian tärkeä näkemään hauskaa puolta.", "cat": "Hauska"}, {"id": 18, "c": "adventure", "e": "🚀", "bg": "linear-gradient(135deg,#1a237e,#311b92)", "cc": "#9fa8da", "title": "Tyttö joka rakensi raketin", "pages": ["Nina oli seitsemänvuotias ja täysin varma siitä että hän pystyisi rakentamaan raketin pahvilaatikoista tölkeistä ja päättäväisyydestä. Kaikki sanoivat sen olevan mahdotonta. Hän alkoi rakentaa silti.", "Seitsemäntoista epäonnistuneen prototyypin ja yhden erittäin säikähtänyttä kissaa koskettaneen tapauksen jälkeen Ninan Raketti numero kahdeksantoista viimein toimi — se lensi 40 metriä pihalla ja laskeutui Rouva Johnssonin ruusupensaisiin.", "\"Nuori neiti!\" huusi Rouva Johnsson aidan yli pitäen kuluneessa rakettia kädessään. Sitten hän hymyili. \"Kun rakennat raketin numero yhdeksäntoista tähtää hieman enemmän vasemmalle. Haluatko limonadia? Haluan kuulla kaiken.\""], "moral": "Epäonnistuminen on vain prototyypin rakentamista. Jokainen yritys vie sinut lähemmäs tähtiä.", "cat": "Seikkailu"}];
+
+var sbCurCat='all', sbCurIdx=0;
+
+function sbGetStories(){
+  var data=SB[LG]||SB.en;
+  if(sbCurCat==='all') return data;
+  return data.filter(function(s){return s.c===sbCurCat;});
 }
 
-function newTypText(){
-  typActive=false;clearInterval(typTI);
-  var pool=typDiff==='hard'?TYP_HARD:typDiff==='medium'?TYP_MED:TYP_EASY;
-  typCurText=pool[R(0,pool.length-1)];
-  typCorr=0;typTotal=0;typTimeLeft=30;
-  setText('typWpm','0');setText('typAcc','100');setText('typTm','30');setText('typMsg','');
-  var el=document.getElementById('typText');
-  if(el){
-    el.innerHTML='';
-    typCurText.split('').forEach(function(ch){
-      var s=document.createElement('span');s.textContent=ch;s.style.color='rgba(255,255,255,.45)';
-      el.appendChild(s);
+function sbCatColor(c){
+  var m={adventure:'#90caf9',animals:'#a5d6a7',magic:'#ce93d8',nature:'#69f0ae',funny:'#ffcc80'};
+  return m[c]||'#ffb627';
+}
+
+function sbRender(){
+  var stories=sbGetStories();
+  var track=document.getElementById('sbTrack');
+  if(!track) return;
+  track.innerHTML='';
+  stories.forEach(function(story,idx){
+    var card=document.createElement('div');
+    card.style.cssText='min-width:175px;max-width:175px;border-radius:18px;cursor:pointer;transition:transform .22s;border:1.5px solid rgba(255,255,255,.12);flex-shrink:0;overflow:hidden;';
+    var catName=sbGetCatName(story.c);
+    var cc=sbCatColor(story.c);
+    card.innerHTML=
+      '<div style="width:100%;height:115px;display:flex;align-items:center;justify-content:center;font-size:3.5rem;background:'+story.bg+'">'+story.e+'</div>'+
+      '<div style="padding:10px 11px 12px;background:rgba(15,5,35,.92)">'+
+        '<span style="font-family:Fredoka One,cursive;font-size:.58rem;letter-spacing:1px;padding:2px 8px;border-radius:50px;color:'+cc+';background:rgba(0,0,0,.3);border:1px solid '+cc+';display:inline-block;margin-bottom:4px">'+catName+'</span>'+
+        '<div style="font-family:Fredoka One,cursive;font-size:.88rem;color:#fff;line-height:1.25;margin-bottom:4px">'+story.title+'</div>'+
+        '<div style="font-size:.7rem;color:rgba(255,255,255,.45);font-weight:600;line-height:1.4;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical">'+story.pages[0].substring(0,70)+'...</div>'+
+        '<div style="font-family:Fredoka One,cursive;font-size:.65rem;color:#ffb627;margin-top:6px">'+(LG==='fi'?'Lue tarina ▶':'Read story ▶')+'</div>'+
+      '</div>';
+    (function(s,i){
+      card.addEventListener('click',function(){sbOpen(s,i);});
+      card.addEventListener('mouseover',function(){card.style.transform='translateY(-5px) scale(1.03)';});
+      card.addEventListener('mouseout',function(){card.style.transform='none';});
+    })(story,idx);
+    track.appendChild(card);
+  });
+  // dots
+  var dots=document.getElementById('sbDots');
+  if(dots){
+    dots.innerHTML='';
+    var pages=Math.ceil(stories.length/4);
+    for(var i=0;i<pages;i++){
+      var dot=document.createElement('div');
+      dot.style.cssText='width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.25);cursor:pointer;transition:background .2s;';
+      if(i===0)dot.style.background='#ffb627';
+      dots.appendChild(dot);
+    }
+  }
+}
+
+function sbGetCatName(c){
+  var m={
+    adventure:{en:'Adventure',fi:'Seikkailu'},
+    animals:{en:'Animals',fi:'Eläimet'},
+    magic:{en:'Magic',fi:'Taikuus'},
+    nature:{en:'Nature',fi:'Luonto'},
+    funny:{en:'Funny',fi:'Hauska'}
+  };
+  return m[c]?(m[c][LG]||m[c].en):c;
+}
+
+function sbOpen(story,idx){
+  sbCurIdx=idx;
+  var modal=document.getElementById('sbModal');
+  var em=document.getElementById('sbMEmoji');
+  if(em){em.textContent=story.e;document.getElementById('sbMCover').style.background=story.bg;}
+  var t=document.getElementById('sbMTitle');if(t)t.textContent=story.title;
+  var cc=sbCatColor(story.c);
+  var badge=document.getElementById('sbMCatBadge');
+  if(badge){badge.textContent=sbGetCatName(story.c);badge.style.color=cc;}
+  // Show all pages as one flowing story
+  var txt=document.getElementById('sbMText');
+  if(txt){
+    txt.innerHTML='';
+    story.pages.forEach(function(page,pi){
+      var p=document.createElement('p');
+      p.style.cssText='margin-bottom:12px;padding-left:14px;border-left:3px solid '+cc+';';
+      p.textContent=page;
+      txt.appendChild(p);
     });
   }
-  var inp=document.getElementById('typIn');
-  if(inp){inp.value='';inp.focus();}
+  var moral=document.getElementById('sbMoralText');if(moral)moral.textContent=story.moral;
+  var ml=document.getElementById('sbMoralLabel');
+  if(ml)ml.textContent=LG==='fi'?'🌟 OPETUS':'🌟 THE MORAL';
+  var bc=document.getElementById('sbBClose');if(bc)bc.textContent=LG==='fi'?'📚 Takaisin tarinoihin':'📚 Back to Stories';
+  var bp=document.getElementById('sbBPrev');if(bp)bp.textContent=LG==='fi'?'◀ Edellinen':'◀ Previous';
+  var bn=document.getElementById('sbBNext');if(bn)bn.textContent=LG==='fi'?'Seuraava ▶':'Next ▶';
+  var by=document.getElementById('sbMBy');if(by)by.textContent=LG==='fi'?'✨ Lue ääneen perheesi kanssa!':'✨ Read aloud with your family!';
+  if(modal){modal.style.display='flex';document.body.style.overflow='hidden';}
 }
 
-document.getElementById('typIn').addEventListener('input',function(){
-  var val=this.value;
-  if(!typActive&&val.length>0){
-    typActive=true;typStart=Date.now();
-    typTI=setInterval(function(){
-      typTimeLeft--;setText('typTm',typTimeLeft);
-      if(typTimeLeft<=0){
-        clearInterval(typTI);typActive=false;
-        var mins=(Date.now()-typStart)/60000;
-        var wpm=Math.round((typCorr/5)/mins);
-        var acc=typTotal>0?Math.round(typCorr/typTotal*100):100;
-        setText('typMsg',(LG==='fi'?'Valmis! ':'Done! ')+wpm+' WPM | '+acc+'% '+( wpm>60?'🔥 Amazing!':wpm>40?'⭐ Great!':'💪 Keep practising!'));
-        addS(Math.floor(wpm/10));incP();sWin();
-      }
-    },1000);
-  }
-  if(!typActive)return;
-  var spans=document.getElementById('typText').children;
-  var correct=0;
-  for(var i=0;i<val.length&&i<typCurText.length;i++){
-    if(val[i]===typCurText[i]){spans[i].style.color='#7ed957';correct++;}
-    else spans[i].style.color='#ff6b47';
-  }
-  for(var i=val.length;i<typCurText.length;i++)spans[i].style.color='rgba(255,255,255,.45)';
-  typTotal=val.length;typCorr=correct;
-  var mins=(Date.now()-typStart)/60000||0.001;
-  var wpm=mins>0?Math.round((correct/5)/mins):0;
-  var acc=typTotal>0?Math.round(correct/typTotal*100):100;
-  setText('typWpm',wpm);setText('typAcc',acc);
-  if(val===typCurText){
-    clearInterval(typTI);typActive=false;
-    var finalMins=(Date.now()-typStart)/60000;
-    var finalWpm=Math.round((correct/5)/finalMins);
-    setText('typMsg','🎉 Perfect! '+finalWpm+' WPM! '+cheer());
-    confettiBurst();addS(5);incP();sWin();
-    setTimeout(newTypText,2000);
-  }
-});
-document.getElementById('typNew').addEventListener('click',newTypText);
-newTypText();
+function sbClose(){
+  var modal=document.getElementById('sbModal');
+  if(modal){modal.style.display='none';document.body.style.overflow='';}
+}
+
+function sbNext(){
+  var stories=sbGetStories();
+  sbCurIdx=(sbCurIdx+1)%stories.length;
+  sbOpen(stories[sbCurIdx],sbCurIdx);
+}
+
+function sbPrev(){
+  var stories=sbGetStories();
+  sbCurIdx=(sbCurIdx-1+stories.length)%stories.length;
+  sbOpen(stories[sbCurIdx],sbCurIdx);
+}
+
+function sbFilter(cat){
+  sbCurCat=cat;
+  document.querySelectorAll('#g-stories .ngt').forEach(function(b){b.classList.remove('on');});
+  var ids={all:'sbAll',adventure:'sbAdv',animals:'sbAni',magic:'sbMag',nature:'sbNat',funny:'sbFun'};
+  var el=document.getElementById(ids[cat]);if(el)el.classList.add('on');
+  sbRender();sClk();
+}
+
+function sbScroll(dir){
+  var t=document.getElementById('sbTrack');
+  if(t)t.scrollLeft+=dir*380;
+}
+
+// Hook into setLang
+var _origSetLang4=setLang;
+setLang=function(l){
+  _origSetLang4(l);
+  var sub=document.getElementById('lStoriesSub');
+  if(sub)sub.textContent=l==='fi'?'Napauta tarinaa lukeaksesi sen! Uusia seikkailuja joka kerta 🌟':'Tap any story to read it! New adventures every time 🌟';
+  var tSt=document.getElementById('tStories');if(tSt)tSt.textContent=l==='fi'?'📚 Tarinakirja':'📚 Story Book';
+  var cats={sbAll:{en:'🌟 All',fi:'🌟 Kaikki'},sbAdv:{en:'🗺️ Adventure',fi:'🗺️ Seikkailu'},sbAni:{en:'🐾 Animals',fi:'🐾 Eläimet'},sbMag:{en:'✨ Magic',fi:'✨ Taikuus'},sbNat:{en:'🌿 Nature',fi:'🌿 Luonto'},sbFun:{en:'😄 Funny',fi:'😄 Hauska'}};
+  Object.keys(cats).forEach(function(id){var e=document.getElementById(id);if(e)e.textContent=cats[id][l]||cats[id].en;});
+  document.querySelectorAll('.nb[data-g="stories"]').forEach(function(b){b.textContent=l==='fi'?'📚 Tarinat':'📚 Stories';});
+  sbRender();
+};
+
+try{sbRender();}catch(e){}
 
 // ═══ CHESS GAME ═══
 var CH_PIECES={
@@ -2814,361 +2993,267 @@ function undoChess(){
   setText('chessTurn',LG==='fi'?'Valkoinen siirtää':'White to move');
   chRender();
 }
-newChess('easy');
+try{newChess('easy');}catch(e){}
 
-// ═══ CONTACT PAGE ═══
-var ctTopic='bug';
-function ctSetTopic(btn,topic){
-  ctTopic=topic;
-  document.querySelectorAll('#g-contact .ngt').forEach(function(b){b.classList.remove('on');});
-  btn.classList.add('on');
-}
-function ctSubmit(){
-  var name=document.getElementById('ctName').value.trim();
-  var email=document.getElementById('ctEmail').value.trim();
-  var msg=document.getElementById('ctMsg').value.trim();
-  var fb=document.getElementById('ctFb');
-  if(!name){fb.style.color='#ff6b47';fb.textContent=LG==='fi'?'Kirjoita nimesi!':'Please enter your name!';return;}
-  if(!email||!email.includes('@')){fb.style.color='#ff6b47';fb.textContent=LG==='fi'?'Kirjoita oikea sähköposti!':'Please enter a valid email!';return;}
-  if(!msg){fb.style.color='#ff6b47';fb.textContent=LG==='fi'?'Kirjoita viesti!':'Please write a message!';return;}
-  // Open mail client
-  var subject=encodeURIComponent('LearnKids: '+ctTopic+' from '+name);
-  var body=encodeURIComponent('Name: '+name+'\nEmail: '+email+'\nTopic: '+ctTopic+'\n\nMessage:\n'+msg);
-  window.open('mailto:magdayaojennamae712@gmail.com?subject='+subject+'&body='+body);
-  fb.style.color='#7ed957';
-  fb.textContent=LG==='fi'?'🎉 Kiitos viestistäsi!':'🎉 Thank you for your message!';
-  document.getElementById('ctName').value='';
-  document.getElementById('ctEmail').value='';
-  document.getElementById('ctMsg').value='';
-  sWin();toast('📨 '+(LG==='fi'?'Viesti lähetetty!':'Message sent!'));
-}
+// ═══ TYPING SPEED GAME ═══
+var TYP_EASY=['The cat sat on the mat and looked at the bird','The dog ran fast in the big green park','A red fox jumps over the lazy brown dog','Kids love to play games and learn new things','The sun shines bright on a warm summer day','Fish swim in the deep blue ocean every day','Birds fly high up in the clear blue sky','The quick fox jumps over the sleeping dog'];
+var TYP_MED=['Learning to type fast is a very useful skill','Practice makes perfect when you type every day','The rainbow appeared after the heavy rain storm','Butterflies have beautiful wings with many colors','Elephants are the largest land animals on Earth','The Amazon rainforest produces oxygen for our planet','Technology has changed the way children learn today','Scientists discovered a new species of fish last year'];
+var TYP_HARD=['Extraordinary achievements require exceptional dedication and perseverance','The sophisticated algorithm processed thousands of calculations simultaneously','Photosynthesis converts sunlight into chemical energy for plants','Biodiversity is essential for maintaining healthy ecosystems worldwide','The magnificent aurora borealis illuminates the Arctic night sky','Cryptography protects sensitive information through mathematical algorithms','The archaeological excavation revealed ancient civilizations beneath the surface'];
+var typDiff='easy',typActive=false,typTI=null,typStart=0,typCorr=0,typTotal=0,typTimeLeft=30,typCurText='';
 
-// Update setLang for new pages
-var _origSetLang3=setLang;
-setLang=function(l){
-  _origSetLang3(l);
-  // Typing
-  var typDE=document.getElementById('typDE');if(typDE)typDE.textContent=l==='fi'?'🌱 Helppo':'🌱 Easy';
-  var typDM=document.getElementById('typDM');if(typDM)typDM.textContent=l==='fi'?'⚡ Keski':'⚡ Medium';
-  var typDH=document.getElementById('typDH');if(typDH)typDH.textContent=l==='fi'?'🔥 Vaikea':'🔥 Hard';
-  var typNew=document.getElementById('typNew');if(typNew)typNew.textContent=l==='fi'?'🔄 Uusi':'🔄 New';
-  // Chess
-  var chDE=document.getElementById('chDE');if(chDE)chDE.textContent=l==='fi'?'😊 Helppo':'😊 Easy';
-  var chDH=document.getElementById('chDH');if(chDH)chDH.textContent=l==='fi'?'😈 Vaikea':'😈 Hard';
-  // Contact
-  var lCT=document.getElementById('lContactTitle');if(lCT)lCT.textContent=l==='fi'?'Otamme mielellämme palautetta!':'We love hearing from you!';
-  var lCS=document.getElementById('lContactSub');if(lCS)lCS.textContent=l==='fi'?'Kysymyksiä tai ehdotuksia? Lähetä viesti!':'Questions, suggestions, or feedback? Send us a message!';
-  var lCN=document.getElementById('lCName');if(lCN)lCN.textContent=l==='fi'?'Nimesi':'Your Name';
-  var lCE=document.getElementById('lCEmail');if(lCE)lCE.textContent=l==='fi'?'Sähköpostisi':'Your Email';
-  var lCM=document.getElementById('lCMsg');if(lCM)lCM.textContent=l==='fi'?'Viesti':'Message';
-  var lCTp=document.getElementById('lCTopic');if(lCTp)lCTp.textContent=l==='fi'?'Aihe':'Topic';
-  var lCSd=document.getElementById('lCSend');if(lCSd)lCSd.textContent=l==='fi'?'📨 Lähetä viesti':'📨 Send Message';
-  var lCOr=document.getElementById('lCOr');if(lCOr)lCOr.textContent=l==='fi'?'Tai löydät meidät:':'Or find us on:';
-  var ct1=document.getElementById('ctT1');if(ct1)ct1.textContent=l==='fi'?'🐛 Bugi':'🐛 Bug Report';
-  var ct2=document.getElementById('ctT2');if(ct2)ct2.textContent=l==='fi'?'💡 Ehdotus':'💡 Suggestion';
-  var ct3=document.getElementById('ctT3');if(ct3)ct3.textContent=l==='fi'?'🎮 Peli-idea':'🎮 New Game Idea';
-  var ct4=document.getElementById('ctT4');if(ct4)ct4.textContent=l==='fi'?'💬 Muu':'💬 Other';
-  // Nav buttons
-  document.querySelectorAll('.nb[data-g="typing"]').forEach(function(b){b.textContent=l==='fi'?'⌨️ Kirjoitus':'⌨️ Typing';});
-  document.querySelectorAll('.nb[data-g="chess"]').forEach(function(b){b.textContent=l==='fi'?'♟️ Shakki':'♟️ Chess';});
-  document.querySelectorAll('.nb[data-g="contact"]').forEach(function(b){b.textContent=l==='fi'?'📬 Ota yhteyttä':'📬 Contact';});
-  // Game titles
-  var tT=document.getElementById('tTyping');if(tT)tT.textContent=l==='fi'?'⌨️ Kirjoitusnopeus':'⌨️ Typing Speed';
-  var tCh=document.getElementById('tChess');if(tCh)tCh.textContent=l==='fi'?'♟️ Shakki':'♟️ Chess';
-  var tCo=document.getElementById('tContact');if(tCo)tCo.textContent=l==='fi'?'📬 Ota yhteyttä':'📬 Contact Us';
-};
-
-// ═══ STORY BOOK DATA ═══
-var SB={en:[],fi:[]};
-
-SB.en = [{"id": 1, "c": "adventure", "e": "🏴‍☠️", "bg": "linear-gradient(135deg,#1a237e,#0d47a1)", "cc": "#90caf9", "title": "The Pirate and the Magic Compass", "pages": ["Once upon a time, a young pirate named Leo found a glowing compass on a deserted island beach. Unlike any compass he had seen before, it did not point north — it pointed toward the thing you needed most!", "\"Show me the greatest treasure!\" Leo shouted. The compass spun wildly and pointed... straight back at his little wooden boat where his best friend Sam sat waiting.", "Leo laughed, realizing the compass was right all along. He ran back to Sam and together they sailed toward the setting sun, the best treasure they had already found in each other."], "moral": "The greatest treasure in life is true friendship — no map can lead you there.", "cat": "Adventure"}, {"id": 2, "c": "adventure", "e": "🏔️", "bg": "linear-gradient(135deg,#37474f,#1a237e)", "cc": "#b0bec5", "title": "Mia Climbs the Cloud Mountain", "pages": ["Mia was told that at the top of Cloud Mountain lived a wise old eagle who could answer any question. So she packed her bag and began the long climb, though everyone told her it was impossible.", "Along the way she helped a rabbit with a stuck paw, shared her water with a tired fox, and sang songs to a lonely tree. Each time she gave something, she felt lighter and faster.", "When she finally reached the top, the eagle smiled. \"I know your question,\" it said. \"You want to know how to be happy. You already showed yourself the answer on the way up.\""], "moral": "Happiness is found by giving to others along the journey, not waiting at the destination.", "cat": "Adventure"}, {"id": 3, "c": "adventure", "e": "🌊", "bg": "linear-gradient(135deg,#006064,#0d47a1)", "cc": "#80deea", "title": "The Boy Who Could Talk to Fish", "pages": ["Tom discovered he could understand fish when he fell into the lake one summer morning. The fish were panicking — a storm was coming that would flood the whole village!", "Nobody believed a boy could talk to fish. But Tom ran from house to house warning everyone. Most laughed. But three families listened and moved to higher ground.", "That night the storm came exactly as the fish had said. Those three families were safe. From then on, the whole village learned to listen to even the most unusual voices."], "moral": "Even the smallest voice can carry the most important message. Always listen.", "cat": "Adventure"}, {"id": 4, "c": "animals", "e": "🦁", "bg": "linear-gradient(135deg,#c8520a,#8B4513)", "cc": "#ff8c00", "title": "The Lion Who Was Afraid of Mice", "pages": ["King Leo was the bravest lion in the savanna. He could face elephants and crocodiles without a shiver. But he had one secret — he was terrified of tiny mice!", "One day a little mouse named Pip got stuck in Leo's mane. Leo froze in fear. Pip gently untangled himself and said cheerfully, \"Don't worry! We mice are friendly. I could have bitten you but why would I? You're magnificent!\"", "From that day Leo and Pip became the most unlikely best friends. Leo realized that his fear had been silly — and Pip realized that being small did not mean being unimportant."], "moral": "Bravery means facing your fears. Even kings can learn from the smallest creatures.", "cat": "Animals"}, {"id": 5, "c": "animals", "e": "🐢", "bg": "linear-gradient(135deg,#1b5e20,#2e7d32)", "cc": "#a5d6a7", "title": "Slow Turtle Wins the Race", "pages": ["Speedy the hare laughed at Turtle every single day. \"You are so slow! How do you even get anywhere?\" he mocked loudly at the watering hole so all the animals could hear.", "Turtle smiled calmly. \"I always get where I am going,\" he said. \"Shall we race to the big oak tree at sunrise?\" The whole savanna came to watch, certain the hare would win easily.", "But Speedy napped in the warm sun, sure of victory. Turtle walked steadily — one step, then another, never stopping. When Speedy woke and sprinted, Turtle was already sitting under the oak, smiling peacefully."], "moral": "Slow and steady wins the race. Consistency beats speed every time.", "cat": "Animals"}, {"id": 6, "c": "animals", "e": "🐘", "bg": "linear-gradient(135deg,#607d8b,#37474f)", "cc": "#90a4ae", "title": "The Elephant Who Forgot Nothing", "pages": ["Ellie the elephant remembered everything — where every tree grew, where every waterhole was hidden, and most importantly the name and face of every friend she had ever made.", "One dry season the animals were dying of thirst. Ellie closed her eyes and remembered — two years ago she had found a secret spring deep in the eastern valley. She led the whole herd there safely.", "\"How did you know?\" the young zebras asked in amazement. Ellie smiled. \"Because I paid attention and I never forget a kindness or a discovery. Memory is the greatest gift.\""], "moral": "Pay attention to the world around you. What you learn today may save you tomorrow.", "cat": "Animals"}, {"id": 7, "c": "animals", "e": "🦋", "bg": "linear-gradient(135deg,#7b1fa2,#4a148c)", "cc": "#ce93d8", "title": "The Caterpillar Who Doubted Herself", "pages": ["Clara the caterpillar watched butterflies dance in the meadow and cried. \"I will never be beautiful like them,\" she sighed. \"I am just a slow, fuzzy, ordinary caterpillar.\"", "One autumn day she felt a strange urge to wrap herself up tightly. It was dark and lonely inside her cocoon. She pushed against it frightened and confused, wondering if she had made a mistake.", "Then one morning something magical happened. She pushed through into blinding golden light — and spread brilliant orange and black wings wider than her whole body had once been. She was a monarch butterfly."], "moral": "The most beautiful things grow through struggle. Your hardest moments are changing you.", "cat": "Animals"}, {"id": 8, "c": "magic", "e": "⭐", "bg": "linear-gradient(135deg,#4a148c,#1a237e)", "cc": "#ce93d8", "title": "The Wishing Star Who Ran Out of Wishes", "pages": ["Star had granted wishes for a thousand years — ponies, candy, taller buildings, bigger toys. But one cold night she felt empty. No more wishes left inside her glow.", "A small girl named Lily looked up and said, \"Dear star, I do not need a wish. I just wanted to say thank you for the moon and the night sky and this beautiful world.\" Star had never heard that before.", "Lily's thanks filled Star up with golden light again — more than she had ever held. She realized then that gratitude was far more powerful than any wish ever granted."], "moral": "Gratitude fills the world with more magic than any wish ever could.", "cat": "Magic"}, {"id": 9, "c": "magic", "e": "🔮", "bg": "linear-gradient(135deg,#6a1b9a,#4a148c)", "cc": "#f3e5f5", "title": "The Magic Paintbrush", "pages": ["Zoe found a paintbrush in the attic that could bring anything she painted to life. She painted a golden bird which flew away singing. She painted an apple and ate it fresh. She was amazed!", "Then she painted a friend — because she was lonely. But the painted friend could not laugh at real jokes, could not share real secrets, and could not give real hugs. Zoe felt even more alone.", "She painted the last thing on her list — a letter to her neighbor who she had been too shy to meet. That night the neighbor knocked on her door. They talked for hours. That was real magic."], "moral": "Real magic is having the courage to reach out to real people. No brush can paint true friendship.", "cat": "Magic"}, {"id": 10, "c": "magic", "e": "🌙", "bg": "linear-gradient(135deg,#1a237e,#311b92)", "cc": "#9fa8da", "title": "The Moon's Missing Glow", "pages": ["One night the moon did not shine. The whole world fell into darkness and the animals were frightened. The moon had given her light to a little fish that had swallowed it accidentally.", "The tiny fish swam to the deepest part of the ocean, too scared to come up. All the sea creatures came to help — the whale lifted gently, the dolphins guided, the starfish lit the way.", "When the fish finally leaped from the ocean, the moonlight burst free and flooded the whole sky. The moon glowed brighter than she ever had — grateful to all the little helpers."], "moral": "When we help each other, even the darkest nights can become the brightest.", "cat": "Magic"}, {"id": 11, "c": "nature", "e": "🌱", "bg": "linear-gradient(135deg,#1b5e20,#33691e)", "cc": "#a5d6a7", "title": "The Little Seed's Big Dream", "pages": ["A tiny seed fell from a tall oak tree and landed in hard stony ground. All the other seeds had fallen in soft soil. \"You will never grow here,\" the wind whispered. \"The ground is too tough.\"", "But the seed sent her roots down and down, finding tiny cracks in the rock, seeking every drop of water, reaching toward the deep dark soil below the stones.", "Ten years later a magnificent tree stood where nothing had grown before. Hikers would rest in her shade and wonder at how a tree could grow in such impossible ground. The tree just smiled and grew."], "moral": "The strongest trees grow in the hardest ground. Difficult beginnings make the deepest roots.", "cat": "Nature"}, {"id": 12, "c": "nature", "e": "🌧️", "bg": "linear-gradient(135deg,#1565c0,#0d47a1)", "cc": "#90caf9", "title": "Rain and the Dry Valley", "pages": ["The Valley had not seen rain for two whole years. The river had dried to dust. The flowers had given up. The animals had left. Only one old tortoise remained, waiting patiently.", "One day a small dark cloud appeared on the horizon. All the remaining creatures laughed. \"One cloud cannot save a whole valley!\" But the tortoise said, \"Every flood begins with one drop.\"", "The cloud grew. Then another came. Then a hundred more followed. That evening the rain fell all night and by morning the river ran again. The tortoise had been right all along."], "moral": "Never underestimate one small act of kindness or one small cloud. Every great change starts small.", "cat": "Nature"}, {"id": 13, "c": "nature", "e": "🌺", "bg": "linear-gradient(135deg,#880e4f,#c62828)", "cc": "#f48fb1", "title": "The Flower That Bloomed in Winter", "pages": ["When winter came every flower closed up and waited for spring like they always had. But one little red flower named Rose decided to bloom anyway, despite the frost and the snow.", "The other flowers thought she was crazy. The bees had all gone. Who would see her? But a lonely child walking through the grey garden stopped and gasped in wonder at the single red bloom.", "That child came back every day, and told her friends, and soon the grey garden was full of laughter and warmth again — all because one small flower dared to bloom when nobody expected it."], "moral": "Dare to bloom even when the conditions are not perfect. Your courage can warm the whole world.", "cat": "Nature"}, {"id": 14, "c": "funny", "e": "🐸", "bg": "linear-gradient(135deg,#1b5e20,#004d40)", "cc": "#69f0ae", "title": "The Frog Who Wanted to Be a Singer", "pages": ["Freddy the frog had one dream — to sing at the Great Pond Concert. There was just one problem. When Freddy sang, it sounded like a rusty wheelbarrow being pushed over gravel by a goat.", "Freddy practiced every morning. The fish covered their ears. The birds flew away. The lily pads rippled from the sound waves. But Freddy did not give up.", "On concert night Freddy stepped up, took a huge breath, and croaked his absolute loudest. The crowd was silent for a moment. Then they all burst out laughing — and gave him a standing ovation. Because his terrible singing was the most joyful sound they had ever heard."], "moral": "Do what you love with all your heart — even if you do it badly. Joy is contagious.", "cat": "Funny"}, {"id": 15, "c": "funny", "e": "🐷", "bg": "linear-gradient(135deg,#e91e63,#c2185b)", "cc": "#f48fb1", "title": "The Pig Who Wanted to Fly", "pages": ["Percy the pig had watched birds fly his whole life and decided he too would learn. He tried flapping his little trotters at breakfast. He jumped off haybales at lunch. He wore a feather hat at dinner.", "\"Pigs cannot fly,\" said everyone on the farm — the cow, the horse, the chicken, even the very philosophical duck. But Percy kept practicing.", "One stormy day the barn roof was carried away by wind — right over the fence, right into the mud. Percy looked at it and shrugged. \"Well,\" he said, \"the barn can fly. Close enough.\" And he was extremely proud."], "moral": "Some dreams change shape along the way — that is not failure, that is wisdom.", "cat": "Funny"}, {"id": 16, "c": "funny", "e": "🦉", "bg": "linear-gradient(135deg,#4e342e,#6d4c41)", "cc": "#ffcc80", "title": "The Owl Who Could Not Say Who", "pages": ["Oliver the owl had a problem — every owl is supposed to say WHO but Oliver could only say WHAT. \"WHAT! WHAT!\" he called every night. The forest was very confused.", "\"Who is there?\" asked the fox one dark evening. \"WHAT!\" replied Oliver. \"What is where?\" asked the fox, more confused than before. They went around like this for a very long time.", "Eventually the fox gave up trying and just sat down next to Oliver. They watched the stars together in comfortable silence. Oliver thought — maybe WHAT is the right question after all. What is that star? What is that sound? What a wonderful world."], "moral": "Asking WHAT about the world around you can lead to just as many wonderful discoveries as asking WHO.", "cat": "Funny"}, {"id": 17, "c": "funny", "e": "🐒", "bg": "linear-gradient(135deg,#e65100,#bf360c)", "cc": "#ffcc80", "title": "The Monkey Who Stole the King's Crown", "pages": ["Max the monkey thought the king's golden crown looked like a very comfortable fruit bowl. So one afternoon while the king was napping he quietly borrowed it and filled it with bananas.", "The whole palace was in uproar. Guards searched everywhere. But Max was sitting in a mango tree, wearing the banana-filled crown on his head, looking absolutely regal.", "The king finally found him and could not stop laughing. \"You know,\" said the king, removing a banana, \"this IS an excellent fruit bowl.\" He gave Max a real bowl of gold and Max gave back the crown. Everyone was happy."], "moral": "Laughter can solve problems that seriousness cannot. Never be too important to see the funny side.", "cat": "Funny"}, {"id": 18, "c": "adventure", "e": "🚀", "bg": "linear-gradient(135deg,#1a237e,#311b92)", "cc": "#9fa8da", "title": "The Girl Who Built a Rocket", "pages": ["Nina was seven years old and absolutely certain she could build a rocket from cardboard boxes, tin cans, and determination. Everyone told her it was impossible. She began building anyway.", "After seventeen failed prototypes and one incident involving a very startled cat, Nina's Rocket Number Eighteen finally worked — it flew 40 meters across the backyard and landed in Mrs. Johnson's rose bushes.", "\"Young lady!\" called Mrs. Johnson over the fence, holding the battered rocket. Then she smiled. \"When you build Rocket Nineteen, please aim slightly more to the left. Also — would you like some lemonade? I want to hear everything.\""], "moral": "Failure is just prototype building. Every attempt gets you closer to the stars.", "cat": "Adventure"}];
-
-SB.fi = [{"id": 1, "c": "adventure", "e": "🏴‍☠️", "bg": "linear-gradient(135deg,#1a237e,#0d47a1)", "cc": "#90caf9", "title": "Merirosvo ja Taika-kompassi", "pages": ["Olipa kerran nuori merirosvo nimeltä Leo joka löysi hehkuvan kompassin autiolta saaren rannalta. Toisin kuin mikään kompassi jonka hän oli nähnyt se ei osoittanut pohjoiseen — se osoitti kohti sitä mitä tarvitsit eniten!", "\"Näytä minulle suurin aarre!\" Leo huusi. Kompassi pyöri villisti ja osoitti... suoraan takaisin hänen pienelle puuveneelleen missä paras ystävä Sam istui odottaen.", "Leo nauroi ymmärtäen kompassin olleen oikeassa koko ajan. Hän juoksi takaisin Samin luokse ja yhdessä he purjehtivat kohti laskevaa aurinkoa — parhaan aarteen jonka he olivat jo löytäneet toisissaan."], "moral": "Elämän suurin aarre on todellinen ystävyys — sinne ei johda mikään kartta.", "cat": "Seikkailu"}, {"id": 2, "c": "adventure", "e": "🏔️", "bg": "linear-gradient(135deg,#37474f,#1a237e)", "cc": "#b0bec5", "title": "Mia kiipeää Pilvivuorelle", "pages": ["Mialle oli kerrottu että Pilvivuoren huipulla asui viisas vanha kotka joka pystyi vastaamaan mihin tahansa kysymykseen. Niinpä hän pakkasi laukunsa ja aloitti pitkän kiipeilyn vaikka kaikki sanoivat sen olevan mahdotonta.", "Matkalla hän auttoi jänistä jolla oli tassu jumissa jakoi vetensä väsyneen ketun kanssa ja lauloi lauluja yksinäiselle puulle. Joka kerta kun hän antoi jotain hän tunsi itsensä kevyemmäksi ja nopeammaksi.", "Kun hän viimein saavutti huipun kotka hymyili. \"Tiedän kysymyksesi\" se sanoi. \"Haluat tietää kuinka olla onnellinen. Vastasit itse kysymykseen jo matkalla ylöspäin.\""], "moral": "Onnellisuus löytyy antamalla muille matkan varrella — ei odottamalla määränpäässä.", "cat": "Seikkailu"}, {"id": 3, "c": "adventure", "e": "🌊", "bg": "linear-gradient(135deg,#006064,#0d47a1)", "cc": "#80deea", "title": "Poika joka puhui kaloille", "pages": ["Tom huomasi pystyvänsä ymmärtämään kaloja kun hän putosi järveen kesäaamuna. Kalat olivat paniikissa — tuleva myrsky tulvisi koko kylään!", "Kukaan ei uskonut pojan pystyvän puhumaan kaloille. Mutta Tom juoksi talosta taloon varoittaen kaikkia. Useimmat nauroivat. Mutta kolme perhettä kuunteli ja siirtyi korkeammalle maalle.", "Sinä yönä myrsky tuli täsmälleen kuten kalat olivat sanoneet. Nämä kolme perhettä olivat turvassa. Siitä lähtien koko kylä oppi kuuntelemaan jopa kaikkein epätavallisimpia ääniä."], "moral": "Jopa pienin ääni voi kantaa tärkeintä viestiä. Kuuntele aina.", "cat": "Seikkailu"}, {"id": 4, "c": "animals", "e": "🦁", "bg": "linear-gradient(135deg,#c8520a,#8B4513)", "cc": "#ff8c00", "title": "Leijona joka pelkäsi hiiriä", "pages": ["Kuningas Leo oli rohkein leijona savannilla. Hän pystyi kohtaamaan norsuja ja krokotiileja ilman värinää. Mutta hänellä oli yksi salaisuus — hän pelkäsi pieniä hiiriä kuollakseen!", "Eräänä päivänä pieni hiiri nimeltä Pip jäi jumiin Leon harjaan. Leo jähmettyi pelosta. Pip vapautti itsensä varovasti ja sanoi iloisesti: \"Älä huoli! Me hiiret olemme ystävällisiä. Olisin voinut purra mutta miksi? Olet upea!\"", "Siitä päivästä Leo ja Pip tulivat kaikkein epätodennäköisimmiksi parhaiks ystäviksi. Leo tajusi pelkonsa olleen hölmöä — ja Pip ymmärsi että pienuus ei tarkoita merkityksettömyyttä."], "moral": "Rohkeus tarkoittaa pelkojen kohtaamista. Jopa kuninkaat voivat oppia pienimmiltä olennoilta.", "cat": "Eläimet"}, {"id": 5, "c": "animals", "e": "🐢", "bg": "linear-gradient(135deg,#1b5e20,#2e7d32)", "cc": "#a5d6a7", "title": "Hidas Kilpikonna voittaa kilvan", "pages": ["Jänis Pikainen nauroi kilpikonnalle joka päivä. \"Olet niin hidas! Miten edes pääset mihinkään?\" hän ivasi ääneen juomapaikalla kaikkien eläinten kuullen.", "Kilpikonna hymyili rauhallisesti. \"Pääsen aina perille\" hän sanoi. \"Kilpaileeko meistä kumpikaan suurelle tammelle auringonnousulla?\" Koko savanni tuli katsomaan varma jäniksen voitosta.", "Mutta Pikainen nukkui lämpimässä auringossa varma voitostaan. Kilpikonna käveli tasaisesti — yksi askel sitten toinen koskaan pysähtymättä. Kun Pikainen heräsi ja spurttasi kilpikonna istui jo tammen alla hymyillen rauhallisesti."], "moral": "Hitaasti ja tasaisesti kilpa voitetaan. Johdonmukaisuus päihittää nopeuden joka kerta.", "cat": "Eläimet"}, {"id": 6, "c": "animals", "e": "🐘", "bg": "linear-gradient(135deg,#607d8b,#37474f)", "cc": "#90a4ae", "title": "Norsu joka ei unohtanut mitään", "pages": ["Ellie-norsu muisti kaiken — missä jokainen puu kasvoi missä jokainen vesipaikka oli piilotettu ja ennen kaikkea jokaisen ystävänsä nimen ja kasvot.", "Eräänä kuivana vuodenaikana eläimet kärsivät janosta. Ellie sulki silmänsä ja muisti — kaksi vuotta sitten hän oli löytänyt salaisen lähteen syvällä itäisessä laaksossa. Hän johti koko lauman sinne turvallisesti.", "\"Mistä tiesit?\" nuoret seeprat kysyivät ihmeissään. Ellie hymyili. \"Koska kiinnitin huomiota enkä koskaan unohda ystävällisyyttä tai löytöä. Muisti on suurin lahja.\""], "moral": "Kiinnitä huomiota ympäröivään maailmaan. Mitä opit tänään saattaa pelastaa sinut huomenna.", "cat": "Eläimet"}, {"id": 7, "c": "animals", "e": "🦋", "bg": "linear-gradient(135deg,#7b1fa2,#4a148c)", "cc": "#ce93d8", "title": "Toukka joka epäili itseään", "pages": ["Clara-toukka katsoi perhosten tanssimista niityllä ja itki. \"En koskaan ole kaunis kuin ne\" hän huokaisi. \"Olen vain hidas pörröinen tavallinen toukka.\"", "Eräänä syyspäivänä hän tunsi outoa halua kietoa itsensä tiukasti. Oli pimeää ja yksinäistä kotelossa. Hän työnsi sitä vastaan peloissaan ja hämmentyneenä miettien oliko tehnyt virheen.", "Sitten eräänä aamuna jotain maagista tapahtui. Hän työnsi läpi sokeaisevaan kultaiseen valoon — ja levitti loistavia oranssin ja mustan siipensä leveämmälle kuin koko kehonsa oli ennen ollut. Hän oli monarkkiperhonen."], "moral": "Kauneimmat asiat kasvavat kamppailun kautta. Vaikeimmat hetkesi muuttavat sinua.", "cat": "Eläimet"}, {"id": 8, "c": "magic", "e": "⭐", "bg": "linear-gradient(135deg,#4a148c,#1a237e)", "cc": "#ce93d8", "title": "Toivotähti jolta loppuivat toiveet", "pages": ["Tähti oli täyttänyt toiveita tuhat vuotta — poneja karkkia korkeampia rakennuksia isompia leluja. Mutta eräänä kylmänä yönä hän tunsi itsensä tyhjäksi. Ei enää toiveita hänen hohtavan sisällään.", "Pieni tyttö nimeltä Lily katsoi ylös ja sanoi: \"Rakas tähti en tarvitse toivetta. Halusin vain sanoa kiitos kuusta ja yötaivaasta ja tästä kauniista maailmasta.\" Tähti ei ollut koskaan kuullut sitä ennen.", "Lilyn kiitos täytti Tähden kultaisella valolla jälleen — enemmän kuin hän oli koskaan kantanut. Hän tajusi silloin että kiitollisuus oli paljon voimakkaampaa kuin mikään myönnetty toive."], "moral": "Kiitollisuus täyttää maailman enemmällä taikuudella kuin mikään toive voisi.", "cat": "Taikuus"}, {"id": 9, "c": "magic", "e": "🔮", "bg": "linear-gradient(135deg,#6a1b9a,#4a148c)", "cc": "#f3e5f5", "title": "Taika-sivellin", "pages": ["Zoe löysi ullakolta siveltimen joka pystyi herättämään henkiin kaiken minkä hän maalasi. Hän maalasi kultaisen linnun joka lensi laulellen pois. Hän maalasi omenan ja söi sen tuoreena. Hän oli hämmästynyt!", "Sitten hän maalasi ystävän — koska hän oli yksinäinen. Mutta maalattu ystävä ei osannut nauraa oikeille vitseille ei osannut jakaa oikeita salaisuuksia eikä pystynyt antamaan oikeita halauksia. Zoe tunsi itsensä vielä yksinäisemmäksi.", "Hän maalasi viimeisen asian listallaan — kirjeen naapurilleen jolle hän oli ollut liian ujo tutustumaan. Sinä iltana naapuri koputteli ovelle. He puhuivat tuntikausia. Se oli todellista taikuutta."], "moral": "Todellinen taika on rohkeus ottaa yhteyttä oikeisiin ihmisiin. Mikään sivellin ei pysty maalaamaan todellista ystävyyttä.", "cat": "Taikuus"}, {"id": 10, "c": "magic", "e": "🌙", "bg": "linear-gradient(135deg,#1a237e,#311b92)", "cc": "#9fa8da", "title": "Kuun kadonnut hohtaminen", "pages": ["Eräänä yönä kuu ei paistanut. Koko maailma vajosi pimeyteen ja eläimet pelkäsivät. Kuu oli antanut valonsa pikku kalalle joka oli vahingossa niellyt sen.", "Pieni kala ui meren syvimpään osaan liian peloissaan tullakseen ylös. Kaikki meriolennot tulivat auttamaan — valas nosti varovasti delfiinit ohjasivat meritähdet valaisivat tien.", "Kun kala viimein loikkasi merestä kuunvalo purkautui vapaaksi ja täytti koko taivaan. Kuu hehkui kirkkaammin kuin koskaan — kiitollisena kaikille pienille auttajille."], "moral": "Kun autamme toisiamme jopa pimeimmistä öistä voi tulla kirkkaimpia.", "cat": "Taikuus"}, {"id": 11, "c": "nature", "e": "🌱", "bg": "linear-gradient(135deg,#1b5e20,#33691e)", "cc": "#a5d6a7", "title": "Pienen siemenen suuri unelma", "pages": ["Pieni siemen putosi korkeasta tammesta ja laskeutui kovaan kivikkoiseen maahan. Kaikki muut siemenet olivat pudonneet pehmeään multaan. \"Et koskaan kasva täällä\" tuuli kuiskasi. \"Maa on liian kova.\"", "Mutta siemen lähetti juurensa alas ja alas löytäen pieniä halkeamia kalliosta etsien jokaista vesipisaraa kurkottaen kohti syvää mustaa multaa kivien alla.", "Kymmenen vuoden kuluttua upea puu seisoi siellä missä mikään ei ollut kasvanut ennen. Vaeltajat lepäsivät hänen varjossaan ihmetellen miten puu saattoi kasvaa niin mahdottomassa maassa. Puu vain hymyili ja kasvoi."], "moral": "Vahvimmat puut kasvavat kovimmassa maassa. Vaikeat alut tekevät syvimmät juuret.", "cat": "Luonto"}, {"id": 12, "c": "nature", "e": "🌧️", "bg": "linear-gradient(135deg,#1565c0,#0d47a1)", "cc": "#90caf9", "title": "Sade ja kuiva laakso", "pages": ["Laakso ei ollut nähnyt sadetta kahteen kokonaiseen vuoteen. Joki oli kuivunut pölyksi. Kukat olivat luovuttaneet. Eläimet olivat lähteneet. Vain yksi vanha kilpikonna oli jäänyt odottamaan kärsivällisesti.", "Eräänä päivänä horisontissa ilmestyi pieni tumma pilvi. Kaikki jäljellä olevat olennot nauroivat. \"Yksi pilvi ei voi pelastaa kokonaista laaksoa!\" Mutta kilpikonna sanoi: \"Jokainen tulva alkaa yhdestä pisarasta.\"", "Pilvi kasvoi. Sitten tuli toinen. Sitten seurasi sata muuta. Sinä iltana sade satoi koko yön ja aamuun mennessä joki virtasi taas. Kilpikonna oli ollut oikeassa koko ajan."], "moral": "Älä koskaan aliarvioi yhtä pientä ystävällisyyden tekoa tai yhtä pientä pilveä. Jokainen suuri muutos alkaa pienenä.", "cat": "Luonto"}, {"id": 13, "c": "nature", "e": "🌺", "bg": "linear-gradient(135deg,#880e4f,#c62828)", "cc": "#f48fb1", "title": "Kukka joka kukkii talvella", "pages": ["Kun talvi tuli jokainen kukka sulkeutui ja odotti kevättä kuten aina ennenkin. Mutta yksi pieni punainen kukka nimeltä Ruusu päätti kukkia joka tapauksessa huolimatta pakkasesta ja lumesta.", "Muut kukat pitivät häntä hulluna. Mehiläiset olivat kaikki lähteneet. Kuka näkisi hänet? Mutta yksinäinen lapsi harmaata puutarhaa kävelemässä pysähtyi ja huokaisi ihmeestä yksittäisen punaisen kukan nähdessään.", "Lapsi tuli takaisin joka päivä ja kertoi ystävilleen ja pian harmaa puutarha oli täynnä naurua ja lämpöä — kaikki koska yksi pieni kukka uskalsi kukkia kun kukaan ei odottanut sitä."], "moral": "Uskalla kukkia vaikka olosuhteet eivät olisi täydelliset. Rohkeutesi voi lämmittää koko maailman.", "cat": "Luonto"}, {"id": 14, "c": "funny", "e": "🐸", "bg": "linear-gradient(135deg,#1b5e20,#004d40)", "cc": "#69f0ae", "title": "Sammakko joka halusi laulajaks", "pages": ["Freddy-sammakolla oli yksi unelma — laulaa Suuren Lammen konsertissa. Oli vain yksi ongelma. Kun Freddy lauloi se kuulosti ruosteiselta kärrynpyörältä jota vuohi työntää soralla.", "Freddy harjoitteli joka aamu. Kalat tukkivat korvansa. Linnut lensivät pois. Lumpeet aaltoilivat ääniaallosta. Mutta Freddy ei luovuttanut.", "Konsertti-iltana Freddy astui esiin otti valtavan hengen ja kronksi täydellä voimallaan. Yleisö oli hetken hiljaa. Sitten kaikki purskahtivat nauruun — ja antoivat hänelle seisovaansuosionosoituksen. Koska hänen hirveä laulunsa oli iloisin ääni mitä he olivat koskaan kuulleet."], "moral": "Tee mitä rakastat täydellä sydämelläsi — vaikka teet sen huonosti. Ilo tarttuu.", "cat": "Hauska"}, {"id": 15, "c": "funny", "e": "🐷", "bg": "linear-gradient(135deg,#e91e63,#c2185b)", "cc": "#f48fb1", "title": "Sika joka halusi lentää", "pages": ["Pertti-sika oli koko elämänsä katsonut lintujen lentoa ja päättänyt että hänkin oppii. Hän yritti läpätä pieniä sorkkiaan aamiaisella. Hän hyppäsi heinäsuovista lounasaikaan. Hän käytti sulkahattua päivällisellä.", "\"Siat eivät voi lentää\" sanoi kaikki tilalla — lehmä hevonen kana jopa hyvin filosofinen ankka. Mutta Pertti jatkoi harjoittelemista.", "Eräänä myrskypäivänä ladon katto lähti tuulen mukana — suoraan aidan yli suoraan mutaan. Pertti katsoi sitä ja kohautti olan. \"No niin\" hän sanoi \"lato voi lentää. Lähellä edes.\" Ja hän oli äärimmäisen ylpeä."], "moral": "Jotkut unelmat muuttavat muotoaan matkan varrella — se ei ole epäonnistuminen se on viisaus.", "cat": "Hauska"}, {"id": 16, "c": "funny", "e": "🦉", "bg": "linear-gradient(135deg,#4e342e,#6d4c41)", "cc": "#ffcc80", "title": "Pöllö joka ei osannut sanoa Kuka", "pages": ["Oliver-pöllöllä oli ongelma — jokainen pöllö osaa sanoa KUKA mutta Oliver pystyi sanomaan vain MITÄ. \"MITÄ! MITÄ!\" hän huusi joka yö. Metsä oli hyvin hämmentynyt.", "\"Kuka siellä?\" kysyi kettu eräänä pimeänä iltana. \"MITÄ!\" vastasi Oliver. \"Mitä missä?\" kysyi kettu aiempaa hämmentyneempänä. He jatkoivat näin hyvin pitkän aikaa.", "Lopulta kettu luovutti yrittämästä ja vain istui Oliverin viereen. He katselivat tähtiä yhdessä mukavassa hiljaisuudessa. Oliver ajatteli — ehkä MITÄ on oikea kysymys loppujen lopuksi. Mikä tähti on tuo? Mikä ääni on tuo? Miten mahtava maailma."], "moral": "Kysymällä MITÄ ympäröivästä maailmasta voi löytää yhtä monia upeita löytöjä kuin kysymällä KUKA.", "cat": "Hauska"}, {"id": 17, "c": "funny", "e": "🐒", "bg": "linear-gradient(135deg,#e65100,#bf360c)", "cc": "#ffcc80", "title": "Apina joka varasti kuninkaan kruunun", "pages": ["Makke-apina piti kuninkaan kultaista kruunua erittäin mukavan näköisenä hedelmäkulhona. Joten eräänä iltapäivänä kuninkaan nokostaessa hän hiljaa lainasi sen ja täytti sen banaaneilla.", "Koko palatsi oli hälytystilassa. Vartijat etsivät kaikkialta. Mutta Makke istui mangopuussa kruunu-hedelmäkulho päässään näyttäen äärimmäisen kuninkaalliselta.", "Kuningas löysi hänet lopulta eikä pystynyt lopettamaan nauramistaan. \"Tiedättekös\" kuningas sanoi ottaen banaanin \"tämä ON erinomainen hedelmäkulho.\" Hän antoi Makkelle oikean kultaisen kulhon ja Makke palautti kruunun. Kaikki olivat onnellisia."], "moral": "Nauru voi ratkaista ongelmia joita vakavuus ei pysty. Älä koskaan ole liian tärkeä näkemään hauskaa puolta.", "cat": "Hauska"}, {"id": 18, "c": "adventure", "e": "🚀", "bg": "linear-gradient(135deg,#1a237e,#311b92)", "cc": "#9fa8da", "title": "Tyttö joka rakensi raketin", "pages": ["Nina oli seitsemänvuotias ja täysin varma siitä että hän pystyisi rakentamaan raketin pahvilaatikoista tölkeistä ja päättäväisyydestä. Kaikki sanoivat sen olevan mahdotonta. Hän alkoi rakentaa silti.", "Seitsemäntoista epäonnistuneen prototyypin ja yhden erittäin säikähtänyttä kissaa koskettaneen tapauksen jälkeen Ninan Raketti numero kahdeksantoista viimein toimi — se lensi 40 metriä pihalla ja laskeutui Rouva Johnssonin ruusupensaisiin.", "\"Nuori neiti!\" huusi Rouva Johnsson aidan yli pitäen kuluneessa rakettia kädessään. Sitten hän hymyili. \"Kun rakennat raketin numero yhdeksäntoista tähtää hieman enemmän vasemmalle. Haluatko limonadia? Haluan kuulla kaiken.\""], "moral": "Epäonnistuminen on vain prototyypin rakentamista. Jokainen yritys vie sinut lähemmäs tähtiä.", "cat": "Seikkailu"}];
-
-var sbCurCat='all', sbCurIdx=0;
-
-function sbGetStories(){
-  var data=SB[LG]||SB.en;
-  if(sbCurCat==='all') return data;
-  return data.filter(function(s){return s.c===sbCurCat;});
-}
-
-function sbCatColor(c){
-  var m={adventure:'#90caf9',animals:'#a5d6a7',magic:'#ce93d8',nature:'#69f0ae',funny:'#ffcc80'};
-  return m[c]||'#ffb627';
-}
-
-function sbRender(){
-  var stories=sbGetStories();
-  var track=document.getElementById('sbTrack');
-  if(!track) return;
-  track.innerHTML='';
-  stories.forEach(function(story,idx){
-    var card=document.createElement('div');
-    card.style.cssText='min-width:175px;max-width:175px;border-radius:18px;cursor:pointer;transition:transform .22s;border:1.5px solid rgba(255,255,255,.12);flex-shrink:0;overflow:hidden;';
-    var catName=sbGetCatName(story.c);
-    var cc=sbCatColor(story.c);
-    card.innerHTML=
-      '<div style="width:100%;height:115px;display:flex;align-items:center;justify-content:center;font-size:3.5rem;background:'+story.bg+'">'+story.e+'</div>'+
-      '<div style="padding:10px 11px 12px;background:rgba(15,5,35,.92)">'+
-        '<span style="font-family:Fredoka One,cursive;font-size:.58rem;letter-spacing:1px;padding:2px 8px;border-radius:50px;color:'+cc+';background:rgba(0,0,0,.3);border:1px solid '+cc+';display:inline-block;margin-bottom:4px">'+catName+'</span>'+
-        '<div style="font-family:Fredoka One,cursive;font-size:.88rem;color:#fff;line-height:1.25;margin-bottom:4px">'+story.title+'</div>'+
-        '<div style="font-size:.7rem;color:rgba(255,255,255,.45);font-weight:600;line-height:1.4;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical">'+story.pages[0].substring(0,70)+'...</div>'+
-        '<div style="font-family:Fredoka One,cursive;font-size:.65rem;color:#ffb627;margin-top:6px">'+(LG==='fi'?'Lue tarina ▶':'Read story ▶')+'</div>'+
-      '</div>';
-    (function(s,i){
-      card.addEventListener('click',function(){sbOpen(s,i);});
-      card.addEventListener('mouseover',function(){card.style.transform='translateY(-5px) scale(1.03)';});
-      card.addEventListener('mouseout',function(){card.style.transform='none';});
-    })(story,idx);
-    track.appendChild(card);
+function setTypDiff(d){
+  typDiff=d;
+  ['easy','medium','hard'].forEach(function(x){
+    var b=document.getElementById('typD'+x[0].toUpperCase());
+    if(b)b.style.opacity=x===d?'1':'0.5';
   });
-  // dots
-  var dots=document.getElementById('sbDots');
-  if(dots){
-    dots.innerHTML='';
-    var pages=Math.ceil(stories.length/4);
-    for(var i=0;i<pages;i++){
-      var dot=document.createElement('div');
-      dot.style.cssText='width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.25);cursor:pointer;transition:background .2s;';
-      if(i===0)dot.style.background='#ffb627';
-      dots.appendChild(dot);
-    }
-  }
+  newTypText();
 }
 
-function sbGetCatName(c){
-  var m={
-    adventure:{en:'Adventure',fi:'Seikkailu'},
-    animals:{en:'Animals',fi:'Eläimet'},
-    magic:{en:'Magic',fi:'Taikuus'},
-    nature:{en:'Nature',fi:'Luonto'},
-    funny:{en:'Funny',fi:'Hauska'}
-  };
-  return m[c]?(m[c][LG]||m[c].en):c;
-}
-
-function sbOpen(story,idx){
-  sbCurIdx=idx;
-  var modal=document.getElementById('sbModal');
-  var em=document.getElementById('sbMEmoji');
-  if(em){em.textContent=story.e;document.getElementById('sbMCover').style.background=story.bg;}
-  var t=document.getElementById('sbMTitle');if(t)t.textContent=story.title;
-  var cc=sbCatColor(story.c);
-  var badge=document.getElementById('sbMCatBadge');
-  if(badge){badge.textContent=sbGetCatName(story.c);badge.style.color=cc;}
-  // Show first page only - user navigates page by page
-  sbCurPage=0;
-  sbShowPage(story);
-  var ml=document.getElementById('sbMoralLabel');
-  if(ml)ml.textContent=LG==='fi'?'🌟 OPETUS':'🌟 THE MORAL';
-  var bc=document.getElementById('sbBClose');if(bc)bc.textContent=LG==='fi'?'📚 Takaisin tarinoihin':'📚 Back to Stories';
-  var bp=document.getElementById('sbBPrev');if(bp)bp.textContent=LG==='fi'?'◀ Edellinen':'◀ Previous';
-  var bn=document.getElementById('sbBNext');if(bn)bn.textContent=LG==='fi'?'Seuraava ▶':'Next ▶';
-  var by=document.getElementById('sbMBy');if(by)by.textContent=LG==='fi'?'✨ Lue ääneen perheesi kanssa!':'✨ Read aloud with your family!';
-  if(modal){modal.style.display='flex';document.body.style.overflow='hidden';}
-}
-
-function sbClose(){
-  var modal=document.getElementById('sbModal');
-  if(modal){modal.style.display='none';document.body.style.overflow='';}
-}
-
-var sbCurPage=0;
-
-function sbNext(){
-  var stories=sbGetStories();
-  var story=stories[sbCurIdx];
-  if(sbCurPage < story.pages.length-1){
-    // Go to next PAGE within same story
-    sbCurPage++;
-    sbShowPage(story);
-  } else {
-    // Last page - go to next STORY
-    sbCurIdx=(sbCurIdx+1)%stories.length;
-    sbCurPage=0;
-    sbOpen(stories[sbCurIdx],sbCurIdx);
-  }
-}
-
-function sbPrev(){
-  var stories=sbGetStories();
-  var story=stories[sbCurIdx];
-  if(sbCurPage > 0){
-    // Go to previous PAGE within same story
-    sbCurPage--;
-    sbShowPage(story);
-  } else {
-    // First page - go to previous STORY
-    sbCurIdx=(sbCurIdx-1+stories.length)%stories.length;
-    var prevStory=stories[sbCurIdx];
-    sbCurPage=prevStory.pages.length-1;
-    sbOpen(prevStory,sbCurIdx);
-  }
-}
-
-function sbShowPage(story){
-  var cc=sbCatColor(story.c);
-  var txt=document.getElementById('sbMText');
-  if(txt){
-    txt.innerHTML='';
-    var p=document.createElement('p');
-    p.style.cssText='margin-bottom:12px;font-size:.95rem;line-height:1.9;color:rgba(255,255,255,.9);font-weight:600;';
-    p.textContent=story.pages[sbCurPage];
-    txt.appendChild(p);
-  }
-  // Show moral only on last page
-  var moralBox=document.getElementById('sbMoral');
-  if(moralBox){
-    if(sbCurPage===story.pages.length-1){
-      moralBox.style.display='block';
-      var moral=document.getElementById('sbMoralText');
-      if(moral)moral.textContent=story.moral;
-    } else {
-      moralBox.style.display='none';
-    }
-  }
-  // Page counter
-  var counter=document.getElementById('sbPageCount');
-  if(counter)counter.textContent=(LG==='fi'?'Sivu ':'Page ')+(sbCurPage+1)+' / '+story.pages.length;
-  // Update page dots
-  var dotsEl=document.getElementById('sbPageDots');
-  if(dotsEl){
-    dotsEl.innerHTML='';
-    for(var di=0;di<story.pages.length;di++){
-      var dot=document.createElement('div');
-      dot.style.cssText='width:8px;height:8px;border-radius:50%;background:'+(di===sbCurPage?cc:'rgba(255,255,255,.2)')+';transition:background .2s;cursor:pointer;';
-      (function(pg){dot.addEventListener('click',function(){sbCurPage=pg;sbShowPage(story);});})(di);
-      dotsEl.appendChild(dot);
-    }
-  }
-  // Update button labels
-  var bp=document.getElementById('sbBPrev');
-  var bn=document.getElementById('sbBNext');
-  var stories=sbGetStories();
-  if(bp){
-    if(sbCurPage===0){
-      bp.textContent=LG==='fi'?'◀ Edellinen tarina':'◀ Prev Story';
-      bp.style.opacity='0.6';
-    } else {
-      bp.textContent=LG==='fi'?'◀ Edellinen sivu':'◀ Prev Page';
-      bp.style.opacity='1';
-    }
-  }
-  if(bn){
-    if(sbCurPage===story.pages.length-1){
-      bn.textContent=LG==='fi'?'Seuraava tarina ▶':'Next Story ▶';
-      bn.style.background='linear-gradient(135deg,#7ed957,#4aaa22)';
-    } else {
-      bn.textContent=LG==='fi'?'Seuraava sivu ▶':'Next Page ▶';
-      bn.style.background='rgba(255,255,255,.1)';
-    }
-  }
-}
-
-function sbFilter(cat){
-  sbCurCat=cat;
-  document.querySelectorAll('#g-stories .ngt').forEach(function(b){b.classList.remove('on');});
-  var ids={all:'sbAll',adventure:'sbAdv',animals:'sbAni',magic:'sbMag',nature:'sbNat',funny:'sbFun'};
-  var el=document.getElementById(ids[cat]);if(el)el.classList.add('on');
-  sbRender();sClk();
-}
-
-function sbScroll(dir){
-  var t=document.getElementById('sbTrack');
-  if(t)t.scrollLeft+=dir*380;
-}
-
-// Hook into setLang
-var _origSetLang4=setLang;
-setLang=function(l){
-  _origSetLang4(l);
-  var sub=document.getElementById('lStoriesSub');
-  if(sub)sub.textContent=l==='fi'?'Napauta tarinaa lukeaksesi sen! Uusia seikkailuja joka kerta 🌟':'Tap any story to read it! New adventures every time 🌟';
-  var tSt=document.getElementById('tStories');if(tSt)tSt.textContent=l==='fi'?'📚 Tarinakirja':'📚 Story Book';
-  var cats={sbAll:{en:'🌟 All',fi:'🌟 Kaikki'},sbAdv:{en:'🗺️ Adventure',fi:'🗺️ Seikkailu'},sbAni:{en:'🐾 Animals',fi:'🐾 Eläimet'},sbMag:{en:'✨ Magic',fi:'✨ Taikuus'},sbNat:{en:'🌿 Nature',fi:'🌿 Luonto'},sbFun:{en:'😄 Funny',fi:'😄 Hauska'}};
-  Object.keys(cats).forEach(function(id){var e=document.getElementById(id);if(e)e.textContent=cats[id][l]||cats[id].en;});
-  document.querySelectorAll('.nb[data-g="stories"]').forEach(function(b){b.textContent=l==='fi'?'📚 Tarinat':'📚 Stories';});
-  sbRender();
-};
-
-sbRender();
-
-// ═══ COOKIE CONSENT (GDPR) ═══
-
-function cookieAccept(){
-  // Grant all consent
-  gtag('consent', 'update', {
-    'analytics_storage': 'granted',
-    'ad_storage': 'granted',
-    'ad_user_data': 'granted',
-    'ad_personalization': 'granted'
-  });
-  localStorage.setItem('cookieConsent','accepted');
-  document.getElementById('cookieBanner').style.display='none';
-  sClk();
-}
-
-function cookieDecline(){
-  // Keep denied
-  gtag('consent', 'update', {
-    'analytics_storage': 'denied',
-    'ad_storage': 'denied',
-    'ad_user_data': 'denied',
-    'ad_personalization': 'denied'
-  });
-  localStorage.setItem('cookieConsent','declined');
-  document.getElementById('cookieBanner').style.display='none';
-  sClk();
-}
-
-function cookieInit(){
-  var consent=localStorage.getItem('cookieConsent');
-  if(!consent){
-    // First visit - show banner after 1 second
-    setTimeout(function(){
-      document.getElementById('cookieBanner').style.display='block';
-    }, 1000);
-  } else if(consent==='accepted'){
-    // Already accepted - grant consent immediately
-    gtag('consent', 'update', {
-      'analytics_storage': 'granted',
-      'ad_storage': 'granted',
-      'ad_user_data': 'granted',
-      'ad_personalization': 'granted'
+function newTypText(){
+  typActive=false;clearInterval(typTI);
+  var pool=typDiff==='hard'?TYP_HARD:typDiff==='medium'?TYP_MED:TYP_EASY;
+  typCurText=pool[R(0,pool.length-1)];
+  typCorr=0;typTotal=0;typTimeLeft=30;
+  setText('typWpm','0');setText('typAcc','100');setText('typTm','30');setText('typMsg','');
+  var el=document.getElementById('typText');
+  if(el){
+    el.innerHTML='';
+    typCurText.split('').forEach(function(ch){
+      var s=document.createElement('span');s.textContent=ch;s.style.color='rgba(255,255,255,.45)';
+      el.appendChild(s);
     });
   }
-  // Update banner text based on language
-  updateCookieText();
+  var inp=document.getElementById('typIn');
+  if(inp){inp.value='';inp.focus();}
 }
 
-function updateCookieText(){
-  var t=document.getElementById('cookieText');
-  var ba=document.getElementById('cookieBtnAccept');
-  var bd=document.getElementById('cookieBtnDecline');
-  if(LG==='fi'){
-    if(t)t.textContent='Käytämme evästeitä parantaaksemme käyttökokemustasi ja näyttääksemme sopivia mainoksia. Voit hyväksyä tai hylätä. Valintasi muistetaan.';
-    if(ba)ba.textContent='✅ Hyväksy kaikki';
-    if(bd)bd.textContent='❌ Hylkää';
-  } else {
-    if(t)t.textContent='We use cookies to improve your experience and show relevant ads. You can choose to accept or decline. Your choice will be remembered.';
-    if(ba)ba.textContent='✅ Accept All';
-    if(bd)bd.textContent='❌ Decline';
+document.getElementById('typIn').addEventListener('input',function(){
+  var val=this.value;
+  if(!typActive&&val.length>0){
+    typActive=true;typStart=Date.now();
+    typTI=setInterval(function(){
+      typTimeLeft--;setText('typTm',typTimeLeft);
+      if(typTimeLeft<=0){
+        clearInterval(typTI);typActive=false;
+        var mins=(Date.now()-typStart)/60000;
+        var wpm=Math.round((typCorr/5)/mins);
+        var acc=typTotal>0?Math.round(typCorr/typTotal*100):100;
+        setText('typMsg',(LG==='fi'?'Valmis! ':'Done! ')+wpm+' WPM | '+acc+'% '+( wpm>60?'🔥 Amazing!':wpm>40?'⭐ Great!':'💪 Keep practising!'));
+        addS(Math.floor(wpm/10));incP();sWin();
+      }
+    },1000);
+  }
+  if(!typActive)return;
+  var spans=document.getElementById('typText').children;
+  var correct=0;
+  for(var i=0;i<val.length&&i<typCurText.length;i++){
+    if(val[i]===typCurText[i]){spans[i].style.color='#7ed957';correct++;}
+    else spans[i].style.color='#ff6b47';
+  }
+  for(var i=val.length;i<typCurText.length;i++)spans[i].style.color='rgba(255,255,255,.45)';
+  typTotal=val.length;typCorr=correct;
+  var mins=(Date.now()-typStart)/60000||0.001;
+  var wpm=mins>0?Math.round((correct/5)/mins):0;
+  var acc=typTotal>0?Math.round(correct/typTotal*100):100;
+  setText('typWpm',wpm);setText('typAcc',acc);
+  if(val===typCurText){
+    clearInterval(typTI);typActive=false;
+    var finalMins=(Date.now()-typStart)/60000;
+    var finalWpm=Math.round((correct/5)/finalMins);
+    setText('typMsg','🎉 Perfect! '+finalWpm+' WPM! '+cheer());
+    confettiBurst();addS(5);incP();sWin();
+    setTimeout(newTypText,2000);
+  }
+});
+document.getElementById('typNew').addEventListener('click',newTypText);
+try{newTypText();}catch(e){}
+
+// ═══ CHESS GAME ═══
+var CH_PIECES={
+  'K':'♔','Q':'♕','R':'♖','B':'♗','N':'♘','P':'♙',
+  'k':'♚','q':'♛','r':'♜','b':'♝','n':'♞','p':'♟'
+};
+var chBoard=[],chTurn='w',chSel=null,chMode='easy',chHistory=[],chHighlight=[];
+
+function chInit(){
+  chBoard=[
+    ['r','n','b','q','k','b','n','r'],
+    ['p','p','p','p','p','p','p','p'],
+    [' ',' ',' ',' ',' ',' ',' ',' '],
+    [' ',' ',' ',' ',' ',' ',' ',' '],
+    [' ',' ',' ',' ',' ',' ',' ',' '],
+    [' ',' ',' ',' ',' ',' ',' ',' '],
+    ['P','P','P','P','P','P','P','P'],
+    ['R','N','B','Q','K','B','N','R']
+  ];
+  chTurn='w';chSel=null;chHistory=[];chHighlight=[];
+}
+
+function newChess(mode){
+  chMode=mode||chMode;chInit();chRender();
+  setText('chessTurn',LG==='fi'?'Valkoinen siirtää':'White to move');
+  setText('chessMsg',LG==='fi'?'Klikkaa nappulaa aloittaaksesi!':'Click a piece to start!');
+}
+
+function chRender(){
+  var board=document.getElementById('chessBoard');
+  if(!board)return;
+  board.innerHTML='';
+  for(var r=0;r<8;r++){
+    for(var c=0;c<8;c++){
+      var sq=document.createElement('div');
+      var isLight=(r+c)%2===0;
+      var isHighlight=chHighlight.some(function(h){return h[0]===r&&h[1]===c;});
+      var isSel=chSel&&chSel[0]===r&&chSel[1]===c;
+      sq.style.cssText='width:100%;aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:clamp(1.2rem,4vw,1.8rem);cursor:pointer;transition:all .15s;position:relative;'+
+        'background:'+(isSel?'rgba(255,182,39,.7)':isHighlight?'rgba(126,217,87,.5)':isLight?'#f0d9b5':'#b58863')+';';
+      var piece=chBoard[r][c];
+      if(piece!==' ') sq.textContent=CH_PIECES[piece]||piece;
+      if(isHighlight){var dot=document.createElement('div');dot.style.cssText='position:absolute;width:30%;height:30%;border-radius:50%;background:rgba(0,0,0,.25);';sq.appendChild(dot);}
+      (function(row,col){sq.addEventListener('click',function(){chClick(row,col);});})(r,c);
+      board.appendChild(sq);
+    }
   }
 }
 
-// Hook into setLang to update cookie text language
-var _origSetLangCookie=setLang;
-setLang=function(l){
-  _origSetLangCookie(l);
-  updateCookieText();
-};
+function chIsWhite(p){return p>='A'&&p<='Z'&&p!==' ';}
+function chIsBlack(p){return p>='a'&&p<='z'&&p!==' ';}
+function chOwner(p){if(chIsWhite(p))return 'w';if(chIsBlack(p))return 'b';return null;}
 
-// Initialize on page load
-cookieInit();
+function chGetMoves(r,c){
+  var piece=chBoard[r][c];var moves=[];var p=piece.toLowerCase();
+  var dir=chIsWhite(piece)?-1:1;var startRow=chIsWhite(piece)?6:1;
+  if(p==='p'){
+    if(chBoard[r+dir]&&chBoard[r+dir][c]===' '){moves.push([r+dir,c]);
+      if(r===startRow&&chBoard[r+2*dir][c]===' ')moves.push([r+2*dir,c]);}
+    [-1,1].forEach(function(dc){
+      if(chBoard[r+dir]&&chBoard[r+dir][c+dc]&&chOwner(chBoard[r+dir][c+dc])&&chOwner(chBoard[r+dir][c+dc])!==chOwner(piece))
+        moves.push([r+dir,c+dc]);
+    });
+  }else if(p==='n'){
+    [[-2,-1],[-2,1],[-1,-2],[-1,2],[1,-2],[1,2],[2,-1],[2,1]].forEach(function(d){
+      var nr=r+d[0],nc=c+d[1];
+      if(nr>=0&&nr<8&&nc>=0&&nc<8&&chOwner(chBoard[nr][nc])!==chOwner(piece))moves.push([nr,nc]);
+    });
+  }else if(p==='k'){
+    [[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0],[1,1]].forEach(function(d){
+      var nr=r+d[0],nc=c+d[1];
+      if(nr>=0&&nr<8&&nc>=0&&nc<8&&chOwner(chBoard[nr][nc])!==chOwner(piece))moves.push([nr,nc]);
+    });
+  }else{
+    var dirs=[];
+    if(p==='r'||p==='q')dirs=dirs.concat([[-1,0],[1,0],[0,-1],[0,1]]);
+    if(p==='b'||p==='q')dirs=dirs.concat([[-1,-1],[-1,1],[1,-1],[1,1]]);
+    dirs.forEach(function(d){
+      var nr=r+d[0],nc=c+d[1];
+      while(nr>=0&&nr<8&&nc>=0&&nc<8){
+        if(chBoard[nr][nc]===' '){moves.push([nr,nc]);}
+        else{if(chOwner(chBoard[nr][nc])!==chOwner(piece))moves.push([nr,nc]);break;}
+        nr+=d[0];nc+=d[1];
+      }
+    });
+  }
+  return moves;
+}
+
+function chClick(r,c){
+  var piece=chBoard[r][c];
+  if(chSel){
+    var valid=chHighlight.some(function(h){return h[0]===r&&h[1]===c;});
+    if(valid){
+      chHistory.push(JSON.stringify(chBoard));
+      chBoard[r][c]=chBoard[chSel[0]][chSel[1]];
+      chBoard[chSel[0]][chSel[1]]=' ';
+      // Pawn promotion
+      if(chBoard[r][c]==='P'&&r===0)chBoard[r][c]='Q';
+      if(chBoard[r][c]==='p'&&r===7)chBoard[r][c]='q';
+      chSel=null;chHighlight=[];
+      sClk();
+      // Check win
+      var hasWK=false,hasBK=false;
+      for(var i=0;i<8;i++)for(var j=0;j<8;j++){if(chBoard[i][j]==='K')hasWK=true;if(chBoard[i][j]==='k')hasBK=true;}
+      if(!hasWK){setText('chessTurn','');setText('chessMsg','♟️ Black wins! 🎉');chRender();sWin();return;}
+      if(!hasBK){setText('chessTurn','');setText('chessMsg','♔ White wins! 🎉');confettiBurst();chRender();sWin();addS(5);return;}
+      if(chMode==='human'){
+        chTurn=chTurn==='w'?'b':'w';
+        setText('chessTurn',(chTurn==='w'?(LG==='fi'?'Valkoinen siirtää':'White to move'):(LG==='fi'?'Musta siirtää':'Black to move')));
+      }else{
+        setText('chessTurn',LG==='fi'?'CPU miettii...':'CPU thinking...');
+        chRender();
+        setTimeout(chAIMove,500);
+        return;
+      }
+      chRender();return;
+    }
+    chSel=null;chHighlight=[];
+  }
+  if(piece!==' '&&((chTurn==='w'&&chIsWhite(piece))||(chTurn==='b'&&chIsBlack(piece))||(chMode==='human'))){
+    if(chMode==='human'||chOwner(piece)===chTurn){
+      chSel=[r,c];chHighlight=chGetMoves(r,c);
+      setText('chessMsg',CH_PIECES[piece]+' selected');
+    }
+  }
+  chRender();
+}
+
+function chAIMove(){
+  var allMoves=[];
+  for(var r=0;r<8;r++)for(var c=0;c<8;c++){
+    if(chIsBlack(chBoard[r][c])){
+      chGetMoves(r,c).forEach(function(m){allMoves.push({fr:r,fc:c,tr:m[0],tc:m[1]});});
+    }
+  }
+  if(allMoves.length===0){setText('chessMsg','White wins! No moves left!');return;}
+  var move;
+  if(chMode==='hard'){
+    // Pick capture move if available, else random
+    var captures=allMoves.filter(function(m){return chBoard[m.tr][m.tc]!==' ';});
+    move=captures.length>0?captures[R(0,captures.length-1)]:allMoves[R(0,allMoves.length-1)];
+  }else{
+    move=allMoves[R(0,allMoves.length-1)];
+  }
+  chHistory.push(JSON.stringify(chBoard));
+  chBoard[move.tr][move.tc]=chBoard[move.fr][move.fc];
+  chBoard[move.fr][move.fc]=' ';
+  if(chBoard[move.tr][move.tc]==='p'&&move.tr===7)chBoard[move.tr][move.tc]='q';
+  chTurn='w';
+  setText('chessTurn',LG==='fi'?'Valkoinen siirtää':'White to move');
+  setText('chessMsg',LG==='fi'?'Sinun vuorosi!':'Your turn!');
+  chRender();sClk();
+}
+
+function undoChess(){
+  if(chHistory.length===0)return;
+  chBoard=JSON.parse(chHistory.pop());
+  chSel=null;chHighlight=[];chTurn='w';
+  setText('chessTurn',LG==='fi'?'Valkoinen siirtää':'White to move');
+  chRender();
+}
+
+// ═══ COOKIE CONSENT ═══
+function cookieAccept(){
+  try{gtag('consent','update',{'analytics_storage':'granted','ad_storage':'granted'});}catch(e){}
+  try{localStorage.setItem('cookieConsent','accepted');}catch(e){}
+  var b=document.getElementById('cookieBanner');if(b)b.style.display='none';
+}
+function cookieDecline(){
+  try{localStorage.setItem('cookieConsent','declined');}catch(e){}
+  var b=document.getElementById('cookieBanner');if(b)b.style.display='none';
+}
+function cookieInit(){
+  try{
+    var c=localStorage.getItem('cookieConsent');
+    if(!c){var b=document.getElementById('cookieBanner');if(b)b.style.display='block';}
+    else if(c==='accepted'){try{gtag('consent','update',{'analytics_storage':'granted','ad_storage':'granted'});}catch(e){}}
+  }catch(e){}
+}
 
 setLang('en');
+setTimeout(cookieInit, 200);
+
 </script>
+
 
 <!-- NatGeo Modal - direct child of body for proper stacking -->
 <div id="ngModal" onclick="if(event.target===this)ngClose()" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;z-index:2147483647;background:rgba(0,0,0,.9);align-items:flex-start;justify-content:center;padding:20px;box-sizing:border-box;overflow-y:auto">
