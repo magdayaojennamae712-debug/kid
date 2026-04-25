@@ -158,14 +158,23 @@ learnkids, learn kids online, kids fun zone, lapset oppiminen pelaaminen
 <meta name="google-site-verification" content="CfzaKXigs9ze6N7dRUcD6GYglYD28__0eatJIGwnGQg">
 
 <!-- ═══ GOOGLE ANALYTICS GA4 ═══ -->
-<!-- Google Analytics GA4 - G-K7X0JG40CB -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-K7X0JG40CB"></script>
+<!-- Google Analytics GA4 + Consent Mode - G-K7X0JG40CB -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
+  // Set consent defaults BEFORE loading GA (required for GDPR/EEA)
+  var _ck = typeof localStorage !== 'undefined' ? localStorage.getItem('cookieConsent') : null;
+  gtag('consent', 'default', {
+    'analytics_storage': _ck === 'accepted' ? 'granted' : 'denied',
+    'ad_storage': _ck === 'accepted' ? 'granted' : 'denied',
+    'ad_user_data': _ck === 'accepted' ? 'granted' : 'denied',
+    'ad_personalization': _ck === 'accepted' ? 'granted' : 'denied',
+    'wait_for_update': 500
+  });
   gtag('js', new Date());
   gtag('config', 'G-K7X0JG40CB');
 </script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-K7X0JG40CB"></script>
 
 <!-- ═══ GOOGLE ADSENSE ═══ -->
 <!-- Google AdSense - Publisher ID: ca-pub-7171994516640690 -->
@@ -3086,16 +3095,6 @@ setLang=function(l){
 sbRender();
 
 // ═══ COOKIE CONSENT (GDPR) ═══
-// Default: deny all until user consents (required for EEA/Finland)
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('consent', 'default', {
-  'analytics_storage': 'denied',
-  'ad_storage': 'denied',
-  'ad_user_data': 'denied',
-  'ad_personalization': 'denied',
-  'wait_for_update': 500
-});
 
 function cookieAccept(){
   // Grant all consent
