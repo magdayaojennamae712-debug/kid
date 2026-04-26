@@ -2667,7 +2667,7 @@ function ngScroll(dir){
   if(track)track.scrollLeft+=dir*400;
 }
 
-document.getElementById('ngModal').addEventListener('click',function(e){if(e.target===this)ngClose();});
+(function(){var ngM=document.getElementById('ngModal');if(ngM)ngM.addEventListener('click',function(e){if(e.target===this)ngClose();});})();
 
 var _origSetLang2=setLang;
 setLang=function(l){
@@ -3028,7 +3028,7 @@ function newTypText(){
   if(inp){inp.value='';inp.focus();}
 }
 
-document.getElementById('typIn').addEventListener('input',function(){
+(function(){var typInEl=document.getElementById('typIn');if(!typInEl)return;typInEl.addEventListener('input',function(){
   var val=this.value;
   if(!typActive&&val.length>0){
     typActive=true;typStart=Date.now();
@@ -3066,7 +3066,8 @@ document.getElementById('typIn').addEventListener('input',function(){
     setTimeout(newTypText,2000);
   }
 });
-document.getElementById('typNew').addEventListener('click',newTypText);
+})();
+document.getElementById('typNew') && document.getElementById('typNew').addEventListener('click',newTypText);
 try{newTypText();}catch(e){}
 
 // ═══ CHESS GAME ═══
