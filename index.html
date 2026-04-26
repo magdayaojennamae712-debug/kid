@@ -159,6 +159,18 @@ learnkids, learn kids online, kids fun zone, lapset oppiminen pelaaminen
 
 <!-- ═══ GOOGLE ANALYTICS GA4 ═══ -->
 <!-- Google Analytics GA4 - G-K7X0JG40CB -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  var _ck = typeof localStorage !== 'undefined' ? localStorage.getItem('cookieConsent') : null;
+  gtag('consent', 'default', {
+    'analytics_storage': _ck === 'accepted' ? 'granted' : 'denied',
+    'ad_storage': _ck === 'accepted' ? 'granted' : 'denied',
+    'wait_for_update': 500
+  });
+  gtag('js', new Date());
+  gtag('config', 'G-K7X0JG40CB');
+</script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-K7X0JG40CB"></script>
 
 <!-- ═══ GOOGLE ADSENSE ═══ -->
@@ -272,19 +284,8 @@ footer{position:relative;z-index:5;background:rgba(0,0,0,.55);border-top:1.5px s
 
 
 <!-- Google Analytics GA4 + Consent Mode -->
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  var _ck = typeof localStorage !== 'undefined' ? localStorage.getItem('cookieConsent') : null;
-  gtag('consent', 'default', {
-    'analytics_storage': _ck === 'accepted' ? 'granted' : 'denied',
-    'ad_storage': _ck === 'accepted' ? 'granted' : 'denied',
-    'wait_for_update': 500
-  });
-  gtag('js', new Date());
-  gtag('config', 'G-K7X0JG40CB');
-</script>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-K7X0JG40CB"></script>
+
+
 
 </head>
 <body>
